@@ -1,0 +1,20 @@
+{
+  "author": "Ben Williamson <benw@pobox.com> (http://benwilliamson.com/)",
+  "name": "counterpointy",
+  "description": "A webs app for having arguments.",
+  "version": "0.0.0",
+  "homepage": "http://counterpointy.org/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/benw/counterpointy.git"
+  },
+  "engines": {
+    "node": "~0.4.5"
+  },
+  "dependencies": {
+    "express": "~2.5.0",
+    "ejs": "~0.4.3",
+    "bcrypt": "~0.4.0"
+  },
+  "devDependencies": {}
+}
