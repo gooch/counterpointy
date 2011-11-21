@@ -13,7 +13,7 @@ CREATE INDEX User_email on User (email);
 
 CREATE TABLE Point (
   hash          VARCHAR(40) CHARACTER SET ascii PRIMARY KEY,
-  body          TEXT CHARACTER SET utf8 NOT NULL
+  text          TEXT CHARACTER SET utf8 NOT NULL
 );
 
 
