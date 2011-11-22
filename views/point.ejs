@@ -1,8 +1,16 @@
-<p><%= point.text %></p>
+<p class="conclusion"><%= point.text %></p>
 <% function showReason(r) { %>
-<a href="/point/<%= encodeURIComponent(r.hash) %>"><%= r.text %></a>
+<p class="premise"><a href="/point/<%= encodeURIComponent(r.hash) %>"><%= r.text %></a></p>
 <% } %>
-<p>Supporting:</p>
+<p class="supporting-heading">Supporting:</p>
 <% supporting.forEach(showReason) %>
-<p>Opposing:</p>
+<form method="POST" action="/point/<%= point.hash %>/add_premise/support">
+<textarea name="text"></textarea>
+<input type="submit" value="Add supporting" />
+</form>
+<p class="opposing-heading">Opposing:</p>
 <% opposing.forEach(showReason) %>
+<form method="POST" action="/point/<%= point.hash %>/add_premise/oppose">
+<textarea name="text"></textarea>
+<input type="submit" value="Add opposing" />
+</form>

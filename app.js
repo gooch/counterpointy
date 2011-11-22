@@ -1,6 +1,7 @@
 
 var util = require('util');
 var express = require('express');
+var sha1 = require('sha1');
 var db = require('./db');
 
 var app = module.exports = express.createServer();
@@ -47,6 +48,40 @@ app.get('/point/:hash', function (req, res, next) {
                 opposing:   reasons.filter(function (r) { return !r.supports; })
             });
         });
+    });
+});
+
+app.post('/point/:hash/add_premise/:stance', function (req, res, next) {
+    var conclusion_hash = req.params.hash;
+    var stance = req.params.stance;
+    var stances = { 'support': 1, 'oppose': 0 };
+    if (stance in stances) {
+        var supports = stances[stance];
+    } else {
+        return res.send("Invalid stance", 404);
+    }
+    var premise_text = req.body.text;
+    if (!premise_text) {
+        return res.send("Premise text is required.", 400);
+    }
+    premise_text = '' + premise_text;
+
+    db.get_point(conclusion_hash, function (err, point) {
+        if (err) {
+            return next(err);
+        }
+        if (!point) {
+            return res.send(404);
+        }
+        db.add_premise(
+            conclusion_hash, premise_text, supports,
+            function (err, premise_hash, reason_hash) {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect('/point/' + premise_hash);
+            }
+        );
     });
 });
 
