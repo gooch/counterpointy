@@ -1,2 +1,8 @@
-<pre><%= point.text %></pre>
-<pre><%= reasons %></pre>
+<p><%= point.text %></p>
+<% function showReason(r) { %>
+<a href="/point/<%= encodeURIComponent(r.hash) %>"><%= r.text %></a>
+<% } %>
+<p>Supporting:</p>
+<% supporting.forEach(showReason) %>
+<p>Opposing:</p>
+<% opposing.forEach(showReason) %>

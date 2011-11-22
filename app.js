@@ -43,7 +43,8 @@ app.get('/point/:hash', function (req, res, next) {
             }
             res.render('point', {
                 point: point,
-                reasons: util.inspect(reasons)
+                supporting: reasons.filter(function (r) { return r.supports; }),
+                opposing:   reasons.filter(function (r) { return !r.supports; })
             });
         });
     });
