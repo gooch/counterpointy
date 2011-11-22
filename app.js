@@ -29,11 +29,23 @@ app.get('/', function (req, res, next) {
 });
 
 app.get('/point/:hash', function (req, res, next) {
-    db.get_point(req.params.hash, function (err, row) {
+    var hash = req.params.hash;
+    db.get_point(hash, function (err, point) {
         if (err) {
             return next(err);
         }
-        res.send(util.inspect(row));
+        if (!point) {
+            return res.send(404);
+        }
+        db.get_reasons_for_conclusion(hash, function (err, reasons) {
+            if (err) {
+                return next(err);
+            }
+            res.render('point', {
+                point: point,
+                reasons: util.inspect(reasons)
+            });
+        });
     });
 });
 
