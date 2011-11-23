@@ -9,14 +9,15 @@
     "url": "git://github.com/benw/counterpointy.git"
   },
   "engines": {
-    "node": "~0.4.5"
+    "node": "~0.6.2"
   },
   "dependencies": {
     "express": "~2.5.0",
     "ejs": "~0.4.3",
     "bcrypt": "~0.4.0",
     "sha1": "0.0.0",
-    "mysql": "~0.9.4"
+    "mysql": "~0.9.4",
+    "oauth": "~0.9.5"
   },
   "devDependencies": {}
 }
