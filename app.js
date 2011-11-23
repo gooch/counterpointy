@@ -26,7 +26,9 @@ app.configure('production', function(){
 
 
 app.get('/', function (req, res, next) {
-    res.render('welcome');
+    res.render('welcome', {
+        title: 'Counterpointy'
+    });
 });
 
 app.get('/point/:hash', function (req, res, next) {
@@ -43,6 +45,7 @@ app.get('/point/:hash', function (req, res, next) {
                 return next(err);
             }
             res.render('point', {
+                title: 'Counterpointy: ' + point.text,
                 point: point,
                 supporting: reasons.filter(function (r) { return r.supports; }),
                 opposing:   reasons.filter(function (r) { return !r.supports; })
