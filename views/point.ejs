@@ -6,11 +6,11 @@
 <% supporting.forEach(showReason) %>
 <form method="POST" action="/point/<%= point.hash %>/add_premise/support">
 <textarea name="text"></textarea>
-<input type="submit" value="Add supporting" />
+<input type="submit" value="Add" />
 </form>
 <p class="opposing-heading">Opposing:</p>
 <% opposing.forEach(showReason) %>
 <form method="POST" action="/point/<%= point.hash %>/add_premise/oppose">
 <textarea name="text"></textarea>
-<input type="submit" value="Add opposing" />
+<input type="submit" value="Add" />
 </form>

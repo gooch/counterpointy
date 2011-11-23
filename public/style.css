@@ -19,3 +19,11 @@ a:hover, a:active {
   text-decoration: underline;
 }
 
+textarea {
+  width: 100%;
+  max-width: 100%;    /* Constrain manual resizing */
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
