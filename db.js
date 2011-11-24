@@ -2,7 +2,7 @@
 
 var mysql = require('mysql');
 var config = require('./config');
-var sha1 = require('sha1');
+var sha256 = require('./sha256');
 
 
 
@@ -32,8 +32,8 @@ exports.get_reasons_for_conclusion = function (conclusion_hash, callback) {
 };
 
 exports.add_premise = function (conclusion_hash, text, supports, callback) {
-    var premise_hash = sha1('' + text);
-    var reason_hash = sha1(premise_hash + supports + conclusion_hash);
+    var premise_hash = sha256('' + text);
+    var reason_hash = sha256(premise_hash + supports + conclusion_hash);
     client.query(
         'INSERT INTO Points SET hash = ?, text = ? ' +
         ' ON DUPLICATE KEY UPDATE hash = hash',
