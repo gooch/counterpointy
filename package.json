@@ -16,7 +16,8 @@
     "ejs": "~0.4.3",
     "bcrypt": "~0.4.0",
     "mysql": "~0.9.4",
-    "oauth": "~0.9.5"
+    "oauth": "~0.9.5",
+    "gravatar": "~1.0.3"
   },
   "devDependencies": {}
 }

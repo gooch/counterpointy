@@ -1,5 +1,6 @@
 module.exports = {
     rooturl: 'http://counterpointy.org/',
+    session_secret: 'SESSION SECRET',
     db: {
         host: 'localhost',
         port: 3306,

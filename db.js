@@ -1,14 +1,16 @@
 // https://github.com/felixge/node-mysql
 
 var mysql = require('mysql');
+var bcrypt = require('bcrypt');
 var config = require('./config');
 var sha256 = require('./sha256');
 
+var db = exports;
 
 
 var client = mysql.createClient(config.db);
 
-exports.get_point = function (hash, callback) {
+db.get_point = function (hash, callback) {
     client.query(
         'SELECT hash, text FROM Points WHERE hash = ?',
         [ hash ],
@@ -18,7 +20,7 @@ exports.get_point = function (hash, callback) {
     );
 };
 
-exports.get_reasons_for_conclusion = function (conclusion_hash, callback) {
+db.get_reasons_for_conclusion = function (conclusion_hash, callback) {
     client.query(
         'SELECT p.hash, p.text, r.supports ' +
         ' FROM Reasons r JOIN Points p ' +
@@ -31,7 +33,7 @@ exports.get_reasons_for_conclusion = function (conclusion_hash, callback) {
     );
 };
 
-exports.add_premise = function (conclusion_hash, text, supports, callback) {
+db.add_premise = function (conclusion_hash, text, supports, callback) {
     var premise_hash = sha256('' + text);
     var reason_hash = sha256(premise_hash + supports + conclusion_hash);
     client.query(
@@ -57,3 +59,57 @@ exports.add_premise = function (conclusion_hash, text, supports, callback) {
         }
     );
 };
+
+db.normalise_email = function (email) {
+    return email.trim().toLowerCase();
+};
+
+// callback(err, user_id)
+db.add_user = function (fullname, email, password, callback) {
+    email = db.normalise_email(email);
+    db.get_user_by_email(email, function (err, user) {
+        if (err) {
+            return callback(err);
+        }
+        if (user) {
+            // email already registered
+            return callback(null, 'already registered' );
+        }
+        var salt = bcrypt.gen_salt_sync(10);
+        var password_hash = bcrypt.encrypt_sync(password, salt);
+        client.query(
+            'INSERT INTO Users SET ' +
+            '  fullname = ?, email = ?, password_hash = ?',
+            [ fullname, email, password_hash ],
+            function (err, info) {
+                callback(err, info.insertId);
+            }
+        );
+    });
+};
+
+// callback(err, user or null)
+db.get_user_by_email = function (email, callback) {
+    email = db.normalise_email(email);
+    client.query(
+        'SELECT user_id, fullname, email, password_hash ' +
+        '  FROM Users WHERE email = ?',
+        [ email ],
+        function (err, results, fields) {
+            callback(err, results && results[0]);
+        }
+    );
+};
+
+// callback(err, user or null)
+db.authenticate_user = function (email, password, callback) {
+    db.get_user_by_email(email, function (err, user) {
+        if (err || !user) {
+            return callback(err);
+        }
+        bcrypt.compare(password, user.password_hash, function(err, result) {
+            callback(err, result ? user : null);
+        });
+    });
+};
+

@@ -27,3 +27,8 @@ textarea {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+div.login {
+  width: 100%;
+  text-align: right;
+}

@@ -3,10 +3,17 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, user-scalable=no" />
-<title><%= title %></title>
+<title>Counterpointy<%= title ? ': ' + title : '' %></title>
 <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
+<div class="login">
+<% if (session.user) { %>
+    <a href="/options"><%= session.user.fullname %></a>
+<% } else { %>
+    <a href="/login">Log in</a> or <a href="/signup">Sign up</a>
+<% } %>
+</div>
 <%- body %>
 </body>
 </html>

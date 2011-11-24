@@ -5,7 +5,7 @@ CREATE TABLE Users (
   user_id       SERIAL PRIMARY KEY,
   fullname      VARCHAR(255) CHARACTER SET utf8 NOT NULL,
   email         VARCHAR(255) NOT NULL UNIQUE,
-  password      VARCHAR(60) NOT NULL
+  password_hash VARCHAR(60) NOT NULL
 );
 
 CREATE INDEX Users_email on Users (email);
