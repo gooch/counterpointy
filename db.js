@@ -76,15 +76,19 @@ db.add_user = function (fullname, email, password, callback) {
             return callback(null, 'already registered' );
         }
         var salt = bcrypt.gen_salt_sync(10);
-        var password_hash = bcrypt.encrypt_sync(password, salt);
-        client.query(
-            'INSERT INTO Users SET ' +
-            '  fullname = ?, email = ?, password_hash = ?',
-            [ fullname, email, password_hash ],
-            function (err, info) {
-                callback(err, info.insertId);
+        bcrypt.encrypt(password, salt, function (err, password_hash) {
+            if (err) {
+                return callback(err);
             }
-        );
+            client.query(
+                'INSERT INTO Users SET ' +
+                '  fullname = ?, email = ?, password_hash = ?',
+                [ fullname, email, password_hash ],
+                function (err, info) {
+                    callback(err, info.insertId);
+                }
+            );
+        });
     });
 };
 

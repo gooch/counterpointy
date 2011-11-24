@@ -14,7 +14,7 @@
   "dependencies": {
     "express": "~2.5.0",
     "ejs": "~0.4.3",
-    "bcrypt": "~0.4.0",
+    "bcrypt": "~0.4.1",
     "mysql": "~0.9.4",
     "oauth": "~0.9.5",
     "gravatar": "~1.0.3"
