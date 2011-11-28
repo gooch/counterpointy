@@ -37,7 +37,14 @@ app.dynamicHelpers({
 
 
 app.get('/', function (req, res, next) {
-    res.render('welcome');
+    db.get_all_points(function (err, points) {
+        if (err) {
+            return next(err);
+        }
+        res.render('all_points', {
+            points: points
+        });
+    });
 });
 
 app.get('/signup', function (req, res, next) {

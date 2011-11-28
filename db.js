@@ -34,6 +34,16 @@ db.get_point_with_stance = function (hash, user_id, callback) {
     );
 };
 
+db.get_all_points = function (callback) {
+    client.query(
+        'SELECT hash, text FROM Points',
+        [],
+        function (err, results, fields) {
+            callback(err, results);
+        }
+    );
+};
+
 db.get_reasons_for_conclusion = function (conclusion_hash, callback) {
     client.query(
         'SELECT p.hash, p.text, r.supports ' +

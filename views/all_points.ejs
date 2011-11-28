@@ -1,0 +1,3 @@
+<% points.forEach(function (p) { %>
+<p><a href="/point/<%= encodeURIComponent(p.hash) %>"><%= p.text %></a></p>
+<% }); %>
