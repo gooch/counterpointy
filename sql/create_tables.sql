@@ -51,3 +51,13 @@ CREATE TABLE RStances (
   FOREIGN KEY (username) REFERENCES Users (username),
   FOREIGN KEY (reason_hash) REFERENCES Reasons (reason_hash)
 );
+
+
+CREATE TABLE Sessions (
+  session_key   VARCHAR(255) NOT NULL PRIMARY KEY,
+  username      VARCHAR(16) CHARACTER SET ascii NOT NULL,
+  FOREIGN KEY (username) REFERENCES Users (username)
+);
+
+CREATE INDEX Sessions_username
+  on Sessions (username);

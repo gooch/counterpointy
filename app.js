@@ -3,19 +3,22 @@ var util = require('util');
 var express = require('express');
 var gravatar = require('gravatar');
 var db = require('./db');
+var DbStore = require('./db-store')(express);
 var config = require('./config');
 var emailregexp = require('./emailregexp');
 var linkify = require('./linkify');
 
 var app = module.exports = express.createServer();
 
-
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: config.session_secret }));
+  app.use(express.session({
+        secret: config.session_secret,
+        store: new DbStore
+    }));
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
