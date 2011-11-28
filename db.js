@@ -34,6 +34,7 @@ db.get_reasons_for_conclusion = function (conclusion_hash, callback) {
 };
 
 db.add_premise = function (conclusion_hash, text, supports, callback) {
+    text = text.trim();
     var premise_hash = sha256('' + text);
     var reason_hash = sha256(premise_hash + supports + conclusion_hash);
     client.query(
