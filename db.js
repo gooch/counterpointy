@@ -20,6 +20,20 @@ db.get_point = function (hash, callback) {
     );
 };
 
+db.get_point_with_stance = function (hash, user_id, callback) {
+    client.query(
+        'SELECT p.hash AS hash, p.text AS text, ps.stance AS stance ' +
+        '  FROM Points p LEFT OUTER JOIN ' +
+        '    (SELECT * FROM PStances WHERE user_id = ?) ps ' +
+        '  ON p.hash = ps.point_hash ' +
+        '  WHERE p.hash = ?',
+        [ user_id, hash ],
+        function (err, results, fields) {
+            callback(err, results && results[0]);
+        }
+    );
+};
+
 db.get_reasons_for_conclusion = function (conclusion_hash, callback) {
     client.query(
         'SELECT p.hash, p.text, r.supports ' +

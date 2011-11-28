@@ -1,4 +1,11 @@
 <p class="conclusion"><%= point.text %></p>
+<% if (point.stance) { %>
+<p>I <%= (point.stance > 0) ? "Agree" : "Disagree" %></p>
+<% } %>
+<form method="POST" action="/point/<%= point.hash %>/pstance">
+<input type="submit" name="agree" value="Agree" />
+<input type="submit" name="disagree" value="Disagree" />
+</form>
 <% function showReason(r) { %>
 <p class="premise"><a href="/point/<%= encodeURIComponent(r.hash) %>"><%= r.text %></a></p>
 <% } %>

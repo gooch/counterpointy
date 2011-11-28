@@ -130,7 +130,8 @@ app.get('/logout', function (req, res, next) {
 
 app.get('/point/:hash', function (req, res, next) {
     var hash = req.params.hash;
-    db.get_point(hash, function (err, point) {
+    var user_id = req.session && req.session.user && req.session.user.user_id;
+    db.get_point_with_stance(hash, user_id, function (err, point) {
         if (err) {
             return next(err);
         }
