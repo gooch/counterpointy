@@ -116,6 +116,18 @@ app.get('/resetpass', function (req, res, next) {
     });
 });
 
+app.get('/options', function (req, res, next) {
+    res.render('options', {
+        title: 'Options'
+    });
+});
+
+app.get('/logout', function (req, res, next) {
+    req.session.regenerate(function () {
+        res.redirect('/');
+    });
+});
+
 app.get('/point/:hash', function (req, res, next) {
     var hash = req.params.hash;
     db.get_point(hash, function (err, point) {
