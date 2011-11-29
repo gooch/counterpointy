@@ -20,14 +20,14 @@ db.get_point = function (hash, callback) {
     );
 };
 
-db.get_point_with_stance = function (hash, user_id, callback) {
+db.get_point_with_stance = function (hash, username, callback) {
     client.query(
         'SELECT p.hash AS hash, p.text AS text, ps.stance AS stance ' +
         '  FROM Points p LEFT OUTER JOIN ' +
-        '    (SELECT * FROM PStances WHERE user_id = ?) ps ' +
+        '    (SELECT * FROM PStances WHERE username = ?) ps ' +
         '  ON p.hash = ps.point_hash ' +
         '  WHERE p.hash = ?',
-        [ user_id, hash ],
+        [ username, hash ],
         function (err, results, fields) {
             callback(err, results && results[0]);
         }
@@ -82,16 +82,16 @@ db.normalise_email = function (email) {
     return email.trim().toLowerCase();
 };
 
-// callback(err, user_id)
-db.add_user = function (fullname, email, password, callback) {
+// callback(err, username_exists)
+db.add_user = function (username, fullname, email, password, callback) {
     email = db.normalise_email(email);
-    db.get_user_by_email(email, function (err, user) {
+    db.get_user(username, function (err, user) {
         if (err) {
             return callback(err);
         }
         if (user) {
-            // email already registered
-            return callback(null, 'already registered' );
+            // username already registered
+            return callback(null, true);
         }
         var salt = bcrypt.gen_salt_sync(10);
         bcrypt.encrypt(password, salt, function (err, password_hash) {
@@ -100,10 +100,10 @@ db.add_user = function (fullname, email, password, callback) {
             }
             client.query(
                 'INSERT INTO Users SET ' +
-                '  fullname = ?, email = ?, password_hash = ?',
-                [ fullname, email, password_hash ],
-                function (err, info) {
-                    callback(err, info.insertId);
+                '  username = ?, fullname = ?, email = ?, password_hash = ?',
+                [ username, fullname, email, password_hash ],
+                function (err) {
+                    callback(err, false);
                 }
             );
         });
@@ -111,12 +111,11 @@ db.add_user = function (fullname, email, password, callback) {
 };
 
 // callback(err, user or null)
-db.get_user_by_email = function (email, callback) {
-    email = db.normalise_email(email);
+db.get_user = function (username, callback) {
     client.query(
-        'SELECT user_id, fullname, email, password_hash ' +
-        '  FROM Users WHERE email = ?',
-        [ email ],
+        'SELECT username, fullname, email, password_hash ' +
+        '  FROM Users WHERE username = ?',
+        [ username ],
         function (err, results, fields) {
             callback(err, results && results[0]);
         }
@@ -124,8 +123,8 @@ db.get_user_by_email = function (email, callback) {
 };
 
 // callback(err, user or null)
-db.authenticate_user = function (email, password, callback) {
-    db.get_user_by_email(email, function (err, user) {
+db.authenticate_user = function (username, password, callback) {
+    db.get_user(username, function (err, user) {
         if (err || !user) {
             return callback(err);
         }
@@ -136,11 +135,11 @@ db.authenticate_user = function (email, password, callback) {
 };
 
 // callback(err)
-db.set_pstance = function (user_id, hash, stance, callback) {
+db.set_pstance = function (username, hash, stance, callback) {
     client.query(
         'REPLACE INTO PStances ' +
-        '  SET user_id = ?, point_hash = ?, stance = ?',
-        [ user_id, hash, stance ],
+        '  SET username = ?, point_hash = ?, stance = ?',
+        [ username, hash, stance ],
         callback
     );
 };

@@ -2,13 +2,11 @@
 
 
 CREATE TABLE Users (
-  user_id       SERIAL PRIMARY KEY,
+  username      VARCHAR(16) CHARACTER SET ascii NOT NULL PRIMARY KEY,
   fullname      VARCHAR(255) CHARACTER SET utf8 NOT NULL,
-  email         VARCHAR(255) NOT NULL UNIQUE,
-  password_hash VARCHAR(60) NOT NULL
+  email         VARCHAR(255) CHARACTER SET ascii NOT NULL,
+  password_hash VARCHAR(60) CHARACTER SET ascii NOT NULL
 );
-
-CREATE INDEX Users_email on Users (email);
 
 
 CREATE TABLE Points (
@@ -18,11 +16,11 @@ CREATE TABLE Points (
 
 
 CREATE TABLE PStances (
-  user_id       BIGINT UNSIGNED NOT NULL,
+  username      VARCHAR(16) CHARACTER SET ascii NOT NULL,
   point_hash    VARCHAR(64) CHARACTER SET ascii NOT NULL,
   stance        TINYINT NOT NULL,
-  PRIMARY KEY (user_id, point_hash),
-  FOREIGN KEY (user_id) REFERENCES Users (id),
+  PRIMARY KEY (username, point_hash),
+  FOREIGN KEY (username) REFERENCES Users (username),
   FOREIGN KEY (point_hash) REFERENCES Points (hash)
 );
 
@@ -41,11 +39,11 @@ CREATE INDEX Reasons_conclusion_supports
 
 
 CREATE TABLE RStances (
-  user_id       BIGINT UNSIGNED NOT NULL,
+  username      VARCHAR(16) CHARACTER SET ascii NOT NULL,
   reason_hash   VARCHAR(64) CHARACTER SET ascii NOT NULL,
   stance        TINYINT NOT NULL,
-  PRIMARY KEY (user_id, reason_hash),
-  FOREIGN KEY (user_id) REFERENCES Users (user_id),
+  PRIMARY KEY (username, reason_hash),
+  FOREIGN KEY (username) REFERENCES Users (username),
   FOREIGN KEY (reason_hash) REFERENCES Reasons (reason_hash)
 );
 

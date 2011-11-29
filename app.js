@@ -55,37 +55,43 @@ app.get('/signup', function (req, res, next) {
     });
 });
 
+var valid_username = /^[a-z0-9_]{3,15}$/i;
+
 app.post('/signup', function (req, res, next) {
     var errmsg;
+    var username = req.body.username;
     var fullname = req.body.fullname;
     var email = req.body.email;
     var password = req.body.password;
-    if (!fullname || !email || !password) {
+    if (!username || !fullname || !username || !email || !password) {
         errmsg = 'All fields are required.';
+    }
+    else if (!valid_username.test(username)) {
+        errmsg = 'Username must be 3-15 ascii chars.';
     }
     else if (password !== req.body.password2) {
         errmsg = 'Passwords do not match.';
     }
-    else if (!emailregexp.test('' + email)) {
+    else if (!emailregexp.test(email)) {
         errmsg = 'A valid email address is required.';
     }
     if (errmsg) {
         return res.send(errmsg, 400);  // FIXME
     }
-    fullname = '' + fullname;
-    email = '' + email;
+    fullname = ('' + fullname).trim();
+    email = ('' + email).trim();
     password = '' + password;
-    db.add_user(fullname, email, password, function (err, user_id) {
+    db.add_user(username, fullname, email, password, function (err, username_exists) {
         if (err) {
             return next(err);
         }
-        if (isNaN(user_id)) {
+        if (username_exists) {
             // FIXME
-            return res.send('That email address is already registered.', 400);
+            return res.send('That username is already registered.', 400);
         }
         req.session.regenerate(function () {
             req.session.user = {
-                user_id: user_id,
+                username: username,
                 fullname: fullname,
                 email: email
             }
@@ -101,9 +107,9 @@ app.get('/login', function (req, res, next) {
 });
 
 app.post('/login', function (req, res, next) {
-    var email = '' + req.body.email;
+    var username = '' + req.body.username;
     var password = '' + req.body.password;
-    db.authenticate_user(email, password, function (err, user) {
+    db.authenticate_user(username, password, function (err, user) {
         if (err) {
             return next(err);
         }
@@ -137,8 +143,8 @@ app.get('/logout', function (req, res, next) {
 
 app.get('/point/:hash', function (req, res, next) {
     var hash = req.params.hash;
-    var user_id = req.session && req.session.user && req.session.user.user_id;
-    db.get_point_with_stance(hash, user_id, function (err, point) {
+    var username = req.session && req.session.user && req.session.user.username;
+    db.get_point_with_stance(hash, username, function (err, point) {
         if (err) {
             return next(err);
         }
@@ -208,8 +214,8 @@ app.post('/point/:hash/pstance', function (req, res, next) {
     if (!req.session || !req.session.user) {
         return res.send("Must be logged in.", 400);
     }
-    var user_id = req.session.user.user_id;
-    db.set_pstance(user_id, hash, stance, function (err) {
+    var username = req.session.user.username;
+    db.set_pstance(username, hash, stance, function (err) {
         if (err) {
             return next(err);
         }
