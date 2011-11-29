@@ -11,6 +11,7 @@
 <div class="login">
 <% if (session.user) { %>
     <a href="/options"><%= session.user.fullname %></a>
+    <%- partial('avatar', { user: session.user, size: 20 }) %>
 <% } else { %>
     <a href="/login">Log in</a> or <a href="/signup">Sign up</a>
 <% } %>

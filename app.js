@@ -1,6 +1,7 @@
 
 var util = require('util');
 var express = require('express');
+var gravatar = require('gravatar');
 var db = require('./db');
 var config = require('./config');
 var emailregexp = require('./emailregexp');
@@ -28,7 +29,8 @@ app.configure('production', function(){
 });
 
 app.helpers({
-    title: null
+    title: null,
+    gravatar: gravatar
 });
 
 app.dynamicHelpers({
