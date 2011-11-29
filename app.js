@@ -87,9 +87,7 @@ app.post('/signup', function (req, res, next) {
                 fullname: fullname,
                 email: email
             }
-            res.render('signup_success', {
-                title: 'Welcome ' + fullname
-            });
+            res.redirect('/');
         });
     });
 });
@@ -190,6 +188,21 @@ app.post('/point/:hash/add_premise/:stance', function (req, res, next) {
                 res.redirect('/point/' + premise_hash);
             }
         );
+    });
+});
+
+app.post('/point/:hash/pstance', function (req, res, next) {
+    var hash = req.params.hash;
+    var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
+    if (!req.session || !req.session.user) {
+        return res.send("Must be logged in.", 400);
+    }
+    var user_id = req.session.user.user_id;
+    db.set_pstance(user_id, hash, stance, function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/point/' + hash);
     });
 });
 

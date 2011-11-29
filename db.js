@@ -142,3 +142,12 @@ db.authenticate_user = function (email, password, callback) {
     });
 };
 
+// callback(err)
+db.set_pstance = function (user_id, hash, stance, callback) {
+    client.query(
+        'REPLACE INTO PStances ' +
+        '  SET user_id = ?, point_hash = ?, stance = ?',
+        [ user_id, hash, stance ],
+        callback
+    );
+};
