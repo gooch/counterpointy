@@ -1,3 +1,14 @@
+<p>Make your point:</p>
+<form method="POST" action="/new_point">
+<textarea name="text"></textarea>
+<input type="submit" value="Add" />
+</form>
+
+<hr />
+
+<p>All points:</p>
 <% points.forEach(function (p) { %>
-<p><a href="/point/<%= encodeURIComponent(p.hash) %>"><%= p.text %></a></p>
+<ul>
+<li><a href="/point/<%= encodeURIComponent(p.hash) %>"><%= p.text %></a></li>
+</ul>
 <% }); %>

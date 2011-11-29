@@ -58,31 +58,24 @@ db.get_reasons_for_conclusion = function (conclusion_hash, callback) {
 };
 
 db.add_premise = function (conclusion_hash, text, supports, callback) {
-    text = text.trim();
-    var premise_hash = sha256('' + text);
-    var reason_hash = sha256(premise_hash + supports + conclusion_hash);
-    client.query(
-        'INSERT INTO Points SET hash = ?, text = ? ' +
-        ' ON DUPLICATE KEY UPDATE hash = hash',
-        [ premise_hash, text ],
-        function (err) {
-            if (err) {
-                return callback(err);
-            }
-            client.query(
-                'INSERT INTO Reasons SET ' +
-                '  reason_hash = ?, ' +
-                '  premise_hash = ?, ' +
-                '  conclusion_hash = ?, ' +
-                '  supports = ? ' +
-                '  ON DUPLICATE KEY UPDATE reason_hash = reason_hash',
-                [ reason_hash, premise_hash, conclusion_hash, supports ],
-                function (err) {
-                    callback(err, premise_hash, reason_hash);
-                }
-            );
+    db.create_point(text, function (err, premise_hash) {
+        if (err) {
+            return callback(err);
         }
-    );
+        var reason_hash = sha256(premise_hash + supports + conclusion_hash);
+        client.query(
+            'INSERT INTO Reasons SET ' +
+            '  reason_hash = ?, ' +
+            '  premise_hash = ?, ' +
+            '  conclusion_hash = ?, ' +
+            '  supports = ? ' +
+            '  ON DUPLICATE KEY UPDATE reason_hash = reason_hash',
+            [ reason_hash, premise_hash, conclusion_hash, supports ],
+            function (err) {
+                callback(err, premise_hash, reason_hash);
+            }
+        );
+    });
 };
 
 db.normalise_email = function (email) {
@@ -149,5 +142,19 @@ db.set_pstance = function (user_id, hash, stance, callback) {
         '  SET user_id = ?, point_hash = ?, stance = ?',
         [ user_id, hash, stance ],
         callback
+    );
+};
+
+// callback(err, hash)
+db.create_point = function (text, callback) {
+    text = text.trim();
+    var hash = sha256('' + text);
+    client.query(
+        'INSERT INTO Points SET hash = ?, text = ? ' +
+        ' ON DUPLICATE KEY UPDATE hash = hash',
+        [ hash, text ],
+        function (err) {
+            callback(err, hash);
+        }
     );
 };

@@ -191,6 +191,15 @@ app.post('/point/:hash/add_premise/:stance', function (req, res, next) {
     });
 });
 
+app.post('/new_point', function (req, res, next) {
+    db.create_point(req.body.text, function (err, hash) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/point/' + hash);
+    });
+});
+
 app.post('/point/:hash/pstance', function (req, res, next) {
     var hash = req.params.hash;
     var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
