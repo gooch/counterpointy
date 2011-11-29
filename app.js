@@ -155,11 +155,18 @@ app.get('/point/:hash', function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.render('point', {
-                title: point.text,
-                point: point,
-                supporting: reasons.filter(function (r) { return r.supports; }),
-                opposing:   reasons.filter(function (r) { return !r.supports; })
+            db.get_opinions(hash, function (err, opinions) {
+                if (err) {
+                    return next(err);
+                }
+                res.render('point', {
+                    title: point.text,
+                    point: point,
+                    agree:    opinions.filter(function (o) { return o.stance > 0; }),
+                    disagree: opinions.filter(function (o) { return o.stance < 0; }),
+                    supporting: reasons.filter(function (r) { return r.supports; }),
+                    opposing:   reasons.filter(function (r) { return !r.supports; })
+                });
             });
         });
     });

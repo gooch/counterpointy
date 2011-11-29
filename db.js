@@ -57,6 +57,18 @@ db.get_reasons_for_conclusion = function (conclusion_hash, callback) {
     );
 };
 
+// callback(err, opinions)
+db.get_opinions = function (hash, callback) {
+    client.query(
+        'SELECT u.username, u.fullname, u.email, ps.stance ' +
+        '  FROM PStances ps JOIN Users u ' +
+        '  ON ps.username = u.username ' +
+        '  WHERE ps.point_hash = ?',
+        [ hash ],
+        callback
+    );
+};
+
 db.add_premise = function (conclusion_hash, text, supports, callback) {
     db.create_point(text, function (err, premise_hash) {
         if (err) {
