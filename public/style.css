@@ -1,5 +1,7 @@
 body {
   font: 13px/1.5 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif;
+  background-color: #999;
+  margin: 0px;
 }
 
 .conclusion {
@@ -31,4 +33,12 @@ textarea {
 div.login {
   width: 100%;
   text-align: right;
+}
+
+div.main-column {
+  max-width: 300px;
+  background-color: #fff;
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }

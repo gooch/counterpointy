@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
+<div class="main-column">
 <div class="login">
 <% if (session.user) { %>
     <a href="/options"><%= session.user.fullname %></a>
@@ -14,6 +15,8 @@
     <a href="/login">Log in</a> or <a href="/signup">Sign up</a>
 <% } %>
 </div>
+<hr />
 <%- body %>
+</div>
 </body>
 </html>
