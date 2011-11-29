@@ -5,6 +5,7 @@ var gravatar = require('gravatar');
 var db = require('./db');
 var config = require('./config');
 var emailregexp = require('./emailregexp');
+var linkify = require('./linkify');
 
 var app = module.exports = express.createServer();
 
@@ -30,7 +31,8 @@ app.configure('production', function(){
 
 app.helpers({
     title: null,
-    gravatar: gravatar
+    gravatar: gravatar,
+    linkify: linkify
 });
 
 app.dynamicHelpers({
