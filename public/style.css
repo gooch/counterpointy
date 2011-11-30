@@ -9,6 +9,12 @@ body {
   font-size: 10px;
 }
 
+.main-point {
+  font-weight: bold;
+  font-size: 15px;
+  padding: 10px 0;
+}
+
 a:link, a:visited {
   text-decoration: none;
 }

@@ -1,5 +1,5 @@
-<div>
-<%- partial('point', { point: point }) %>
+<div class="main-point">
+<%- linkify(point.text) %>
 </div>
 
 <% function showUsers(users, partial) {
