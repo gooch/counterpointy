@@ -1,4 +1,4 @@
-<p>Make your point:</p>
+<p class="heading">Make your point:</p>
 <form method="POST" action="/new_point">
 <textarea name="text"></textarea>
 <input type="submit" value="Add" />
@@ -6,7 +6,7 @@
 
 <hr />
 
-<p>Recent points:</p>
+<p class="heading">Recent points:</p>
 <% points.forEach(function (p) { %>
     <%- partial('point', { point: p }) %>
 <% }); %>
