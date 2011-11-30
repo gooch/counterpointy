@@ -26,9 +26,17 @@ textarea {
   box-sizing: border-box;
 }
 
+div.title {
+  float: left;
+  margin-bottom: 5px;
+}
+
 div.login {
-  width: 100%;
-  text-align: right;
+  float: right;
+}
+
+.clear-both {
+  clear: both;
 }
 
 div.main-column {

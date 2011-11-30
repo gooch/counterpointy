@@ -10,6 +10,9 @@
 </head>
 <body>
 <div class="main-column">
+<div class="title">
+    <a href="/">Counterpointy</a>
+</div>
 <div class="login">
 <% if (session.user) { %>
     <a href="/options"><%= session.user.fullname %></a>
@@ -18,7 +21,7 @@
     <a href="/login">Log in</a> or <a href="/signup">Sign up</a>
 <% } %>
 </div>
-<hr />
+<hr class="clear-both" />
 <%- body %>
 </div>
 </body>
