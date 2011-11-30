@@ -31,6 +31,7 @@ app.configure('production', function(){
 
 app.helpers({
     title: null,
+    query: null,
     gravatar: gravatar,
     linkify: linkify
 });
@@ -233,7 +234,7 @@ app.post('/point/:hash/pstance', function (req, res, next) {
 });
 
 app.get('/search', function (req, res, next) {
-    var query = req.query.q || '';
+    var query = '' + (req.query.q || '');
     db.search(query, function (err, points) {
         if (err) {
             return next(err);

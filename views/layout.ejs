@@ -22,6 +22,11 @@
 <% } %>
 </div>
 <hr class="clear-both" />
+<form method="GET" action="/search">
+<input type="text" name="q" value="<%= query || '' %>" />
+<input type="submit" value="Search" />
+<hr />
+</form>
 <%- body %>
 </div>
 </body>
