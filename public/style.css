@@ -4,11 +4,7 @@ body {
   margin: 0px;
 }
 
-.conclusion {
-  font-weight: bold;
-}
-
-.supporting-heading, .opposing-heading {
+.heading {
   font-variant: small-caps;
   text-transform: lowercase;
 }
@@ -45,4 +41,13 @@ div.main-column {
 
 img.avatar20 {
   vertical-align: -5px;
+}
+
+.point {
+  width: 100%;
+  padding: 5px 2px;
+}
+
+.point:hover {
+  background-color: #b8d8ff;
 }

@@ -161,7 +161,7 @@ app.get('/point/:hash', function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                res.render('point', {
+                res.render('point_and_related', {
                     title: point.text,
                     point: point,
                     agree:    opinions.filter(function (o) { return o.stance > 0; }),

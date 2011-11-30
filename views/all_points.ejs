@@ -8,7 +8,5 @@
 
 <p>All points:</p>
 <% points.forEach(function (p) { %>
-<ul>
-<li><a href="/point/<%= encodeURIComponent(p.hash) %>"><%= p.text %></a></li>
-</ul>
+    <%- partial('point', { point: p }) %>
 <% }); %>

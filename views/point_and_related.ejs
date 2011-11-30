@@ -1,0 +1,47 @@
+<%- partial('point', { point: point }) %>
+
+<% function showUsers(users, partial) {
+    users.forEach(function (user) {
+        %><%- partial('avatar20', { user: user }) %><%
+    });
+}
+%>
+<% if (agree.length) { %>
+    <p>Agree: <% showUsers(agree, partial); %></p>
+<% } %>
+<% if (disagree.length) { %>
+    <p>Disagree: <% showUsers(disagree, partial); %></p>
+<% } %>
+
+<% if (session.user) { %>
+<form method="POST" action="/point/<%= point.hash %>/pstance">
+<select name="stance">
+<option value="undecided" <%= !point.stance ? 'selected' : '' %>>? Undecided</option>
+<option value="agree" <%= point.stance > 0 ? 'selected' : '' %>>&#x2713; Agree</option>
+<option value="disagree" <%= point.stance < 0 ? 'selected' : '' %>>&#x2715; Disagree</option>
+</select>
+<input type="submit" />
+</form>
+<% } %>
+
+<hr />
+
+<p class="heading">Supporting:</p>
+<% supporting.forEach(function (p) { %>
+    <%- partial('point', { point: p }) %>
+<% }); %>
+<form method="POST" action="/point/<%= point.hash %>/add_premise/support">
+<textarea name="text"></textarea>
+<input type="submit" value="Add" />
+</form>
+
+<hr />
+
+<p class="heading">Opposing:</p>
+<% opposing.forEach(function (p) { %>
+    <%- partial('point', { point: p }) %>
+<% }); %>
+<form method="POST" action="/point/<%= point.hash %>/add_premise/oppose">
+<textarea name="text"></textarea>
+<input type="submit" value="Add" />
+</form>
