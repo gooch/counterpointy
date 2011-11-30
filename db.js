@@ -169,3 +169,13 @@ db.create_point = function (text, callback) {
         }
     );
 };
+
+// callback(err, points)
+// http://www.slideshare.net/billkarwin/practical-full-text-search-with-my-sql
+db.search = function (query, callback) {
+    client.query(
+        'SELECT hash, text FROM Points WHERE MATCH(text) AGAINST(?)',
+        [ '' + query ],
+        callback
+    );
+};

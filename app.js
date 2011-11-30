@@ -232,6 +232,19 @@ app.post('/point/:hash/pstance', function (req, res, next) {
     });
 });
 
+app.get('/search', function (req, res, next) {
+    var query = req.query.q || '';
+    db.search(query, function (err, points) {
+        if (err) {
+            return next(err);
+        }
+        res.render('search', {
+            query: query,
+            points: points
+        });
+    });
+});
+
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

@@ -14,6 +14,8 @@ CREATE TABLE Points (
   text          TEXT CHARACTER SET utf8 NOT NULL
 );
 
+CREATE FULLTEXT INDEX Points_text ON Points(text);
+
 
 CREATE TABLE PStances (
   username      VARCHAR(16) CHARACTER SET ascii NOT NULL,
