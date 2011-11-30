@@ -34,9 +34,9 @@ db.get_point_with_stance = function (hash, username, callback) {
     );
 };
 
-db.get_all_points = function (callback) {
+db.get_recent_points = function (callback) {
     client.query(
-        'SELECT hash, text FROM Points',
+        'SELECT hash, text FROM Points ORDER BY create_time DESC',
         [],
         function (err, results, fields) {
             callback(err, results);

@@ -42,11 +42,11 @@ app.dynamicHelpers({
 
 
 app.get('/', function (req, res, next) {
-    db.get_all_points(function (err, points) {
+    db.get_recent_points(function (err, points) {
         if (err) {
             return next(err);
         }
-        res.render('all_points', {
+        res.render('home', {
             points: points
         });
     });

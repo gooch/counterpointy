@@ -11,7 +11,8 @@ CREATE TABLE Users (
 
 CREATE TABLE Points (
   hash          VARCHAR(64) CHARACTER SET ascii NOT NULL PRIMARY KEY,
-  text          TEXT CHARACTER SET utf8 NOT NULL
+  text          TEXT CHARACTER SET utf8 NOT NULL,
+  create_time   TIMESTAMP NOT NULL
 );
 
 CREATE FULLTEXT INDEX Points_text ON Points(text);
