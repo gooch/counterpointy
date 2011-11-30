@@ -1,3 +1,14 @@
 <div class="point" data-point-hash="<%= point.hash %>">
-<%- linkify(point.text) %>
+<table><tr>
+  <td>
+    <div class="point-text">
+        <%- linkify(point.text) %>
+    </div>
+  </td>
+  <td>
+    <div class="point-link">
+        <a href="/point/<%= point.hash %>">&gt;</a>
+    </div>
+  </td>
+</tr></table>
 </div>

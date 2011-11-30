@@ -1,4 +1,6 @@
+<div>
 <%- partial('point', { point: point }) %>
+</div>
 
 <% function showUsers(users, partial) {
     users.forEach(function (user) {
@@ -27,9 +29,11 @@
 <hr />
 
 <p class="heading">Supporting:</p>
+<div>
 <% supporting.forEach(function (p) { %>
     <%- partial('point', { point: p }) %>
 <% }); %>
+</div>
 <form method="POST" action="/point/<%= point.hash %>/add_premise/support">
 <textarea name="text"></textarea>
 <input type="submit" value="Add" />
@@ -38,9 +42,11 @@
 <hr />
 
 <p class="heading">Opposing:</p>
+<div>
 <% opposing.forEach(function (p) { %>
     <%- partial('point', { point: p }) %>
 <% }); %>
+</div>
 <form method="POST" action="/point/<%= point.hash %>/add_premise/oppose">
 <textarea name="text"></textarea>
 <input type="submit" value="Add" />

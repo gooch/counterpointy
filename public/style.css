@@ -45,9 +45,22 @@ img.avatar20 {
 
 .point {
   width: 100%;
-  padding: 5px 2px;
+  padding: 5px 0px;
+  border-top: 1px solid #ddd;
+}
+
+.point:first-child {
+  border-top: 0px;
 }
 
 .point:hover {
   background-color: #b8d8ff;
+}
+
+.point td {
+  vertical-align: middle;
+}
+
+.point td:first-child {
+  width: 100%;
 }
