@@ -175,6 +175,14 @@ app.get('/point/:hash', function (req, res, next) {
     });
 });
 
+// callback(err)
+function user_agrees(user, point_hash, callback) {
+    if (!user) {
+        return callback();
+    }
+    db.set_pstance(user.username, point_hash, 1, callback);
+}
+
 app.post('/point/:hash/add_premise/:stance', function (req, res, next) {
     var conclusion_hash = req.params.hash;
     var stance = req.params.stance;
@@ -203,18 +211,28 @@ app.post('/point/:hash/add_premise/:stance', function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                res.redirect('/point/' + premise_hash);
+                user_agrees(req.session && req.session.user, premise_hash, function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.redirect('/point/' + conclusion_hash);
+                });
             }
         );
     });
 });
 
 app.post('/new_point', function (req, res, next) {
-    db.create_point(req.body.text, function (err, hash) {
+    db.create_point(req.body.text, function (err, point_hash) {
         if (err) {
             return next(err);
         }
-        res.redirect('/point/' + hash);
+        user_agrees(req.session && req.session.user, point_hash, function (err) {
+            if (err) {
+                return next(err);
+            }
+            res.redirect('/point/' + point_hash);
+        });
     });
 });
 
