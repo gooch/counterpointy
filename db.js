@@ -166,8 +166,8 @@ db.set_pstance = function (username, hash, stance, callback) {
 
 // callback(err, hash)
 db.create_point = function (text, callback) {
-    text = text.trim();
-    var hash = sha256('' + text);
+    text = ('' + text).trim().replace(/\s+/g, ' ');
+    var hash = sha256(text);
     client.query(
         'INSERT INTO Points SET hash = ?, text = ? ' +
         ' ON DUPLICATE KEY UPDATE hash = hash',
