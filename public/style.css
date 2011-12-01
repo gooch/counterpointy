@@ -95,8 +95,12 @@ img.avatar80 {
   vertical-align: middle;
 }
 
-.point td:first-child {
-  width: 284px;
+td.point-stance {
+  width: 14px;
+}
+
+td.point-text {
+  width: 270px;
 }
 
 .point table {

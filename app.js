@@ -42,7 +42,8 @@ app.dynamicHelpers({
 
 
 app.get('/', function (req, res, next) {
-    db.get_recent_points(function (err, points) {
+    var username = req.session && req.session.user && req.session.user.username;
+    db.get_recent_points(username, function (err, points) {
         if (err) {
             return next(err);
         }
@@ -154,7 +155,7 @@ app.get('/point/:hash', function (req, res, next) {
         if (!point) {
             return res.send(404);
         }
-        db.get_reasons_for_conclusion(hash, function (err, reasons) {
+        db.get_reasons_for_conclusion(hash, username, function (err, reasons) {
             if (err) {
                 return next(err);
             }

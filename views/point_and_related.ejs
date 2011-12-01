@@ -18,7 +18,7 @@
 <% if (session.user) { %>
 <form method="POST" action="/point/<%= point.hash %>/pstance">
 <select name="stance">
-<option value="undecided" <%= !point.stance ? 'selected' : '' %>>? Undecided</option>
+<option value="undecided" <%= !point.stance ? 'selected' : '' %>>&ndash; Undecided</option>
 <option value="agree" <%= point.stance > 0 ? 'selected' : '' %>>&#x2713; Agree</option>
 <option value="disagree" <%= point.stance < 0 ? 'selected' : '' %>>&#x2715; Disagree</option>
 </select>

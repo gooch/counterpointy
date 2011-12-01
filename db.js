@@ -34,23 +34,31 @@ db.get_point_with_stance = function (hash, username, callback) {
     );
 };
 
-db.get_recent_points = function (callback) {
+db.get_recent_points = function (username, callback) {
     client.query(
-        'SELECT hash, text FROM Points ORDER BY create_time DESC',
-        [],
+        'SELECT p.hash, p.text, ps.stance ' +
+        '  FROM Points p ' +
+        '  LEFT OUTER JOIN ' +
+        '    (SELECT * FROM PStances WHERE username = ?) ps ' +
+        '    ON ps.point_hash = p.hash ' +
+        '  ORDER BY p.create_time DESC',
+        [ username ],
         function (err, results, fields) {
             callback(err, results);
         }
     );
 };
 
-db.get_reasons_for_conclusion = function (conclusion_hash, callback) {
+db.get_reasons_for_conclusion = function (conclusion_hash, username, callback) {
     client.query(
-        'SELECT p.hash, p.text, r.supports ' +
-        ' FROM Reasons r JOIN Points p ' +
-        ' ON r.premise_hash = p.hash ' +
-        ' WHERE r.conclusion_hash = ?',
-        [ conclusion_hash ],
+        'SELECT p.hash, p.text, r.supports, ps.stance ' +
+        '  FROM Reasons r ' +
+        '  JOIN Points p ON r.premise_hash = p.hash ' +
+        '  LEFT OUTER JOIN ' +
+        '    (SELECT * FROM PStances WHERE username = ?) ps ' +
+        '    ON ps.point_hash = p.hash ' +
+        '  WHERE r.conclusion_hash = ?',
+        [ username, conclusion_hash ],
         function (err, results, fields) {
             callback(err, results);
         }
