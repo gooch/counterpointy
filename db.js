@@ -159,7 +159,7 @@ db.set_pstance = function (username, hash, stance, callback) {
     client.query(
         'REPLACE INTO PStances ' +
         '  SET username = ?, point_hash = ?, stance = ?',
-        [ username, hash, stance ],
+        [ username, hash, stance || 0 ],
         callback
     );
 };
