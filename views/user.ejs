@@ -1,0 +1,27 @@
+<div class="profile-avatar">
+    <%- partial('avatar80', { user: user }) %>
+</div>
+<div class="profile-details">
+    <p class="username">
+        <%= user.username %>
+    </p>
+    <p class="fullname">
+        <%= user.fullname %>
+    </p>
+</div>
+<div class="clear-both" />
+<% if (session.user && session.user.username == user.username) { %>
+    <div>
+        <p>
+            This is you!&nbsp; <a href="/options">Edit your profile</a>
+        </p>
+        <p>
+            Change your avatar at <a href="http://gravatar.com/">gravatar.com</a>
+            <br />
+            (We're using <%= session.user.email %>)
+        </p>
+        <p>
+            <a href="/logout">Log out</a>
+        </p>
+    </div>
+<% } %>

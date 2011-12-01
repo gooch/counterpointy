@@ -62,6 +62,21 @@ img.avatar20 {
   vertical-align: -5px;
 }
 
+img.avatar80 {
+  padding: 3px;
+  background: white;
+  border: 1px solid #ccc;
+}
+
+.profile-avatar {
+  float: left;
+}
+
+.profile-details {
+  float: left;
+  margin: 6px 0px 6px 12px;
+}
+
 .point {
   width: 100%;
   padding: 5px 0px;

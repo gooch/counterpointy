@@ -246,6 +246,19 @@ app.get('/search', function (req, res, next) {
     });
 });
 
+app.get('/user/:username', function (req, res, next) {
+    var username = req.params.username;
+    db.get_user(username, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.send(404);
+        }
+        res.render('user', { user: user });
+    });
+});
+
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
