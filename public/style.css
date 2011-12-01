@@ -2,6 +2,11 @@ body {
   font: 13px/1.5 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif;
   background-color: #eee;
   margin: 0px;
+  word-wrap: break-word;
+}
+
+td {
+  word-wrap: break-word;
 }
 
 .heading {
@@ -76,5 +81,10 @@ img.avatar20 {
 }
 
 .point td:first-child {
+  width: 284px;
+}
+
+.point table {
   width: 100%;
+  table-layout: fixed;
 }
