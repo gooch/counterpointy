@@ -59,9 +59,21 @@ db.get_reasons_for_conclusion = function (conclusion_hash, username, callback) {
         '    ON ps.point_hash = p.hash ' +
         '  WHERE r.conclusion_hash = ?',
         [ username, conclusion_hash ],
-        function (err, results, fields) {
-            callback(err, results);
-        }
+        callback
+    );
+};
+
+db.get_consequences_for_premise = function (premise_hash, username, callback) {
+    client.query(
+        'SELECT p.hash, p.text, r.supports, ps.stance ' +
+        '  FROM Reasons r ' +
+        '  JOIN Points p ON r.conclusion_hash = p.hash ' +
+        '  LEFT OUTER JOIN ' +
+        '    (SELECT * FROM PStances WHERE username = ?) ps ' +
+        '    ON ps.point_hash = p.hash ' +
+        '  WHERE r.premise_hash = ?',
+        [ username, premise_hash ],
+        callback
     );
 };
 

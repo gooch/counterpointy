@@ -159,17 +159,24 @@ app.get('/point/:hash', function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            db.get_opinions(hash, function (err, opinions) {
+            db.get_consequences_for_premise(hash, username, function (err, consequences) {
                 if (err) {
                     return next(err);
                 }
-                res.render('point_and_related', {
-                    title: point.text,
-                    point: point,
-                    agree:    opinions.filter(function (o) { return o.stance > 0; }),
-                    disagree: opinions.filter(function (o) { return o.stance < 0; }),
-                    supporting: reasons.filter(function (r) { return r.supports; }),
-                    opposing:   reasons.filter(function (r) { return !r.supports; })
+                db.get_opinions(hash, function (err, opinions) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.render('point_and_related', {
+                        title: point.text,
+                        point: point,
+                        agree:    opinions.filter(function (o) { return o.stance > 0; }),
+                        disagree: opinions.filter(function (o) { return o.stance < 0; }),
+                        supporting: reasons.filter(function (r) { return r.supports; }),
+                        opposing:   reasons.filter(function (r) { return !r.supports; }),
+                        supports: consequences.filter(function (c) { return c.supports; }),
+                        opposes:  consequences.filter(function (c) { return !c.supports; })
+                    });
                 });
             });
         });

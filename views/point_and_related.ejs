@@ -51,3 +51,23 @@
 <textarea name="text"></textarea>
 <input class="save-button" type="submit" value="Save" />
 </form>
+
+<% if (supports.length) { %>
+    <hr/>
+    <p class="heading">Supports:</p>
+    <div>
+    <% supports.forEach(function (p) { %>
+        <%- partial('point', { point: p}) %>
+    <% }); %>
+    </div>
+<% } %>
+
+<% if (opposes.length) { %>
+    <hr/>
+    <p class="heading">Opposes:</p>
+    <div>
+    <% opposes.forEach(function (p) { %>
+        <%- partial('point', { point: p}) %>
+    <% }); %>
+    </div>
+<% } %>
