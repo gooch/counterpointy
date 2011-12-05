@@ -56,6 +56,7 @@ CREATE TABLE RStances (
 CREATE TABLE Sessions (
   session_key   VARCHAR(255) NOT NULL PRIMARY KEY,
   username      VARCHAR(16) CHARACTER SET ascii NOT NULL,
+  create_time   TIMESTAMP NOT NULL,
   FOREIGN KEY (username) REFERENCES Users (username)
 );
 
