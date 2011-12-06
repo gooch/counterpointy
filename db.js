@@ -51,13 +51,13 @@ db.get_recent_points = function (username, callback) {
 
 db.get_reasons_for_conclusion = function (conclusion_hash, username, callback) {
     client.query(
-        'SELECT p.hash, p.text, r.supports, ps.stance ' +
-        '  FROM Reasons r ' +
+        'SELECT DISTINCT p.hash, p.text, r.supports, ps.stance ' +
+        '  FROM Relevances r ' +
         '  JOIN Points p ON r.premise_hash = p.hash ' +
         '  LEFT OUTER JOIN ' +
         '    (SELECT * FROM PStances WHERE username = ?) ps ' +
         '    ON ps.point_hash = p.hash ' +
-        '  WHERE r.conclusion_hash = ?',
+        '  WHERE r.conclusion_hash = ? AND r.relevant',
         [ username, conclusion_hash ],
         callback
     );
@@ -65,13 +65,13 @@ db.get_reasons_for_conclusion = function (conclusion_hash, username, callback) {
 
 db.get_consequences_for_premise = function (premise_hash, username, callback) {
     client.query(
-        'SELECT p.hash, p.text, r.supports, ps.stance ' +
-        '  FROM Reasons r ' +
+        'SELECT DISTINCT p.hash, p.text, r.supports, ps.stance ' +
+        '  FROM Relevances r ' +
         '  JOIN Points p ON r.conclusion_hash = p.hash ' +
         '  LEFT OUTER JOIN ' +
         '    (SELECT * FROM PStances WHERE username = ?) ps ' +
         '    ON ps.point_hash = p.hash ' +
-        '  WHERE r.premise_hash = ?',
+        '  WHERE r.premise_hash = ? AND r.relevant',
         [ username, premise_hash ],
         callback
     );
@@ -89,22 +89,21 @@ db.get_opinions = function (hash, callback) {
     );
 };
 
-db.add_premise = function (conclusion_hash, text, supports, callback) {
+db.add_premise = function (conclusion_hash, text, supports, username, callback) {
     db.create_point(text, function (err, premise_hash) {
         if (err) {
             return callback(err);
         }
-        var reason_hash = sha256(premise_hash + supports + conclusion_hash);
         client.query(
-            'INSERT INTO Reasons SET ' +
-            '  reason_hash = ?, ' +
-            '  premise_hash = ?, ' +
+            'REPLACE INTO Relevances SET ' +
             '  conclusion_hash = ?, ' +
-            '  supports = ? ' +
-            '  ON DUPLICATE KEY UPDATE reason_hash = reason_hash',
-            [ reason_hash, premise_hash, conclusion_hash, supports ],
+            '  premise_hash = ?, ' +
+            '  username = ?, ' +
+            '  supports = ?, ' +
+            '  relevant = 1',
+            [ conclusion_hash, premise_hash, username || '', supports ],
             function (err) {
-                callback(err, premise_hash, reason_hash);
+                callback(err, premise_hash);
             }
         );
     });

@@ -28,29 +28,21 @@ CREATE TABLE PStances (
 );
 
 
-CREATE TABLE Reasons (
-  reason_hash           VARCHAR(64) CHARACTER SET ascii NOT NULL PRIMARY KEY,
-  premise_hash          VARCHAR(64) CHARACTER SET ascii NOT NULL,
+CREATE TABLE Relevances (
   conclusion_hash       VARCHAR(64) CHARACTER SET ascii NOT NULL,
+  premise_hash          VARCHAR(64) CHARACTER SET ascii NOT NULL,
+  username              VARCHAR(16) CHARACTER SET ascii NULL,
+  relevant              BOOL NOT NULL,
   supports              BOOL NOT NULL,
   create_time           TIMESTAMP NOT NULL,
+  PRIMARY KEY (conclusion_hash, premise_hash, username),
+  FOREIGN KEY (conclusion_hash) REFERENCES Points (hash),
   FOREIGN KEY (premise_hash) REFERENCES Points (hash),
-  FOREIGN KEY (conclusion_hash) REFERENCES Points (hash)
+  FOREIGN KEY (username) REFERENCES Users (username)
 );
 
-CREATE INDEX Reasons_conclusion_supports
-  on Reasons (conclusion_hash, supports);
-
-
-CREATE TABLE RStances (
-  username      VARCHAR(16) CHARACTER SET ascii NOT NULL,
-  reason_hash   VARCHAR(64) CHARACTER SET ascii NOT NULL,
-  stance        TINYINT NOT NULL,
-  create_time   TIMESTAMP NOT NULL,
-  PRIMARY KEY (username, reason_hash),
-  FOREIGN KEY (username) REFERENCES Users (username),
-  FOREIGN KEY (reason_hash) REFERENCES Reasons (reason_hash)
-);
+CREATE INDEX Relevances_premise ON Relevances(premise_hash);
+CREATE INDEX Relevances_username ON Relevances(username);
 
 
 CREATE TABLE Sessions (

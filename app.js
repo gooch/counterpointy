@@ -216,9 +216,10 @@ app.post('/point/:hash/add_premise/:stance', function (req, res, next) {
         if (!point) {
             return res.send(404);
         }
+        var username = req.session && req.session.user && req.session.user.username;
         db.add_premise(
-            conclusion_hash, premise_text, supports,
-            function (err, premise_hash, reason_hash) {
+            conclusion_hash, premise_text, supports, username,
+            function (err, premise_hash) {
                 if (err) {
                     return next(err);
                 }
