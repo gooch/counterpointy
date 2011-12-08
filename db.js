@@ -49,30 +49,36 @@ db.get_recent_points = function (username, callback) {
     );
 };
 
-db.get_reasons_for_conclusion = function (conclusion_hash, username, callback) {
+db.get_premises_for_conclusion = function (conclusion_hash, username, callback) {
     client.query(
-        'SELECT DISTINCT p.hash, p.text, r.supports, ps.stance ' +
-        '  FROM Relevances r ' +
-        '  JOIN Points p ON r.premise_hash = p.hash ' +
+        'SELECT p.hash, p.text, rs.supports, ps.stance ' +
+        '  FROM RelevanceScores rs ' +
+        '  JOIN Points p ON rs.premise_hash = p.hash ' +
         '  LEFT OUTER JOIN ' +
         '    (SELECT * FROM PStances WHERE username = ?) ps ' +
         '    ON ps.point_hash = p.hash ' +
-        '  WHERE r.conclusion_hash = ? AND r.relevant',
-        [ username, conclusion_hash ],
+        '  WHERE ' +
+        '    rs.username = ? ' +
+        '    AND rs.conclusion_hash = ? ' +
+        '    AND rs.upvotes AND NOT rs.mydownvotes',
+        [ username, username || '', conclusion_hash ],
         callback
     );
 };
 
-db.get_consequences_for_premise = function (premise_hash, username, callback) {
+db.get_conclusions_for_premise = function (premise_hash, username, callback) {
     client.query(
-        'SELECT DISTINCT p.hash, p.text, r.supports, ps.stance ' +
-        '  FROM Relevances r ' +
-        '  JOIN Points p ON r.conclusion_hash = p.hash ' +
+        'SELECT p.hash, p.text, rs.supports, ps.stance ' +
+        '  FROM RelevanceScores rs ' +
+        '  JOIN Points p ON rs.conclusion_hash = p.hash ' +
         '  LEFT OUTER JOIN ' +
         '    (SELECT * FROM PStances WHERE username = ?) ps ' +
         '    ON ps.point_hash = p.hash ' +
-        '  WHERE r.premise_hash = ? AND r.relevant',
-        [ username, premise_hash ],
+        '  WHERE ' +
+        '    rs.username = ? ' +
+        '    AND rs.premise_hash = ? ' +
+        '    AND rs.upvotes AND NOT rs.mydownvotes',
+        [ username, username || '', premise_hash ],
         callback
     );
 };
@@ -95,7 +101,7 @@ db.add_premise = function (conclusion_hash, text, supports, username, callback) 
             return callback(err);
         }
         client.query(
-            'REPLACE INTO Relevances SET ' +
+            'REPLACE INTO RelevanceVotes SET ' +
             '  conclusion_hash = ?, ' +
             '  premise_hash = ?, ' +
             '  username = ?, ' +

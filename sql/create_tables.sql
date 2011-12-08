@@ -6,6 +6,8 @@ CREATE TABLE Users (
   create_time   TIMESTAMP NOT NULL
 );
 
+INSERT INTO Users SET username = "", fullname = "Anonymous User";
+
 
 CREATE TABLE Points (
   hash          VARCHAR(64) CHARACTER SET ascii NOT NULL PRIMARY KEY,
@@ -28,21 +30,31 @@ CREATE TABLE PStances (
 );
 
 
-CREATE TABLE Relevances (
+CREATE TABLE RelevanceVotes (
   conclusion_hash       VARCHAR(64) CHARACTER SET ascii NOT NULL,
   premise_hash          VARCHAR(64) CHARACTER SET ascii NOT NULL,
-  username              VARCHAR(16) CHARACTER SET ascii NULL,
+  username              VARCHAR(16) CHARACTER SET ascii NOT NULL,
   relevant              BOOL NOT NULL,
   supports              BOOL NOT NULL,
   create_time           TIMESTAMP NOT NULL,
-  PRIMARY KEY (conclusion_hash, premise_hash, username),
+  PRIMARY KEY (conclusion_hash, premise_hash, supports, username),
   FOREIGN KEY (conclusion_hash) REFERENCES Points (hash),
   FOREIGN KEY (premise_hash) REFERENCES Points (hash),
   FOREIGN KEY (username) REFERENCES Users (username)
 );
 
-CREATE INDEX Relevances_premise ON Relevances(premise_hash);
-CREATE INDEX Relevances_username ON Relevances(username);
+
+CREATE VIEW RelevanceScores AS SELECT 
+  u.username,
+  r.conclusion_hash,
+  r.premise_hash,
+  r.supports,
+  SUM(u.username = r.username AND r.relevant) AS myupvotes,
+  SUM(u.username = r.username AND NOT r.relevant) AS mydownvotes,
+  SUM(r.relevant) as upvotes,
+  SUM(NOT r.relevant) as downvotes
+  FROM Users u JOIN RelevanceVotes r
+  GROUP BY u.username, r.conclusion_hash, r.premise_hash, r.supports;
 
 
 CREATE TABLE Sessions (
