@@ -44,7 +44,7 @@ CREATE TABLE RelevanceVotes (
 );
 
 
-CREATE VIEW RelevanceScores AS SELECT 
+CREATE VIEW RelevanceScores AS SELECT
   u.username,
   r.conclusion_hash,
   r.premise_hash,
