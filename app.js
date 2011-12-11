@@ -248,12 +248,16 @@ app.post('/new_point', function (req, res, next) {
     });
 });
 
-app.post('/point/:hash/pstance', function (req, res, next) {
+function needuser(req, res, next) {
+    if (!req.session || !req.session.user) {
+        return res.send('Must be logged in.', 400);
+    }
+    return next();
+}
+
+app.post('/point/:hash/pstance', needuser, function (req, res, next) {
     var hash = req.params.hash;
     var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
-    if (!req.session || !req.session.user) {
-        return res.send("Must be logged in.", 400);
-    }
     var username = req.session.user.username;
     db.set_pstance(username, hash, stance, function (err) {
         if (err) {
@@ -286,6 +290,22 @@ app.get('/user/:username', function (req, res, next) {
             return res.send(404);
         }
         res.render('user', { user: user });
+    });
+});
+
+app.post('/point/:conclusion_hash/irrelevant/:supports/:premise_hash', needuser, function (req, res, next) {
+    var conclusion_hash = req.params.conclusion_hash;
+    var premise_hash = req.params.premise_hash;
+    var username = req.session.user.username;
+    var supports = { 'support': 1, 'oppose': 0 }[req.params.supports];
+    if (undefined === supports) {
+        return res.send('support or oppose expected', 404);
+    }
+    db.set_relevance_vote(username, conclusion_hash, premise_hash, supports, 0, function (err) {
+        if (err) {
+            return next(err);
+        }
+        return res.redirect('/point/' + conclusion_hash);
     });
 });
 

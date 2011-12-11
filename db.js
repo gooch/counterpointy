@@ -100,14 +100,8 @@ db.add_premise = function (conclusion_hash, text, supports, username, callback) 
         if (err) {
             return callback(err);
         }
-        client.query(
-            'REPLACE INTO RelevanceVotes SET ' +
-            '  conclusion_hash = ?, ' +
-            '  premise_hash = ?, ' +
-            '  username = ?, ' +
-            '  supports = ?, ' +
-            '  relevant = 1',
-            [ conclusion_hash, premise_hash, username || '', supports ],
+        db.set_relevance_vote(
+            username, conclusion_hash, premise_hash, supports, 1,
             function (err) {
                 callback(err, premise_hash);
             }
@@ -201,6 +195,20 @@ db.search = function (query, callback) {
     client.query(
         'SELECT hash, text FROM Points WHERE MATCH(text) AGAINST(?)',
         [ '' + query ],
+        callback
+    );
+};
+
+// callback(err)
+db.set_relevance_vote = function (username, conclusion_hash, premise_hash, supports, relevant, callback) {
+    client.query(
+        'REPLACE INTO RelevanceVotes SET ' +
+        '  conclusion_hash = ?, ' +
+        '  premise_hash = ?, ' +
+        '  username = ?, ' +
+        '  supports = ?, ' +
+        '  relevant = ?',
+        [ conclusion_hash, premise_hash, username || '', supports, relevant ],
         callback
     );
 };
