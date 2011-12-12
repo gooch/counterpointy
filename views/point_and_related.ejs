@@ -39,10 +39,16 @@
     <%- partial('point', { point: p }) %>
 <% }); %>
 </div>
+
+<% if (session.user) { %>
+<div class="expandable">
+    <a href="#">Add a supporting point</a>
+</div>
 <form method="POST" action="/point/<%= point.hash %>/add_premise/support">
 <textarea name="text"></textarea>
 <input class="save-button" type="submit" value="Save" />
 </form>
+<% } %>
 
 <hr/>
 
@@ -57,10 +63,16 @@
     <%- partial('point', { point: p }) %>
 <% }); %>
 </div>
+
+<% if (session.user) { %>
+<div class="expandable">
+    <a href="#">Add an opposing point</a>
+</div>
 <form method="POST" action="/point/<%= point.hash %>/add_premise/oppose">
 <textarea name="text"></textarea>
 <input class="save-button" type="submit" value="Save" />
 </form>
+<% } %>
 
 <% if (supports.length) { %>
     <hr/>
