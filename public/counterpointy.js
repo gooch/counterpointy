@@ -10,4 +10,6 @@ $(document).ready(function () {
 
     $('.expandable').next().hide();
 
+    $('.focus-on-load').focus();
+
 });
