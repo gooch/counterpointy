@@ -1,11 +1,7 @@
 <p class="heading">Make your point:</p>
 <form method="POST" action="/new_point">
     <textarea name="text"></textarea>
-    <select name="stance">
-        <option value="undecided">&ndash; Undecided</option>
-        <option value="agree" selected>&#x2713; Agree</option>
-        <option value="disagree">&#x2715; Disagree</option>
-    </select>
+    <%- partial('select_stance', { stance: 1 }) %>
     <input class="save-button" type="submit" value="Save" />
 </form>
 

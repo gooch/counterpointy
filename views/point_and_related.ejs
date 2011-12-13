@@ -17,12 +17,8 @@
 
 <% if (session.user) { %>
 <form method="POST" action="/point/<%= point.hash %>/pstance">
-<select name="stance">
-<option value="undecided" <%= !point.stance ? 'selected' : '' %>>&ndash; Undecided</option>
-<option value="agree" <%= point.stance > 0 ? 'selected' : '' %>>&#x2713; Agree</option>
-<option value="disagree" <%= point.stance < 0 ? 'selected' : '' %>>&#x2715; Disagree</option>
-</select>
-<input type="submit" value="Save" />
+    <%- partial('select_stance', { stance: point.stance }) %>
+    <input type="submit" value="Save" />
 </form>
 <% } %>
 
@@ -46,12 +42,8 @@
 </div>
 <form method="POST" action="/point/<%= point.hash %>/add_premise/support">
 <textarea name="text"></textarea>
-<select name="stance">
-<option value="undecided">&ndash; Undecided</option>
-<option value="agree" selected>&#x2713; Agree</option>
-<option value="disagree">&#x2715; Disagree</option>
-</select>
-<input class="save-button" type="submit" value="Save" />
+    <%- partial('select_stance', { stance: 1 }) %>
+    <input class="save-button" type="submit" value="Save" />
 </form>
 <% } %>
 
@@ -75,12 +67,8 @@
 </div>
 <form method="POST" action="/point/<%= point.hash %>/add_premise/oppose">
 <textarea name="text"></textarea>
-<select name="stance">
-<option value="undecided">&ndash; Undecided</option>
-<option value="agree" selected>&#x2713; Agree</option>
-<option value="disagree">&#x2715; Disagree</option>
-</select>
-<input class="save-button" type="submit" value="Save" />
+    <%- partial('select_stance', { stance: 1 }) %>
+    <input class="save-button" type="submit" value="Save" />
 </form>
 <% } %>
 
