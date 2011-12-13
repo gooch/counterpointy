@@ -1,10 +1,15 @@
 <p class="heading">Make your point:</p>
 <form method="POST" action="/new_point">
-<textarea name="text"></textarea>
-<input class="save-button" type="submit" value="Save" />
+    <textarea name="text"></textarea>
+    <select name="stance">
+        <option value="undecided">&ndash; Undecided</option>
+        <option value="agree" selected>&#x2713; Agree</option>
+        <option value="disagree">&#x2715; Disagree</option>
+    </select>
+    <input class="save-button" type="submit" value="Save" />
 </form>
 
-<hr />
+<hr class="clearboth" />
 
 <p class="heading">Recent points:</p>
 <% points.forEach(function (p) { %>

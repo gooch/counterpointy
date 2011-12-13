@@ -45,7 +45,10 @@ app.dynamicHelpers({
 
 
 app.get('/', function (req, res, next) {
-    var username = req.session && req.session.user && req.session.user.username;
+    if (!req.session || !req.session.user) {
+        return res.render('welcome');
+    }
+    var username = req.session.user.username;
     db.get_recent_points(username, function (err, points) {
         if (err) {
             return next(err);
@@ -186,28 +189,19 @@ app.get('/point/:hash', function (req, res, next) {
     });
 });
 
-// callback(err)
-function user_agrees(user, point_hash, callback) {
-    if (!user) {
-        return callback();
-    }
-    db.set_pstance(user.username, point_hash, 1, callback);
-}
-
-app.post('/point/:hash/add_premise/:stance', function (req, res, next) {
+app.post('/point/:hash/add_premise/:supports', needuser, function (req, res, next) {
     var conclusion_hash = req.params.hash;
-    var stance = req.params.stance;
-    var stances = { 'support': 1, 'oppose': 0 };
-    if (stance in stances) {
-        var supports = stances[stance];
-    } else {
-        return res.send("Invalid stance", 404);
+    var supports = { 'support': 1, 'oppose': 0 }[req.params.supports];
+    if (undefined === supports) {
+        return res.send('support or oppose expected', 404);
     }
     var premise_text = req.body.text;
     if (!premise_text) {
         return res.send("Premise text is required.", 400);
     }
     premise_text = '' + premise_text;
+    var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
+    var username = req.session.user.username;
 
     db.get_point(conclusion_hash, function (err, point) {
         if (err) {
@@ -216,14 +210,13 @@ app.post('/point/:hash/add_premise/:stance', function (req, res, next) {
         if (!point) {
             return res.send(404);
         }
-        var username = req.session && req.session.user && req.session.user.username;
         db.add_premise(
             conclusion_hash, premise_text, supports, username,
             function (err, premise_hash) {
                 if (err) {
                     return next(err);
                 }
-                user_agrees(req.session && req.session.user, premise_hash, function (err) {
+                db.set_pstance(username, premise_hash, stance, function (err) {
                     if (err) {
                         return next(err);
                     }
@@ -234,12 +227,14 @@ app.post('/point/:hash/add_premise/:stance', function (req, res, next) {
     });
 });
 
-app.post('/new_point', function (req, res, next) {
+app.post('/new_point', needuser, function (req, res, next) {
+    var username = req.session.user.username;
+    var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
     db.create_point(req.body.text, function (err, point_hash) {
         if (err) {
             return next(err);
         }
-        user_agrees(req.session && req.session.user, point_hash, function (err) {
+        db.set_pstance(username, point_hash, stance, function (err) {
             if (err) {
                 return next(err);
             }

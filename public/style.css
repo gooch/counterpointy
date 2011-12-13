@@ -113,3 +113,7 @@ td.point-text {
   display: block;
   z-index: -1;
 }
+
+.save-button {
+  float: right;
+}

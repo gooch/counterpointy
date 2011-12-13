@@ -26,7 +26,7 @@
 </form>
 <% } %>
 
-<hr/>
+<hr class="clearboth" />
 
 <p class="heading">Supporting:</p>
 <div>
@@ -46,11 +46,16 @@
 </div>
 <form method="POST" action="/point/<%= point.hash %>/add_premise/support">
 <textarea name="text"></textarea>
+<select name="stance">
+<option value="undecided">&ndash; Undecided</option>
+<option value="agree" selected>&#x2713; Agree</option>
+<option value="disagree">&#x2715; Disagree</option>
+</select>
 <input class="save-button" type="submit" value="Save" />
 </form>
 <% } %>
 
-<hr/>
+<hr class="clearboth" />
 
 <p class="heading">Opposing:</p>
 <div>
@@ -70,12 +75,17 @@
 </div>
 <form method="POST" action="/point/<%= point.hash %>/add_premise/oppose">
 <textarea name="text"></textarea>
+<select name="stance">
+<option value="undecided">&ndash; Undecided</option>
+<option value="agree" selected>&#x2713; Agree</option>
+<option value="disagree">&#x2715; Disagree</option>
+</select>
 <input class="save-button" type="submit" value="Save" />
 </form>
 <% } %>
 
 <% if (supports.length) { %>
-    <hr/>
+    <hr class="clearboth" />
     <p class="heading">Supports:</p>
     <div>
     <% supports.forEach(function (p) { %>
@@ -85,7 +95,7 @@
 <% } %>
 
 <% if (opposes.length) { %>
-    <hr/>
+    <hr class="clearboth" />
     <p class="heading">Opposes:</p>
     <div>
     <% opposes.forEach(function (p) { %>
