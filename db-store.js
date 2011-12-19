@@ -4,6 +4,7 @@
 var mysql = require('mysql');
 var config = require('./config');
 
+var maxAge = 10 * 365 * 24 * 60 * 60 * 1000;
 
 module.exports = function(connect){
     var Store = connect.session.Store;
@@ -23,7 +24,12 @@ module.exports = function(connect){
             '  WHERE s.session_key = ?',
             [ sid ],
             function (err, results, fields) {
-                callback(err, results && { user: results[0], cookie: {} });
+                callback(err, results && {
+                    user: results[0],
+                    cookie: {
+                        maxAge: maxAge
+                    }
+                });
             }
         );
     };
