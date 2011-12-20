@@ -10,7 +10,7 @@
 </head>
 <body>
 <a class="fork-me" href="https://github.com/benw/counterpointy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/fork-me.png" alt="Fork me on GitHub"></a>
-<div class="main-column">
+<div class="container">
 <div class="title">
     <a href="/">Counterpointy</a>
 </div>
@@ -22,14 +22,15 @@
     <a href="/login">Log in</a> or <a href="/signup">Sign up</a>
 <% } %>
 </div>
+<div class="searchbar">
+    <form method="GET" action="/search">
+    <input type="text" name="q" value="<%= query || '' %>" />
+    <!-- <input type="submit" value="Search" /> -->
+    </form>
+</div>
 <hr class="clear-both" />
-<form method="GET" action="/search">
-<input type="text" name="q" value="<%= query || '' %>" />
-<input type="submit" value="Search" />
-</form>
-<hr />
 <%- body %>
-<hr />
+<hr class="clear-both" />
 <a href="https://github.com/benw/counterpointy/wiki/About-Counterpointy">About</a>
 </div>
 </body>

@@ -5,9 +5,11 @@
     <input class="save-button" type="submit" value="Save" />
 </form>
 
-<hr class="clearboth" />
+<hr class="clear-both" />
 
-<p class="heading">Recent points:</p>
-<% points.forEach(function (p) { %>
-    <%- partial('point', { point: p }) %>
-<% }); %>
+<div class="column">
+    <p class="heading">Recent points:</p>
+    <% points.forEach(function (p) { %>
+        <%- partial('point', { point: p }) %>
+    <% }); %>
+</div>

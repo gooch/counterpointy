@@ -22,72 +22,77 @@
 </form>
 <% } %>
 
-<hr class="clearboth" />
+<hr class="clear-both" />
 
-<p class="heading">Supporting:</p>
-<div>
-<% supporting.forEach(function (p) { %>
-    <!--
-    <form method="POST" action="/point/<%= point.hash %>/irrelevant/support/<%= p.hash %>">
-    <input type="submit" value="x" />
-    </form>
-    -->
-    <%- partial('point', { point: p }) %>
-<% }); %>
-</div>
-
-<% if (session.user) { %>
-<div class="expandable">
-    <a href="#">Add a supporting point</a>
-</div>
-<form method="POST" action="/point/<%= point.hash %>/add_premise/support">
-<textarea name="text"></textarea>
-    <%- partial('select_stance', { stance: 1 }) %>
-    <input class="save-button" type="submit" value="Save" />
-</form>
-<% } %>
-
-<hr class="clearboth" />
-
-<p class="heading">Opposing:</p>
-<div>
-<% opposing.forEach(function (p) { %>
-    <!--
-    <form method="POST" action="/point/<%= point.hash %>/irrelevant/oppose/<%= p.hash %>">
-    <input type="submit" value="x" />
-    </form>
-    -->
-    <%- partial('point', { point: p }) %>
-<% }); %>
-</div>
-
-<% if (session.user) { %>
-<div class="expandable">
-    <a href="#">Add an opposing point</a>
-</div>
-<form method="POST" action="/point/<%= point.hash %>/add_premise/oppose">
-<textarea name="text"></textarea>
-    <%- partial('select_stance', { stance: 1 }) %>
-    <input class="save-button" type="submit" value="Save" />
-</form>
-<% } %>
-
-<% if (supports.length) { %>
-    <hr class="clearboth" />
-    <p class="heading">Supports:</p>
+<div class="supporting column">
+    <p class="heading">Supporting:</p>
+    <% if (session.user) { %>
+        <div class="expandable">
+            <a href="#">Add a supporting point</a>
+        </div>
+        <form method="POST" action="/point/<%= point.hash %>/add_premise/support">
+            <textarea name="text"></textarea>
+            <%- partial('select_stance', { stance: 1 }) %>
+            <input class="save-button" type="submit" value="Save" />
+        </form>
+    <% } %>
     <div>
-    <% supports.forEach(function (p) { %>
-        <%- partial('point', { point: p}) %>
-    <% }); %>
+        <% supporting.forEach(function (p) { %>
+            <!--
+            <form method="POST" action="/point/<%= point.hash %>/irrelevant/support/<%= p.hash %>">
+            <input type="submit" value="x" />
+            </form>
+            -->
+            <%- partial('point', { point: p }) %>
+        <% }); %>
     </div>
-<% } %>
+</div>
 
-<% if (opposes.length) { %>
-    <hr class="clearboth" />
-    <p class="heading">Opposes:</p>
+<div class="opposing column">
+    <p class="heading">Opposing:</p>
+    <% if (session.user) { %>
+        <div class="expandable">
+            <a href="#">Add an opposing point</a>
+        </div>
+        <form method="POST" action="/point/<%= point.hash %>/add_premise/oppose">
+            <textarea name="text"></textarea>
+            <%- partial('select_stance', { stance: 1 }) %>
+            <input class="save-button" type="submit" value="Save" />
+        </form>
+    <% } %>
     <div>
-    <% opposes.forEach(function (p) { %>
-        <%- partial('point', { point: p}) %>
-    <% }); %>
+        <% opposing.forEach(function (p) { %>
+            <!--
+            <form method="POST" action="/point/<%= point.hash %>/irrelevant/oppose/<%= p.hash %>">
+            <input type="submit" value="x" />
+            </form>
+            -->
+            <%- partial('point', { point: p }) %>
+        <% }); %>
     </div>
-<% } %>
+</div>
+
+<br class="clear-both" />
+
+<div class="supporting column">
+    <% if (supports.length) { %>
+        <p class="heading">Supports:</p>
+        <div>
+        <% supports.forEach(function (p) { %>
+            <%- partial('point', { point: p}) %>
+        <% }); %>
+        </div>
+    <% } %>
+    <br />
+</div>
+
+<div class="opposing column">
+    <% if (opposes.length) { %>
+        <p class="heading">Opposes:</p>
+        <div>
+        <% opposes.forEach(function (p) { %>
+            <%- partial('point', { point: p}) %>
+        <% }); %>
+        </div>
+    <% } %>
+</div>

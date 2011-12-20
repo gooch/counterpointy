@@ -39,7 +39,8 @@ textarea {
 
 div.title {
   float: left;
-  margin-bottom: 5px;
+  font-size: 14px;
+  margin: 10px 0;
 }
 
 div.login {
@@ -50,13 +51,28 @@ div.login {
   clear: both;
 }
 
-div.main-column {
-  max-width: 300px;
-  background-color: #fff;
-  padding: 10px;
+div.container {
+  width: 310px;
+  padding: 5px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
+  background-color: #fff;
+}
+
+@media (min-width: 640px) {
+  div.container {
+    width: 630px;
+  }
+  .main-point {
+    font-size: 20px;
+  }
+}
+
+div.column {
+  width: 300px;
+  float: left;
+  margin: 0 5px;
 }
 
 img.avatar20 {
@@ -116,4 +132,10 @@ td.point-text {
 
 .save-button {
   float: right;
+}
+
+.searchbar {
+  clear: right;
+  float: right;
+  margin: 5px 0;
 }
