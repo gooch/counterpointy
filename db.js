@@ -20,6 +20,7 @@ db.get_point = function (hash, callback) {
     );
 };
 
+// callback(err, points)
 db.get_points_with_stance = function (hashprefix, username, callback) {
     hashprefix = '' + hashprefix;
     // require at least 32 bits of hash
@@ -37,6 +38,21 @@ db.get_points_with_stance = function (hashprefix, username, callback) {
     );
 };
 
+// callback(err, points)
+db.get_featured_points = function (username, callback) {
+    client.query(
+        'SELECT p.hash, p.text, ps.stance ' +
+        '  FROM FeaturedPoints f ' +
+        '  JOIN Points p ON f.point_hash = p.hash ' +
+        '  LEFT OUTER JOIN ' +
+        '    (SELECT * FROM PStances WHERE username = ?) ps ' +
+        '  ON p.hash = ps.point_hash ',
+        [ username ],
+        callback
+    );
+};
+
+// callback(err, points)
 db.get_recent_points = function (username, callback) {
     client.query(
         'SELECT p.hash, p.text, ps.stance ' +

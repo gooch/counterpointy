@@ -66,3 +66,9 @@ CREATE TABLE Sessions (
 
 CREATE INDEX Sessions_username
   on Sessions (username);
+
+CREATE TABLE FeaturedPoints (
+  point_hash    VARCHAR(64) CHARACTER SET ascii NOT NULL PRIMARY KEY,
+  create_time   TIMESTAMP NOT NULL,
+  FOREIGN KEY (point_hash) REFERENCES Points (hash)
+);

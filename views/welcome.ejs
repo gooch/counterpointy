@@ -7,9 +7,7 @@
 </div>
 
 <div class="column">
-    <h1>
-        Welcome!
-    </h1>
+    <h1>Welcome!</h1>
     <p>
         Counterpointy is a place to state what you think
         and why you think it - and to see where you
@@ -19,4 +17,6 @@
     <p>
         <a href="https://github.com/benw/counterpointy/wiki/About-Counterpointy">Learn more...</a>
     </p>
+    <h3>Featured points:</h3>
+    <%- partial('points', { points: featured_points }) %>
 </div>

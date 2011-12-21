@@ -45,16 +45,24 @@ app.dynamicHelpers({
 
 
 app.get('/', function (req, res, next) {
-    if (!req.session || !req.session.user) {
-        return res.render('welcome');
-    }
-    var username = req.session.user.username;
-    db.get_recent_points(username, function (err, points) {
+    var username = req.session && req.session.user && req.session.user.username;
+    db.get_featured_points(username, function (err, featured_points) {
         if (err) {
             return next(err);
         }
-        res.render('home', {
-            points: points
+        if (!req.session || !req.session.user) {
+            return res.render('welcome', {
+                featured_points: featured_points
+            });
+        }
+        db.get_recent_points(username, function (err, recent_points) {
+            if (err) {
+                return next(err);
+            }
+            res.render('home', {
+                featured_points: featured_points,
+                recent_points: recent_points
+            });
         });
     });
 });
