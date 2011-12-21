@@ -256,20 +256,20 @@ db.set_relevance_vote = function (username, conclusion_hash, premise_hash, suppo
 
 // callback(err, token)
 db.create_password_reset_token = function (username, callback) {
-    try {
-        var token = crypto.randomBytes(16).toString('hex');
-    }
-    catch (e) {
-        return callback(e);
-    }
-    client.query(
-        'INSERT INTO PasswordResetTokens SET ' +
-        '  username = ?, token = ?',
-        [ username, token ],
-        function (err) {
-            callback(err, token);
+    crypto.randomBytes(16, function (err, buf) {
+        if (err) {
+            return callback(err);
         }
-    );
+        var token = buf.toString('hex');
+        client.query(
+            'INSERT INTO PasswordResetTokens SET ' +
+            '  username = ?, token = ?',
+            [ username, token ],
+            function (err) {
+                callback(err, token);
+            }
+        );
+    });
 };
 
 // callback(err, username)
