@@ -1,0 +1,10 @@
+<div class="column">
+    <p>
+        There are <%= points.length %> points with hashes that start with <%= hashprefix %>:
+    </p>
+    <div>
+        <% points.forEach(function (p) { %>
+            <%- partial('point', { point: p }) %>
+        <% }); %>
+    </div>
+</div>
