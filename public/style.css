@@ -1,6 +1,6 @@
 body {
   font: 13px/1.5 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif;
-  background-color: #eee;
+  background-color: #e2e1de;
   margin: 0px;
   word-wrap: break-word;
 }
@@ -63,6 +63,10 @@ div.container {
 @media (min-width: 640px) {
   div.container {
     width: 630px;
+    margin-top: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.2);
   }
   .main-point {
     font-size: 20px;
