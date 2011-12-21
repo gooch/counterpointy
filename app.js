@@ -10,6 +10,8 @@ var linkify = require('./linkify');
 
 var app = module.exports = express.createServer();
 
+require('./helpers')(app);
+
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
@@ -21,6 +23,7 @@ app.configure(function(){
     }));
   app.use(express.methodOverride());
   app.use(app.router);
+  app.use(require('./resetpassapp'));
   app.use(express.static(__dirname + '/public'));
 });
 
@@ -30,17 +33,6 @@ app.configure('development', function(){
 
 app.configure('production', function(){
   app.use(express.errorHandler()); 
-});
-
-app.helpers({
-    title: null,
-    query: null,
-    gravatar: gravatar,
-    linkify: linkify
-});
-
-app.dynamicHelpers({
-    session: function(req) { return req.session; }
 });
 
 

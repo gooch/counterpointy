@@ -2,6 +2,7 @@
 
 var mysql = require('mysql');
 var bcrypt = require('bcrypt');
+var crypto = require('crypto');
 var config = require('./config');
 var sha256 = require('./sha256');
 
@@ -132,6 +133,12 @@ db.normalise_email = function (email) {
     return email.trim().toLowerCase();
 };
 
+// callback(err, password_hash)
+db.hash_password = function (password, callback) {
+    var salt = bcrypt.gen_salt_sync(10);
+    bcrypt.encrypt(password, salt, callback);
+};
+
 // callback(err, username_exists)
 db.add_user = function (username, fullname, email, password, callback) {
     email = db.normalise_email(email);
@@ -143,8 +150,7 @@ db.add_user = function (username, fullname, email, password, callback) {
             // username already registered
             return callback(null, true);
         }
-        var salt = bcrypt.gen_salt_sync(10);
-        bcrypt.encrypt(password, salt, function (err, password_hash) {
+        db.hash_password(password, function (err, password_hash) {
             if (err) {
                 return callback(err);
             }
@@ -157,6 +163,22 @@ db.add_user = function (username, fullname, email, password, callback) {
                 }
             );
         });
+    });
+};
+
+// callback(err)
+db.set_user_password = function (username, password, callback) {
+    db.hash_password(password, function (err, password_hash) {
+        if (err) {
+            return callback(err);
+        }
+        client.query(
+            'UPDATE Users SET ' +
+            '  password_hash = ? ' +
+            '  WHERE username = ? LIMIT 1',
+            [ password_hash, username ],
+            callback
+        );
     });
 };
 
@@ -228,6 +250,46 @@ db.set_relevance_vote = function (username, conclusion_hash, premise_hash, suppo
         '  supports = ?, ' +
         '  relevant = ?',
         [ conclusion_hash, premise_hash, username || '', supports, relevant ],
+        callback
+    );
+};
+
+// callback(err, token)
+db.create_password_reset_token = function (username, callback) {
+    try {
+        var token = crypto.randomBytes(16).toString('hex');
+    }
+    catch (e) {
+        return callback(e);
+    }
+    client.query(
+        'INSERT INTO PasswordResetTokens SET ' +
+        '  username = ?, token = ?',
+        [ username, token ],
+        function (err) {
+            callback(err, token);
+        }
+    );
+};
+
+// callback(err, username)
+db.get_password_reset_token = function (token, callback) {
+    client.query(
+        'SELECT username FROM PasswordResetTokens ' +
+        '  WHERE token = ?',
+        [ token ],
+        function (err, results) {
+            callback(err, results && results[0].username);
+        }
+    );
+};
+
+// callback(err)
+db.delete_password_reset_token = function (token, callback) {
+    client.query(
+        'DELETE FROM PasswordResetTokens ' +
+        '  WHERE token = ?',
+        [ token ],
         callback
     );
 };

@@ -72,3 +72,10 @@ CREATE TABLE FeaturedPoints (
   create_time   TIMESTAMP NOT NULL,
   FOREIGN KEY (point_hash) REFERENCES Points (hash)
 );
+
+CREATE TABLE PasswordResetTokens (
+  token         VARCHAR(64) CHARACTER SET ascii NOT NULL PRIMARY KEY,
+  username      VARCHAR(16) CHARACTER SET ascii NOT NULL,
+  create_time   TIMESTAMP NOT NULL,
+  FOREIGN KEY (username) REFERENCES Users (username)
+);
