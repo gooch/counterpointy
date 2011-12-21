@@ -279,7 +279,7 @@ db.get_password_reset_token = function (token, callback) {
         '  WHERE token = ?',
         [ token ],
         function (err, results) {
-            callback(err, results && results[0].username);
+            callback(err, results && results.length && results[0].username);
         }
     );
 };
