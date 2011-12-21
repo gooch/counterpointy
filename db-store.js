@@ -3,8 +3,9 @@
 
 var mysql = require('mysql');
 var config = require('./config');
+var ms = require('./ms');
 
-var maxAge = 10 * 365 * 24 * 60 * 60 * 1000;
+var maxAge = ms('3650d');   // 10 years
 
 module.exports = function(connect){
     var Store = connect.session.Store;
