@@ -20,17 +20,20 @@ db.get_point = function (hash, callback) {
     );
 };
 
-db.get_point_with_stance = function (hash, username, callback) {
+db.get_points_with_stance = function (hashprefix, username, callback) {
+    hashprefix = '' + hashprefix;
+    // require at least 32 bits of hash
+    if (hashprefix.length < 8) {
+        return callback(null, []);
+    }
     client.query(
         'SELECT p.hash AS hash, p.text AS text, ps.stance AS stance ' +
         '  FROM Points p LEFT OUTER JOIN ' +
         '    (SELECT * FROM PStances WHERE username = ?) ps ' +
         '  ON p.hash = ps.point_hash ' +
-        '  WHERE p.hash = ?',
-        [ username, hash ],
-        function (err, results, fields) {
-            callback(err, results && results[0]);
-        }
+        '  WHERE p.hash LIKE ?',
+        [ username, hashprefix + '%' ],
+        callback
     );
 };
 

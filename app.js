@@ -151,16 +151,27 @@ app.get('/logout', function (req, res, next) {
     });
 });
 
-app.get('/point/:hash', function (req, res, next) {
-    var hash = req.params.hash;
+app.get('/point/:hashprefix', function (req, res, next) {
+    var hashprefix = '' + req.params.hashprefix;
+    if (!/^[0-9a-f]{8,64}$/i.test(hashprefix)) {
+        return res.send(404);
+    }
     var username = req.session && req.session.user && req.session.user.username;
-    db.get_point_with_stance(hash, username, function (err, point) {
+    db.get_points_with_stance(hashprefix, username, function (err, points) {
         if (err) {
             return next(err);
         }
-        if (!point) {
+        if (!points || !points.length) {
             return res.send(404);
         }
+        if (points.length > 1) {
+            return res.render('hashprefix_disambiguation', {
+                points: points,
+                hashprefix: hashprefix
+            });
+        }
+        var point = points[0];
+        var hash = point.hash;
         db.get_premises_for_conclusion(hash, username, function (err, premises) {
             if (err) {
                 return next(err);
