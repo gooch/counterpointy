@@ -7,6 +7,7 @@ var DbStore = require('./db-store')(express);
 var config = require('./config');
 var emailregexp = require('./emailregexp');
 var linkify = require('./linkify');
+var ms = require('./ms');
 
 var app = module.exports = express.createServer();
 
@@ -24,14 +25,15 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(require('./resetpassapp'));
-  app.use(express.static(__dirname + '/public'));
 });
 
 app.configure('development', function(){
+  app.use(express.static(__dirname + '/public'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
 app.configure('production', function(){
+  app.use(express.static(__dirname + '/public', { maxAge: ms('10m') }));
   app.use(express.errorHandler()); 
 });
 
