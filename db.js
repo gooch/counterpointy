@@ -8,6 +8,7 @@ var sha256 = require('./sha256');
 
 var db = exports;
 
+db.valid_username = /^[a-z0-9_]{3,15}$/i;
 
 var client = mysql.createClient(config.db);
 
@@ -184,6 +185,9 @@ db.set_user_password = function (username, password, callback) {
 
 // callback(err, user or null)
 db.get_user = function (username, callback) {
+    if (!db.valid_username.test(username)) {
+        return callback();
+    }
     client.query(
         'SELECT username, fullname, email, password_hash ' +
         '  FROM Users WHERE username = ?',

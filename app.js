@@ -67,8 +67,6 @@ app.get('/signup', function (req, res, next) {
     });
 });
 
-var valid_username = /^[a-z0-9_]{3,15}$/i;
-
 app.post('/signup', function (req, res, next) {
     var errmsg;
     var username = req.body.username;
@@ -78,7 +76,7 @@ app.post('/signup', function (req, res, next) {
     if (!username || !fullname || !username || !email || !password) {
         errmsg = 'All fields are required.';
     }
-    else if (!valid_username.test(username)) {
+    else if (!db.valid_username.test(username)) {
         errmsg = 'Username must be 3-15 ascii chars.';
     }
     else if (password !== req.body.password2) {
