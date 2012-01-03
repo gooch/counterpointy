@@ -20,6 +20,15 @@ td {
   padding: 10px 0;
 }
 
+.main-point-edit textarea {
+  font: inherit;
+  /*font: 13px/1.5 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif;*/
+  font-weight: bold;
+  font-size: 15px;
+  padding: 10px 0;
+  height: 120px;
+}
+
 a:link, a:visited {
   text-decoration: none;
 }
@@ -70,6 +79,9 @@ div.container {
     -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.2);
   }
   .main-point {
+    font-size: 20px;
+  }
+  .main-point-edit textarea {
     font-size: 20px;
   }
 }
@@ -140,6 +152,10 @@ td.point-text {
 }
 
 .save-button {
+  float: right;
+}
+
+.cancel-button {
   float: right;
 }
 

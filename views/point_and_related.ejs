@@ -1,4 +1,4 @@
-<div class="main-point">
+<div class="main-point" data-text="<%= point.text %>">
 <%- linkify(point.text) %>
 </div>
 <% if (session.user) { %>
@@ -6,6 +6,7 @@
         <form method="POST" action="/point/<%= point.hash %>/edit">
             <textarea name="text"><%= point.text %></textarea>
             <input class="save-button" type="submit" value="Save" />
+            <a href="#" class="cancel-button">Cancel</a>
         </form>
     </div>
     <form class="pstance" method="POST" action="/point/<%= point.hash %>/pstance">

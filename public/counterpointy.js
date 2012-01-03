@@ -29,8 +29,18 @@ $(document).ready(function () {
         var editdiv = $('.main-point-edit');
         if (editdiv.length) {
             $(this).hide();
-            editdiv.show().find('textarea').focus();
+            $('.pstance select').attr('disabled', 'disabled');
+            editdiv.show().find('textarea').focus().select();
         }
+    });
+
+    $('.main-point-edit .cancel-button').click(function () {
+        var text = $('.main-point').data('text');
+        $('.main-point-edit textarea').val(text);
+        $('.main-point-edit').hide();
+        $('.main-point').show();
+        $('.pstance select').removeAttr('disabled');
+        return false;
     });
 
     $('.pstance select').change(function () {
