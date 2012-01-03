@@ -1,5 +1,10 @@
 <div class="point" data-point-hash="<%= point.hash %>">
 <table><tr>
+    <td class="point-checkbox">
+        <% if (showCheckbox) { %>
+            <input type="checkbox" name="premises" value="<%= point.hash %>" />
+        <% } %>
+    </td>
     <td class="point-stance">
         <%- point.stance > 0 ? '&#x2713;' : point.stance < 0 ? '&#x2715;' : '-' %>
     </td>

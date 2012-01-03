@@ -2,6 +2,7 @@
 var util = require('util');
 var express = require('express');
 var gravatar = require('gravatar');
+var async = require('async');
 var db = require('./db');
 var DbStore = require('./db-store')(express);
 var config = require('./config');
@@ -299,19 +300,44 @@ app.get('/user/:username', function (req, res, next) {
     });
 });
 
-app.post('/point/:conclusion_hash/irrelevant/:supports/:premise_hash', needuser, function (req, res, next) {
-    var conclusion_hash = req.params.conclusion_hash;
-    var premise_hash = req.params.premise_hash;
+app.post('/point/:hash/premises/:supports', needuser, function (req, res, next) {
+    var hash = req.params.hash;
     var username = req.session.user.username;
     var supports = { 'support': 1, 'oppose': 0 }[req.params.supports];
     if (undefined === supports) {
         return res.send('support or oppose expected', 404);
     }
-    db.set_relevance_vote(username, conclusion_hash, premise_hash, supports, 0, function (err) {
+    var premises = [].concat(req.body.premises);
+    async.forEachSeries(premises, function (premise_hash, done) {
+        db.set_relevance_vote(username, hash, premise_hash, supports, 0, done);
+    }, function (err) {
         if (err) {
             return next(err);
         }
-        return res.redirect('/point/' + conclusion_hash);
+        return res.redirect('/point/' + hash);
+    });
+});
+
+app.post('/point/:old_hash/edit', needuser, function (req, res, next) {
+    var old_hash = req.params.old_hash;
+    var username = req.session.user.username;
+    var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
+    var username = req.session.user.username;
+    db.create_point(req.body.text, function (err, new_hash) {
+        if (err) {
+            return next(err);
+        }
+        db.set_pstance(username, new_hash, stance, function (err) {
+            if (err) {
+                return next(err);
+            }
+            db.carry_alternative_votes(username, old_hash, new_hash, function (err) {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect('/point/' + new_hash);
+            });
+        });
     });
 });
 

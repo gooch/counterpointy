@@ -17,7 +17,8 @@
     "bcrypt": "~0.4.1",
     "mysql": "~0.9.4",
     "oauth": "~0.9.5",
-    "gravatar": "~1.0.3"
+    "gravatar": "~1.0.3",
+    "async": "~0.1.15"
   },
   "devDependencies": {}
 }

@@ -1,6 +1,18 @@
 <div class="main-point">
 <%- linkify(point.text) %>
 </div>
+<% if (session.user) { %>
+    <div class="main-point-edit" style="display: none">
+        <form method="POST" action="/point/<%= point.hash %>/edit">
+            <textarea name="text"><%= point.text %></textarea>
+            <input class="save-button" type="submit" value="Save" />
+        </form>
+    </div>
+    <form class="pstance" method="POST" action="/point/<%= point.hash %>/pstance">
+        <%- partial('select_stance', { stance: point.stance }) %>
+        <!-- <input type="submit" value="Save" /> -->
+    </form>
+<% } %>
 
 <% function showUsers(users, partial) {
     users.forEach(function (user) {
@@ -15,61 +27,16 @@
     <p class="heading">Disagree: <% showUsers(disagree, partial); %></p>
 <% } %>
 
-<% if (session.user) { %>
-<form method="POST" action="/point/<%= point.hash %>/pstance">
-    <%- partial('select_stance', { stance: point.stance }) %>
-    <input type="submit" value="Save" />
-</form>
-<% } %>
-
 <hr class="clear-both" />
 
 <div class="supporting column">
     <h3>Supporting:</h3>
-    <% if (session.user) { %>
-        <div class="expandable">
-            <a href="#">Add a supporting point</a>
-        </div>
-        <form method="POST" action="/point/<%= point.hash %>/add_premise/support">
-            <textarea name="text"></textarea>
-            <%- partial('select_stance', { stance: 1 }) %>
-            <input class="save-button" type="submit" value="Save" />
-        </form>
-    <% } %>
-    <div>
-        <% supporting.forEach(function (p) { %>
-            <!--
-            <form method="POST" action="/point/<%= point.hash %>/irrelevant/support/<%= p.hash %>">
-            <input type="submit" value="x" />
-            </form>
-            -->
-            <%- partial('point', { point: p }) %>
-        <% }); %>
-    </div>
+    <%- partial('premises', { point: point, support: true, premises: supporting }) %>
 </div>
 
 <div class="opposing column">
     <h3>Opposing:</h3>
-    <% if (session.user) { %>
-        <div class="expandable">
-            <a href="#">Add an opposing point</a>
-        </div>
-        <form method="POST" action="/point/<%= point.hash %>/add_premise/oppose">
-            <textarea name="text"></textarea>
-            <%- partial('select_stance', { stance: 1 }) %>
-            <input class="save-button" type="submit" value="Save" />
-        </form>
-    <% } %>
-    <div>
-        <% opposing.forEach(function (p) { %>
-            <!--
-            <form method="POST" action="/point/<%= point.hash %>/irrelevant/oppose/<%= p.hash %>">
-            <input type="submit" value="x" />
-            </form>
-            -->
-            <%- partial('point', { point: p }) %>
-        <% }); %>
-    </div>
+    <%- partial('premises', { point: point, support: false, premises: opposing }) %>
 </div>
 
 <br class="clear-both" />

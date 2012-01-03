@@ -297,3 +297,37 @@ db.delete_password_reset_token = function (token, callback) {
         callback
     );
 };
+
+// callback(err)
+db.carry_alternative_votes = function (username, old_hash, new_hash, callback) {
+    client.query(
+        'REPLACE INTO RelevanceVotes SELECT ' +
+        '  ? AS conclusion_hash, ' +
+        '  premise_hash AS premise_hash, ' +
+        '  username AS username, ' +
+        '  NOT mydownvotes AS relevant, ' +
+        '  supports AS supports, ' +
+        '  NOW() AS create_time ' +
+        'FROM RelevanceScores ' +
+        'WHERE conclusion_hash = ? AND username = ?',
+        [ new_hash, old_hash, username],
+        function (err) {
+            if (err) {
+                return callback(err);
+            }
+            client.query(
+                'REPLACE INTO RelevanceVotes SELECT ' +
+                '  conclusion_hash AS conclusion_hash, ' +
+                '  ? AS premise_hash, ' +
+                '  username AS username, ' +
+                '  NOT mydownvotes AS relevant, ' +
+                '  supports AS supports, ' +
+                '  NOW() AS create_time ' +
+                'FROM RelevanceScores ' +
+                'WHERE premise_hash = ? AND username = ?',
+                [ new_hash, old_hash, username],
+                callback
+            );
+        }
+    );
+};

@@ -109,7 +109,7 @@ img.avatar80 {
   border-top: 0px;
 }
 
-.point:hover {
+.point:hover, .main-point:hover {
   background-color: #b8d8ff;
 }
 
@@ -117,12 +117,16 @@ img.avatar80 {
   vertical-align: middle;
 }
 
+td.point-checkbox {
+  width: 15px;
+}
+
 td.point-stance {
   width: 14px;
 }
 
 td.point-text {
-  width: 270px;
+  width: 255px;
 }
 
 .point table {

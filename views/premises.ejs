@@ -1,0 +1,21 @@
+<%
+var article_gerund = support ? 'a supporting' : 'an opposing';
+var verb = support ? 'support' : 'oppose';
+if (session.user) { %>
+    <div class="expandable">
+        <a href="#">Add <%= article_gerund %> point</a>
+    </div>
+    <form method="POST" action="/point/<%= point.hash %>/add_premise/<%= verb %>">
+        <textarea name="text"></textarea>
+        <%- partial('select_stance', { stance: 1 }) %>
+        <input class="save-button" type="submit" value="Save" />
+    </form>
+<% } %>
+<form method="POST" action="/point/<%= point.hash %>/premises/<%= verb %>">
+    <% premises.forEach(function (p) { %>
+        <%- partial('point', { point: p, showCheckbox: !!session.user }) %>
+    <% }); %>
+    <% if (session.user && premises.length) { %>
+        <input type="submit" name="irrelevant" value="Remove" />
+    <% } %>
+</form>
