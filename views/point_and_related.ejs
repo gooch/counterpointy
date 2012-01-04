@@ -44,11 +44,17 @@
 <% if (outgoing.length) { %>
     <div class="outgoing column">
         <h3>Alternative wordings:</h3>
-        <div>
-            <% outgoing.forEach(function (p) { %>
-                <%- partial('point', { point: p}) %>
-            <% }); %>
-        </div>
+        <form method="POST" action="/point/<%= point.hash %>/alternatives">
+            <div>
+                <% outgoing.forEach(function (p) { %>
+                    <%- partial('point', { point: p, showCheckbox: !!session.user}) %>
+                <% }); %>
+            </div>
+            <% if (session.user) { %>
+                <input type="submit" name="adopt" value="Adopt" />
+                <!-- <input type="submit" name="reject" value="Reject" /> -->
+            <% } %>
+        </form>
     </div>
 <% } %>
 

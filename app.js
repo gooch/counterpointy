@@ -154,7 +154,7 @@ app.get('/logout', function (req, res, next) {
 
 app.get('/point/:hashprefix', function (req, res, next) {
     var hashprefix = '' + req.params.hashprefix;
-    if (!/^[0-9a-f]{8,64}$/i.test(hashprefix)) {
+    if (!db.valid_hashprefix.test(hashprefix)) {
         return res.send(404);
     }
     var username = req.session && req.session.user && req.session.user.username;
@@ -337,27 +337,49 @@ app.post('/point/:old_hash/edit', needuser, function (req, res, next) {
         if (err) {
             return next(err);
         }
-        db.carry_stance(username, old_hash, new_hash, function (err) {
+        carry_to_edit(req, res, next, username, old_hash, new_hash);
+    });
+});
+
+app.post('/point/:old_hash/alternatives', needuser, function (req, res, next) {
+    var old_hash = req.params.old_hash; // FIXME validate
+    var username = req.session.user.username;
+    if (req.body.adopt) {
+        var new_hash = req.body.premises;
+        if (!db.valid_hash.test(new_hash)) {
+            return res.send('You need to select one wording to adopt.', 400);
+        }
+        // FIXME validate new_hash exists
+        carry_to_edit(req, res, next, username, old_hash, new_hash);
+    } else if (req.body.reject) {
+        return res.send('Sorry, reject not implemented yet', 500);  // FIXME
+    } else {
+        return res.send('adopt or reject expected', 400);
+    }
+});
+
+function carry_to_edit(req, res, next, username, old_hash, new_hash)
+{
+    db.carry_stance(username, old_hash, new_hash, function (err) {
+        if (err) {
+            return next(err);
+        }
+        db.create_edit(username, old_hash, new_hash, function (err) {
             if (err) {
                 return next(err);
             }
-            db.create_edit(username, old_hash, new_hash, function (err) {
-                if (err) {
-                    return next(err);
-                }
-                db.carry_alternative_votes(
-                    username, old_hash, new_hash,
-                    function (err) {
-                        if (err) {
-                            return next(err);
-                        }
-                        res.redirect('/point/' + new_hash);
+            db.carry_alternative_votes(
+                username, old_hash, new_hash,
+                function (err) {
+                    if (err) {
+                        return next(err);
                     }
-                );
-            });
+                    res.redirect('/point/' + new_hash);
+                }
+            );
         });
     });
-});
+}
 
 
 app.listen(config.listen_port);

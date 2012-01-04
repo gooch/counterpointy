@@ -9,6 +9,8 @@ var sha256 = require('./sha256');
 var db = exports;
 
 db.valid_username = /^[a-z0-9_]{3,15}$/i;
+db.valid_hash = /^[0-9a-f]{64}$/i;
+db.valid_hashprefix = /^[0-9a-f]{8,64}$/i;
 
 var client = mysql.createClient(config.db);
 
