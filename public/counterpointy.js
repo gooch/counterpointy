@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     $('.expandable').click(function () {
         $(this).hide().next().show().children('textarea').focus();
+        return false;
     });
 
     $('.expandable').next().hide();
