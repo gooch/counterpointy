@@ -185,20 +185,26 @@ app.get('/point/:hashprefix', function (req, res, next) {
                     if (err) {
                         return next(err);
                     }
-                    db.get_outgoing_edits(username, hash, function (err, outgoing) {
+                    db.get_my_outgoing_edit(username, hash, function (err, preferred) {
                         if (err) {
                             return next(err);
                         }
-                        res.render('point_and_related', {
-                            title: point.text,
-                            point: point,
-                            agree:    opinions.filter(function (o) { return o.stance > 0; }),
-                            disagree: opinions.filter(function (o) { return o.stance < 0; }),
-                            supporting: premises.filter(function (r) { return r.supports; }),
-                            opposing:   premises.filter(function (r) { return !r.supports; }),
-                            supports: conclusions.filter(function (c) { return c.supports; }),
-                            opposes:  conclusions.filter(function (c) { return !c.supports; }),
-                            outgoing: outgoing
+                        db.get_other_outgoing_edits(username, hash, function (err, outgoing) {
+                            if (err) {
+                                return next(err);
+                            }
+                            res.render('point_and_related', {
+                                title: point.text,
+                                point: point,
+                                agree:    opinions.filter(function (o) { return o.stance > 0; }),
+                                disagree: opinions.filter(function (o) { return o.stance < 0; }),
+                                supporting: premises.filter(function (r) { return r.supports; }),
+                                opposing:   premises.filter(function (r) { return !r.supports; }),
+                                supports: conclusions.filter(function (c) { return c.supports; }),
+                                opposes:  conclusions.filter(function (c) { return !c.supports; }),
+                                outgoing: outgoing,
+                                preferred: preferred
+                            });
                         });
                     });
                 });

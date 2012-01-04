@@ -183,7 +183,7 @@ db.set_user_password = function (username, password, callback) {
     });
 };
 
-// callback(err, user or null)
+// callback(err, user or falsy)
 db.get_user = function (username, callback) {
     if (!db.valid_username.test(username)) {
         return callback();
@@ -198,7 +198,7 @@ db.get_user = function (username, callback) {
     );
 };
 
-// callback(err, user or null)
+// callback(err, user or falsy)
 db.authenticate_user = function (username, password, callback) {
     db.get_user(username, function (err, user) {
         if (err || !user) {
@@ -388,20 +388,41 @@ db.create_edit = function (username, old_hash, new_hash, callback) {
 };
 
 // callback(err, points)
-db.get_outgoing_edits = function (username, old_hash, callback) {
+db.get_other_outgoing_edits = function (username, old_hash, callback) {
     client.query(
         'SELECT p.hash AS hash ' +
         '     , p.text AS text ' +
         '     , ps.stance AS stance ' +
-        '     , COUNT(*) AS count ' +
+        //'     , COUNT(*) AS count ' +
         'FROM Edits e ' +
         'JOIN Points p ON e.new_hash = p.hash ' +
         'LEFT OUTER JOIN (' +
         '  SELECT * FROM PStances WHERE username = ? ' +
         ') ps ' +
         'ON p.hash = ps.point_hash ' +
-        'WHERE old_hash = ? GROUP BY e.old_hash',
-        [ username, old_hash ],
+        'WHERE e.username != ? AND e.old_hash = ? ' +
+        'GROUP BY e.old_hash',
+        [ username, username, old_hash ],
         callback
     );
-}
+};
+
+// callback(err, point or falsy)
+db.get_my_outgoing_edit = function (username, old_hash, callback) {
+    client.query(
+        'SELECT p.hash AS hash ' +
+        '     , p.text AS text ' +
+        '     , ps.stance AS stance ' +
+        'FROM Edits e ' +
+        'JOIN Points p ON e.new_hash = p.hash ' +
+        'LEFT OUTER JOIN (' +
+        '  SELECT * FROM PStances WHERE username = ? ' +
+        ') ps ' +
+        'ON p.hash = ps.point_hash ' +
+        'WHERE e.username = ? AND e.old_hash = ?',
+        [ username, username, old_hash ],
+        function (err, results) {
+            callback(err, results && results[0]);
+        }
+    );
+};
