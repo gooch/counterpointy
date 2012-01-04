@@ -89,7 +89,11 @@ div.container {
 div.column {
   width: 300px;
   float: left;
-  margin: 0 5px;
+  margin: 5px 5px 10px 5px;
+}
+
+h3 {
+  margin: 0;
 }
 
 img.avatar20 {
