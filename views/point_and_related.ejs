@@ -28,6 +28,19 @@
     <p class="heading">Disagree: <% showUsers(disagree, partial); %></p>
 <% } %>
 
+
+<% if (outgoing.length) { %>
+    <hr class="clear-both" />
+    <div class="outgoing column">
+        <h3>Suggested alternatives:</h3>
+        <div>
+            <% outgoing.forEach(function (p) { %>
+                <%- partial('point', { point: p}) %>
+            <% }); %>
+        </div>
+    </div>
+<% } %>
+
 <hr class="clear-both" />
 
 <div class="supporting column">
@@ -40,7 +53,9 @@
     <%- partial('premises', { point: point, support: false, premises: opposing }) %>
 </div>
 
-<br class="clear-both" />
+<% if (supports.length || opposes.length) { %>
+    <hr class="clear-both" />
+<% } %>
 
 <div class="supporting column">
     <% if (supports.length) { %>
@@ -51,7 +66,6 @@
         <% }); %>
         </div>
     <% } %>
-    <br />
 </div>
 
 <div class="opposing column">

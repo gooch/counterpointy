@@ -30,6 +30,21 @@ CREATE TABLE PStances (
 );
 
 
+CREATE TABLE Edits (
+  old_hash      VARCHAR(64) CHARACTER SET ascii NOT NULL,
+  username      VARCHAR(16) CHARACTER SET ascii NOT NULL,
+  new_hash      VARCHAR(64) CHARACTER SET ascii NOT NULL,
+  create_time   TIMESTAMP NOT NULL,
+  PRIMARY KEY (old_hash, username),
+  FOREIGN KEY (old_hash) REFERENCES Points (hash),
+  FOREIGN KEY (new_hash) REFERENCES Points (hash),
+  FOREIGN KEY (username) REFERENCES Users (username)
+);
+
+CREATE INDEX Edits_old_hash_new_hash
+  on Edits (old_hash, new_hash);
+
+
 CREATE TABLE RelevanceVotes (
   conclusion_hash       VARCHAR(64) CHARACTER SET ascii NOT NULL,
   premise_hash          VARCHAR(64) CHARACTER SET ascii NOT NULL,
@@ -67,11 +82,13 @@ CREATE TABLE Sessions (
 CREATE INDEX Sessions_username
   on Sessions (username);
 
+
 CREATE TABLE FeaturedPoints (
   point_hash    VARCHAR(64) CHARACTER SET ascii NOT NULL PRIMARY KEY,
   create_time   TIMESTAMP NOT NULL,
   FOREIGN KEY (point_hash) REFERENCES Points (hash)
 );
+
 
 CREATE TABLE PasswordResetTokens (
   token         VARCHAR(64) CHARACTER SET ascii NOT NULL PRIMARY KEY,

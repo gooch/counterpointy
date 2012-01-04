@@ -299,15 +299,29 @@ db.delete_password_reset_token = function (token, callback) {
 };
 
 // callback(err)
+db.carry_stance = function (username, old_hash, new_hash, callback) {
+    client.query(
+        'REPLACE INTO PStances (username, point_hash, stance)' +
+        'SELECT username AS username' +
+        '     , ? AS point_hash ' +
+        '     , stance AS stance ' +
+        'FROM PStances ' +
+        'WHERE point_hash = ? AND username = ?',
+        [ new_hash, old_hash, username ],
+        callback
+    );
+};
+
+// callback(err)
 db.carry_alternative_votes = function (username, old_hash, new_hash, callback) {
     client.query(
-        'REPLACE INTO RelevanceVotes SELECT ' +
-        '  ? AS conclusion_hash, ' +
-        '  premise_hash AS premise_hash, ' +
-        '  username AS username, ' +
-        '  NOT mydownvotes AS relevant, ' +
-        '  supports AS supports, ' +
-        '  NOW() AS create_time ' +
+        'REPLACE INTO RelevanceVotes ' +
+        '  (conclusion_hash, premise_hash, username, relevant, supports) ' +
+        'SELECT ? AS conclusion_hash ' +
+        '     , premise_hash AS premise_hash ' +
+        '     , username AS username ' +
+        '     , NOT mydownvotes AS relevant ' +
+        '     , supports AS supports ' +
         'FROM RelevanceScores ' +
         'WHERE conclusion_hash = ? AND username = ?',
         [ new_hash, old_hash, username],
@@ -316,18 +330,78 @@ db.carry_alternative_votes = function (username, old_hash, new_hash, callback) {
                 return callback(err);
             }
             client.query(
-                'REPLACE INTO RelevanceVotes SELECT ' +
-                '  conclusion_hash AS conclusion_hash, ' +
-                '  ? AS premise_hash, ' +
-                '  username AS username, ' +
-                '  NOT mydownvotes AS relevant, ' +
-                '  supports AS supports, ' +
-                '  NOW() AS create_time ' +
+                'REPLACE INTO RelevanceVotes ' +
+                '  (conclusion_hash, premise_hash, username, relevant, supports) ' +
+                'SELECT conclusion_hash AS conclusion_hash ' +
+                '     , ? AS premise_hash ' +
+                '     , username AS username ' +
+                '     , NOT mydownvotes AS relevant ' +
+                '     , supports AS supports ' +
                 'FROM RelevanceScores ' +
                 'WHERE premise_hash = ? AND username = ?',
                 [ new_hash, old_hash, username],
-                callback
+                function (err) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    client.query(
+                        'DELETE FROM RelevanceVotes ' +
+                        'WHERE premise_hash = ? AND username = ? AND relevant',
+                        [ old_hash, username ],
+                        callback
+                    );
+                }
             );
         }
     );
 };
+
+// callback(err)
+db.create_edit = function (username, old_hash, new_hash, callback) {
+    client.query(
+        'REPLACE INTO Edits SET ' +
+        '  username = ?, old_hash = ?, new_hash = ?',
+        [ username, old_hash, new_hash ],
+        function (err) {
+            if (err) {
+                return callback(err);
+            }
+            client.query(
+                'UPDATE Edits ' +
+                'SET new_hash = ? ' +
+                'WHERE new_hash = ? AND username = ?',
+                [ new_hash, old_hash, username ],
+                function (err) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    client.query(
+                        'DELETE FROM Edits ' +
+                        'WHERE new_hash = ? AND old_hash = new_hash AND username = ?',
+                        [ new_hash, username ],
+                        callback
+                    );
+                }
+            );
+        }
+    );
+};
+
+// callback(err, points)
+db.get_outgoing_edits = function (username, old_hash, callback) {
+    client.query(
+        'SELECT p.hash AS hash ' +
+        '     , p.text AS text ' +
+        '     , ps.stance AS stance ' +
+        '     , COUNT(*) AS count ' +
+        'FROM Edits e ' +
+        'JOIN Points p ON e.new_hash = p.hash ' +
+        'LEFT OUTER JOIN (' +
+        '  SELECT * FROM PStances WHERE username = ? ' +
+        ') ps ' +
+        'ON p.hash = ps.point_hash ' +
+        'WHERE old_hash = ? GROUP BY e.old_hash',
+        [ username, old_hash ],
+        callback
+    );
+}

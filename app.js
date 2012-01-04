@@ -185,15 +185,21 @@ app.get('/point/:hashprefix', function (req, res, next) {
                     if (err) {
                         return next(err);
                     }
-                    res.render('point_and_related', {
-                        title: point.text,
-                        point: point,
-                        agree:    opinions.filter(function (o) { return o.stance > 0; }),
-                        disagree: opinions.filter(function (o) { return o.stance < 0; }),
-                        supporting: premises.filter(function (r) { return r.supports; }),
-                        opposing:   premises.filter(function (r) { return !r.supports; }),
-                        supports: conclusions.filter(function (c) { return c.supports; }),
-                        opposes:  conclusions.filter(function (c) { return !c.supports; })
+                    db.get_outgoing_edits(username, hash, function (err, outgoing) {
+                        if (err) {
+                            return next(err);
+                        }
+                        res.render('point_and_related', {
+                            title: point.text,
+                            point: point,
+                            agree:    opinions.filter(function (o) { return o.stance > 0; }),
+                            disagree: opinions.filter(function (o) { return o.stance < 0; }),
+                            supporting: premises.filter(function (r) { return r.supports; }),
+                            opposing:   premises.filter(function (r) { return !r.supports; }),
+                            supports: conclusions.filter(function (c) { return c.supports; }),
+                            opposes:  conclusions.filter(function (c) { return !c.supports; }),
+                            outgoing: outgoing
+                        });
                     });
                 });
             });
@@ -319,23 +325,29 @@ app.post('/point/:hash/premises/:supports', needuser, function (req, res, next) 
 });
 
 app.post('/point/:old_hash/edit', needuser, function (req, res, next) {
-    var old_hash = req.params.old_hash;
-    var username = req.session.user.username;
-    var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
+    var old_hash = req.params.old_hash; // FIXME validate
     var username = req.session.user.username;
     db.create_point(req.body.text, function (err, new_hash) {
         if (err) {
             return next(err);
         }
-        db.set_pstance(username, new_hash, stance, function (err) {
+        db.carry_stance(username, old_hash, new_hash, function (err) {
             if (err) {
                 return next(err);
             }
-            db.carry_alternative_votes(username, old_hash, new_hash, function (err) {
+            db.create_edit(username, old_hash, new_hash, function (err) {
                 if (err) {
                     return next(err);
                 }
-                res.redirect('/point/' + new_hash);
+                db.carry_alternative_votes(
+                    username, old_hash, new_hash,
+                    function (err) {
+                        if (err) {
+                            return next(err);
+                        }
+                        res.redirect('/point/' + new_hash);
+                    }
+                );
             });
         });
     });
