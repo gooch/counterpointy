@@ -74,7 +74,13 @@ db.get_recent_points = function (username, callback) {
 
 db.get_premises_for_conclusion = function (conclusion_hash, username, callback) {
     client.query(
-        'SELECT p.hash, p.text, rs.supports, ps.stance ' +
+        'SELECT p.hash AS hash ' +
+        '     , p.text AS text ' +
+        '     , rs.supports AS supports ' +
+        '     , ps.stance AS stance ' +
+        '     , rs.myupvotes as myupvotes ' +
+        '     , rs.upvotes as upvotes ' +
+        '     , rs.downvotes as downvotes ' +
         '  FROM RelevanceScores rs ' +
         '  JOIN Points p ON rs.premise_hash = p.hash ' +
         '  LEFT OUTER JOIN ' +
@@ -83,7 +89,8 @@ db.get_premises_for_conclusion = function (conclusion_hash, username, callback) 
         '  WHERE ' +
         '    rs.username = ? ' +
         '    AND rs.conclusion_hash = ? ' +
-        '    AND rs.upvotes AND NOT rs.mydownvotes',
+        '    AND rs.upvotes AND NOT rs.mydownvotes ' +
+        '  ORDER BY upvotes - downvotes',
         [ username, username || '', conclusion_hash ],
         callback
     );

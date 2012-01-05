@@ -2,7 +2,9 @@
 <table><tr>
     <td class="point-checkbox">
         <% if (showCheckbox) { %>
-            <input type="checkbox" name="premises" value="<%= point.hash %>" />
+            <span <%- +point.myupvotes ? '' : 'class="premise-unvoted"' %> >
+                <input type="checkbox" name="premises" value="<%= point.hash %>" />
+            </span>
         <% } %>
     </td>
     <td class="point-stance">

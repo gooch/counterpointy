@@ -134,15 +134,15 @@ img.avatar80 {
 }
 
 td.point-checkbox {
-  width: 15px;
+  width: 27px;
 }
 
 td.point-stance {
-  width: 14px;
+  width: 12px;
 }
 
 td.point-text {
-  width: 255px;
+  width: 245px;
 }
 
 .point table {
@@ -171,4 +171,20 @@ td.point-text {
 
 .required {
   color: #d44;
+}
+
+.add-premise {
+  margin: 5px 0;
+}
+
+.stance-undecided {
+  background-color: #fb4;
+}
+
+.premise-unvoted {
+  background-color: #fb4;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 2px;
 }

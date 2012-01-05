@@ -1,4 +1,4 @@
-<select name="stance">
+<select name="stance" <%- !stance ? 'class="stance-undecided"' : '' %> >
     <option value="undecided" <%= !stance ? 'selected' : '' %>>&ndash; Undecided</option>
     <option value="agree" <%= stance > 0 ? 'selected' : '' %>>&#x2713; Agree</option>
     <option value="disagree" <%= stance < 0 ? 'selected' : '' %>>&#x2715; Disagree</option>

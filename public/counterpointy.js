@@ -48,4 +48,15 @@ $(document).ready(function () {
         $(this).parents('form').submit();
     });
 
+    $('form.premises :checkbox').change(function () {
+        var form = $(this).parents('form.premises');
+        var numchecked = form.find(':checked').length;
+        var buttons = form.find(':submit');
+        if (numchecked) {
+            buttons.removeAttr('disabled');
+        } else {
+            buttons.attr('disabled', 'disabled');
+        }
+    });
+
 });

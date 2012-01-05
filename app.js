@@ -320,9 +320,27 @@ app.post('/point/:hash/premises/:supports', needuser, function (req, res, next) 
         return res.send('support or oppose expected', 404);
     }
     var premises = [].concat(req.body.premises);
-    async.forEachSeries(premises, function (premise_hash, done) {
-        db.set_relevance_vote(username, hash, premise_hash, supports, 0, done);
-    }, function (err) {
+    var action;
+    if (req.body.remove) {
+        action = function (premise_hash, done) {
+            db.set_relevance_vote(username, hash, premise_hash, supports, 0, done);
+        }
+    } else if (req.body.keep) {
+        action = function (premise_hash, done) {
+            db.set_relevance_vote(username, hash, premise_hash, supports, 1, done);
+        }
+    } else if (req.body.agree) {
+        action = function (premise_hash, done) {
+            db.set_pstance(username, premise_hash, 1, done);
+        }
+    } else if (req.body.disagree) {
+        action = function (premise_hash, done) {
+            db.set_pstance(username, premise_hash, -1, done);
+        }
+    } else {
+        return res.send('keep, remove, agree or disagree expected', 400);
+    }
+    async.forEachSeries(premises, action, function (err) {
         if (err) {
             return next(err);
         }
