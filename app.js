@@ -355,7 +355,12 @@ app.post('/point/:old_hash/edit', needuser, function (req, res, next) {
         if (err) {
             return next(err);
         }
-        carry_to_edit(req, res, next, username, old_hash, new_hash);
+        carry_to_edit(username, old_hash, new_hash, function (err) {
+            if (err) {
+                return next(err);
+            }
+            res.redirect('/point/' + new_hash);
+        });
     });
 });
 
@@ -368,7 +373,12 @@ app.post('/point/:old_hash/alternatives', needuser, function (req, res, next) {
             return res.send('You need to select one wording to adopt.', 400);
         }
         // FIXME validate new_hash exists
-        carry_to_edit(req, res, next, username, old_hash, new_hash);
+        carry_to_edit(username, old_hash, new_hash, function (err) {
+            if (err) {
+                return next(err);
+            }
+            res.redirect('/point/' + new_hash);
+        });
     } else if (req.body.reject) {
         return res.send('Sorry, reject not implemented yet', 500);  // FIXME
     } else {
@@ -376,25 +386,20 @@ app.post('/point/:old_hash/alternatives', needuser, function (req, res, next) {
     }
 });
 
-function carry_to_edit(req, res, next, username, old_hash, new_hash)
+function carry_to_edit(username, old_hash, new_hash, callback)
 {
+    if (old_hash === new_hash) {
+        return callback();
+    }
     db.carry_stance(username, old_hash, new_hash, function (err) {
         if (err) {
-            return next(err);
+            return callback(err);
         }
         db.create_edit(username, old_hash, new_hash, function (err) {
             if (err) {
-                return next(err);
+                return callback(err);
             }
-            db.carry_alternative_votes(
-                username, old_hash, new_hash,
-                function (err) {
-                    if (err) {
-                        return next(err);
-                    }
-                    res.redirect('/point/' + new_hash);
-                }
-            );
+            db.carry_alternative_votes(username, old_hash, new_hash, callback);
         });
     });
 }

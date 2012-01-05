@@ -309,6 +309,9 @@ db.delete_password_reset_token = function (token, callback) {
 
 // callback(err)
 db.carry_stance = function (username, old_hash, new_hash, callback) {
+    if (old_hash === new_hash) {
+        return callback();
+    }
     client.query(
         'REPLACE INTO PStances (username, point_hash, stance)' +
         'SELECT username AS username' +
@@ -323,6 +326,9 @@ db.carry_stance = function (username, old_hash, new_hash, callback) {
 
 // callback(err)
 db.carry_alternative_votes = function (username, old_hash, new_hash, callback) {
+    if (old_hash === new_hash) {
+        return callback();
+    }
     client.query(
         'REPLACE INTO RelevanceVotes ' +
         '  (conclusion_hash, premise_hash, username, relevant, supports) ' +
@@ -367,6 +373,9 @@ db.carry_alternative_votes = function (username, old_hash, new_hash, callback) {
 
 // callback(err)
 db.create_edit = function (username, old_hash, new_hash, callback) {
+    if (old_hash === new_hash) {
+        return callback();
+    }
     client.query(
         'REPLACE INTO Edits SET ' +
         '  username = ?, old_hash = ?, new_hash = ?',
