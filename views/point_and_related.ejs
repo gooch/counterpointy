@@ -33,7 +33,7 @@
 
 <% if (preferred) { %>
     <div class="preferred column">
-        <h3>Your preferred wording:</h3>
+        <h4>Your preferred wording:</h4>
         <div>
             <%- partial('point', { point: preferred}) %>
         </div>
@@ -42,7 +42,7 @@
 
 <% if (outgoing.length) { %>
     <div class="outgoing column">
-        <h3>Alternative wordings:</h3>
+        <h4>Alternative wordings:</h4>
         <form method="POST" action="/point/<%= point.hash %>/alternatives">
             <div>
                 <% outgoing.forEach(function (p) { %>
@@ -69,28 +69,14 @@
     <%- partial('premises', { point: point, support: false, premises: opposing }) %>
 </div>
 
-<% if (supports.length || opposes.length) { %>
+<% if (related.length) { %>
     <hr class="clear-both" />
+    <div class="related column">
+        <h4>Related:</h4>
+        <div>
+            <% related.forEach(function (p) { %>
+                <%- partial('point', { point: p}) %>
+            <% }); %>
+        </div>
+    </div>
 <% } %>
-
-<div class="supporting column">
-    <% if (supports.length) { %>
-        <h3>Supports:</h3>
-        <div>
-        <% supports.forEach(function (p) { %>
-            <%- partial('point', { point: p}) %>
-        <% }); %>
-        </div>
-    <% } %>
-</div>
-
-<div class="opposing column">
-    <% if (opposes.length) { %>
-        <h3>Opposes:</h3>
-        <div>
-        <% opposes.forEach(function (p) { %>
-            <%- partial('point', { point: p}) %>
-        <% }); %>
-        </div>
-    <% } %>
-</div>

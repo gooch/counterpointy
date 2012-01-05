@@ -177,7 +177,7 @@ app.get('/point/:hashprefix', function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            db.get_conclusions_for_premise(hash, username, function (err, conclusions) {
+            db.get_conclusions_for_premise(hash, username, function (err, related) {
                 if (err) {
                     return next(err);
                 }
@@ -200,8 +200,7 @@ app.get('/point/:hashprefix', function (req, res, next) {
                                 disagree: opinions.filter(function (o) { return o.stance < 0; }),
                                 supporting: premises.filter(function (r) { return r.supports; }),
                                 opposing:   premises.filter(function (r) { return !r.supports; }),
-                                supports: conclusions.filter(function (c) { return c.supports; }),
-                                opposes:  conclusions.filter(function (c) { return !c.supports; }),
+                                related: related,
                                 outgoing: outgoing,
                                 preferred: preferred
                             });
