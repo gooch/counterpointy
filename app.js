@@ -298,16 +298,25 @@ app.get('/search', function (req, res, next) {
     });
 });
 
-app.get('/user/:username', function (req, res, next) {
-    var username = req.params.username;
-    db.get_user(username, function (err, user) {
+app.get('/user/:other_username', function (req, res, next) {
+    var other_username = req.params.other_username;
+    var my_username = req.session && req.session.user && req.session.user.username;
+    db.get_user(other_username, function (err, user) {
         if (err) {
             return next(err);
         }
         if (!user) {
             return res.send(404);
         }
-        res.render('user', { user: user });
+        db.get_other_user_stances(my_username, other_username, function (err, points) {
+            if (err) {
+                return next(err);
+            }
+            res.render('user', {
+                user: user,
+                points: points
+            });
+        });
     });
 });
 

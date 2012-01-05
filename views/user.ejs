@@ -28,3 +28,25 @@
         </div>
     <% } %>
 </div>
+
+<hr class="clear-both" />
+
+<div class="column">
+    <h3><%= user.username %> agrees:</h3>
+    <%- partial('points', {
+            points: points.filter(function (p) {
+                        return p.other_stance > 0;
+                    })
+        })
+    %>
+</div>
+
+<div class="column">
+    <h3><%= user.username %> disagrees:</h3>
+    <%- partial('points', {
+            points: points.filter(function (p) {
+                        return p.other_stance < 0;
+                    })
+        })
+    %>
+</div>

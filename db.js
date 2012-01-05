@@ -444,3 +444,23 @@ db.get_my_outgoing_edit = function (username, old_hash, callback) {
         }
     );
 };
+
+// callback(err, points)
+db.get_other_user_stances = function (my_username, other_username, callback) {
+    client.query(
+        'SELECT p.hash AS hash ' +
+        '     , p.text AS text ' +
+        '     , mps.stance AS stance ' +
+        '     , ops.stance AS other_stance ' +
+        'FROM PStances ops ' +
+        'JOIN Points p ' +
+        'ON p.hash = ops.point_hash ' +
+        'LEFT OUTER JOIN (' +
+        '  SELECT * FROM PStances WHERE username = ? ' +
+        ') mps ' +
+        'ON p.hash = mps.point_hash ' +
+        'WHERE ops.username = ? AND ops.stance != 0',
+        [ my_username, other_username ],
+        callback
+    );
+};
