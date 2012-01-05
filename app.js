@@ -189,7 +189,7 @@ app.get('/point/:hashprefix', function (req, res, next) {
                         if (err) {
                             return next(err);
                         }
-                        db.get_other_outgoing_edits(username, hash, function (err, outgoing) {
+                        db.get_other_outgoing_edits(username, hash, preferred && preferred.hash, function (err, outgoing) {
                             if (err) {
                                 return next(err);
                             }

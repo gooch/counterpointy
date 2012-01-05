@@ -406,7 +406,7 @@ db.create_edit = function (username, old_hash, new_hash, callback) {
 };
 
 // callback(err, points)
-db.get_other_outgoing_edits = function (username, old_hash, callback) {
+db.get_other_outgoing_edits = function (username, old_hash, preferred_hash, callback) {
     client.query(
         'SELECT p.hash AS hash ' +
         '     , p.text AS text ' +
@@ -418,9 +418,9 @@ db.get_other_outgoing_edits = function (username, old_hash, callback) {
         '  SELECT * FROM PStances WHERE username = ? ' +
         ') ps ' +
         'ON p.hash = ps.point_hash ' +
-        'WHERE e.username != ? AND e.old_hash = ? ' +
+        'WHERE e.old_hash = ? AND e.new_hash != ? ' +
         'GROUP BY e.old_hash',
-        [ username, username, old_hash ],
+        [ username, old_hash, preferred_hash ],
         callback
     );
 };
