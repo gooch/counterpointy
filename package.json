@@ -18,7 +18,8 @@
     "mysql": "~0.9.4",
     "oauth": "~0.9.5",
     "gravatar": "~1.0.3",
-    "async": "~0.1.15"
+    "async": "~0.1.15",
+    "daemon": "~0.4.1"
   },
   "devDependencies": {}
 }

@@ -2,6 +2,12 @@ module.exports = {
     rooturl: 'http://counterpointy.org/',
     listen_port: 80,
     session_secret: 'SESSION SECRET',
+
+    daemonize: true,
+    set_user: 'counterpointy',
+    logfile: '/var/log/counterpointy.log',
+    pidfile: '/var/run/counterpointy.pid',
+
     db: {
         host: 'localhost',
         port: 3306,

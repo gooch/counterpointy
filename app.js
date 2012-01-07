@@ -3,6 +3,7 @@ var util = require('util');
 var express = require('express');
 var gravatar = require('gravatar');
 var async = require('async');
+var daemon = require('daemon');
 var db = require('./db');
 var DbStore = require('./db-store')(express);
 var config = require('./config');
@@ -412,6 +413,30 @@ function carry_to_edit(username, old_hash, new_hash, callback)
     });
 }
 
+if (config.crashtest) {
+    app.get('/crash', function (req, res, next) {
+        console.log('About to crash.');
+        nextTick(function () {
+            throw new Error('Crash test.');
+        };
+    });
+}
+
+
+if (config.daemonize) {
+    daemon.daemonize(config.logfile, config.pidfile, function (err, pid) {
+        if (err) {
+            return console.log('Error starting daemon: ' + err);
+        }
+        if (config.set_user) {
+            err = daemon.setreuid(config.set_user);
+            if (err) {
+                return console.log('Error setting user to ' + config.set_user + ': ' + err);
+            }
+        }
+        console.log('Daemon started successfully with pid: ' + pid);
+    });
+}
 
 app.listen(config.listen_port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
