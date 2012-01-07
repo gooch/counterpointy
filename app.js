@@ -418,7 +418,7 @@ if (config.crashtest) {
         console.log('About to crash.');
         nextTick(function () {
             throw new Error('Crash test.');
-        };
+        });
     });
 }
 
