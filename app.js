@@ -430,7 +430,7 @@ if (config.daemonize) {
         }
         if (config.set_user) {
             err = daemon.setreuid(config.set_user);
-            if (err) {
+            if (err !== true) {
                 return console.log('Error setting user to ' + config.set_user + ': ' + err);
             }
         }
