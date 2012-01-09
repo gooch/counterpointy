@@ -3,13 +3,13 @@
 </div>
 <% if (session.user) { %>
     <div class="main-point-edit" style="display: none">
-        <form method="POST" action="/point/<%= point.hash %>/edit">
+        <form method="POST" action="/p/<%= point.hash %>/edit">
             <textarea name="text"><%= point.text %></textarea>
             <input class="save-button" type="submit" value="Save" />
             <a href="#" class="cancel-button">Cancel</a>
         </form>
     </div>
-    <form class="pstance" method="POST" action="/point/<%= point.hash %>/pstance">
+    <form class="pstance" method="POST" action="/p/<%= point.hash %>/pstance">
         <%- partial('select_stance', { stance: point.stance }) %>
     </form>
 <% } %>
@@ -43,7 +43,7 @@
 <% if (outgoing.length) { %>
     <div class="outgoing column">
         <h4>Alternative wordings:</h4>
-        <form method="POST" action="/point/<%= point.hash %>/alternatives">
+        <form method="POST" action="/p/<%= point.hash %>/alternatives">
             <div>
                 <% outgoing.forEach(function (p) { %>
                     <%- partial('point', { point: p, showCheckbox: !!session.user}) %>

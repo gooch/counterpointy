@@ -153,7 +153,7 @@ app.get('/logout', function (req, res, next) {
     });
 });
 
-app.get('/point/:hashprefix', function (req, res, next) {
+app.get('/p/:hashprefix', function (req, res, next) {
     var hashprefix = '' + req.params.hashprefix;
     if (!db.valid_hashprefix.test(hashprefix)) {
         return res.send(404);
@@ -208,7 +208,7 @@ app.get('/point/:hashprefix', function (req, res, next) {
                                     [ 'og:title', point.text ],
                                     [ 'og:description', 'Arguments and opinions for and against' ],
                                     [ 'og:type', 'article' ],
-                                    [ 'og:url', config.rooturl + '/point/' + point.hash ],
+                                    [ 'og:url', config.rooturl + '/p/' + point.hash ],
                                     [ 'og:image', config.rooturl + '/cp-logo.png' ]
                                 ]
                             });
@@ -220,7 +220,7 @@ app.get('/point/:hashprefix', function (req, res, next) {
     });
 });
 
-app.post('/point/:hash/add_premise/:supports', needuser, function (req, res, next) {
+app.post('/p/:hash/add_premise/:supports', needuser, function (req, res, next) {
     var conclusion_hash = req.params.hash;
     var supports = { 'support': 1, 'oppose': 0 }[req.params.supports];
     if (undefined === supports) {
@@ -251,7 +251,7 @@ app.post('/point/:hash/add_premise/:supports', needuser, function (req, res, nex
                     if (err) {
                         return next(err);
                     }
-                    res.redirect('/point/' + conclusion_hash);
+                    res.redirect('/p/' + conclusion_hash);
                 });
             }
         );
@@ -269,7 +269,7 @@ app.post('/new_point', needuser, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/point/' + point_hash);
+            res.redirect('/p/' + point_hash);
         });
     });
 });
@@ -281,7 +281,7 @@ function needuser(req, res, next) {
     return next();
 }
 
-app.post('/point/:hash/pstance', needuser, function (req, res, next) {
+app.post('/p/:hash/pstance', needuser, function (req, res, next) {
     var hash = req.params.hash;
     var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
     var username = req.session.user.username;
@@ -289,7 +289,7 @@ app.post('/point/:hash/pstance', needuser, function (req, res, next) {
         if (err) {
             return next(err);
         }
-        res.redirect('/point/' + hash);
+        res.redirect('/p/' + hash);
     });
 });
 
@@ -328,7 +328,7 @@ app.get('/user/:other_username', function (req, res, next) {
     });
 });
 
-app.post('/point/:hash/premises/:supports', needuser, function (req, res, next) {
+app.post('/p/:hash/premises/:supports', needuser, function (req, res, next) {
     var hash = req.params.hash;
     var username = req.session.user.username;
     var supports = { 'support': 1, 'oppose': 0 }[req.params.supports];
@@ -360,11 +360,11 @@ app.post('/point/:hash/premises/:supports', needuser, function (req, res, next) 
         if (err) {
             return next(err);
         }
-        return res.redirect('/point/' + hash);
+        return res.redirect('/p/' + hash);
     });
 });
 
-app.post('/point/:old_hash/edit', needuser, function (req, res, next) {
+app.post('/p/:old_hash/edit', needuser, function (req, res, next) {
     var old_hash = req.params.old_hash; // FIXME validate
     var username = req.session.user.username;
     db.create_point(req.body.text, function (err, new_hash) {
@@ -375,12 +375,12 @@ app.post('/point/:old_hash/edit', needuser, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/point/' + new_hash);
+            res.redirect('/p/' + new_hash);
         });
     });
 });
 
-app.post('/point/:old_hash/alternatives', needuser, function (req, res, next) {
+app.post('/p/:old_hash/alternatives', needuser, function (req, res, next) {
     var old_hash = req.params.old_hash; // FIXME validate
     var username = req.session.user.username;
     if (req.body.adopt) {
@@ -393,7 +393,7 @@ app.post('/point/:old_hash/alternatives', needuser, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/point/' + new_hash);
+            res.redirect('/p/' + new_hash);
         });
     } else if (req.body.reject) {
         return res.send('Sorry, reject not implemented yet', 500);  // FIXME
