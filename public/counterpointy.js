@@ -11,7 +11,7 @@ $(document).ready(function () {
         if (targetIsNotThePoint(event)) {
             return;
         }
-        document.location = '/p/' + $(this).data('pointHash');
+        document.location = '/' + $(this).data('pointHash');
     });
 
     $('.expandable').click(function () {

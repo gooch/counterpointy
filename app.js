@@ -153,10 +153,10 @@ app.get('/logout', function (req, res, next) {
     });
 });
 
-app.get('/p/:hashprefix', function (req, res, next) {
-    var hashprefix = '' + req.params.hashprefix;
+app.get('/:hashprefix', function (req, res, next) {
+    var hashprefix = req.params.hashprefix;
     if (!db.valid_hashprefix.test(hashprefix)) {
-        return res.send(404);
+        return next();
     }
     var username = req.session && req.session.user && req.session.user.username;
     db.get_points_with_stance(hashprefix, username, function (err, points) {
@@ -208,7 +208,7 @@ app.get('/p/:hashprefix', function (req, res, next) {
                                     [ 'og:title', point.text ],
                                     [ 'og:description', 'Arguments and opinions for and against' ],
                                     [ 'og:type', 'article' ],
-                                    [ 'og:url', config.rooturl + '/p/' + point.hash ],
+                                    [ 'og:url', config.rooturl + '/' + point.hash ],
                                     [ 'og:image', config.rooturl + '/logo.png' ]
                                 ]
                             });
@@ -220,8 +220,11 @@ app.get('/p/:hashprefix', function (req, res, next) {
     });
 });
 
-app.post('/p/:hash/add_premise/:supports', needuser, function (req, res, next) {
+app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
     var conclusion_hash = req.params.hash;
+    if (!db.valid_hash.test(conclusion_hash)) {
+        return next();
+    }
     var supports = { 'support': 1, 'oppose': 0 }[req.params.supports];
     if (undefined === supports) {
         return res.send('support or oppose expected', 404);
@@ -251,7 +254,7 @@ app.post('/p/:hash/add_premise/:supports', needuser, function (req, res, next) {
                     if (err) {
                         return next(err);
                     }
-                    res.redirect('/p/' + conclusion_hash);
+                    res.redirect('/' + conclusion_hash);
                 });
             }
         );
@@ -269,7 +272,7 @@ app.post('/new_point', needuser, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/p/' + point_hash);
+            res.redirect('/' + point_hash);
         });
     });
 });
@@ -281,15 +284,18 @@ function needuser(req, res, next) {
     return next();
 }
 
-app.post('/p/:hash/pstance', needuser, function (req, res, next) {
+app.post('/:hash/pstance', needuser, function (req, res, next) {
     var hash = req.params.hash;
+    if (!db.valid_hash.test(hash)) {
+        return next();
+    }
     var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
     var username = req.session.user.username;
     db.set_pstance(username, hash, stance, function (err) {
         if (err) {
             return next(err);
         }
-        res.redirect('/p/' + hash);
+        res.redirect('/' + hash);
     });
 });
 
@@ -328,8 +334,11 @@ app.get('/~:other_username', function (req, res, next) {
     });
 });
 
-app.post('/p/:hash/premises/:supports', needuser, function (req, res, next) {
+app.post('/:hash/premises/:supports', needuser, function (req, res, next) {
     var hash = req.params.hash;
+    if (!db.valid_hash.test(hash)) {
+        return next();
+    }
     var username = req.session.user.username;
     var supports = { 'support': 1, 'oppose': 0 }[req.params.supports];
     if (undefined === supports) {
@@ -360,12 +369,15 @@ app.post('/p/:hash/premises/:supports', needuser, function (req, res, next) {
         if (err) {
             return next(err);
         }
-        return res.redirect('/p/' + hash);
+        return res.redirect('/' + hash);
     });
 });
 
-app.post('/p/:old_hash/edit', needuser, function (req, res, next) {
+app.post('/:old_hash/edit', needuser, function (req, res, next) {
     var old_hash = req.params.old_hash; // FIXME validate
+    if (!db.valid_hash.test(old_hash)) {
+        return next();
+    }
     var username = req.session.user.username;
     db.create_point(req.body.text, function (err, new_hash) {
         if (err) {
@@ -375,13 +387,16 @@ app.post('/p/:old_hash/edit', needuser, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/p/' + new_hash);
+            res.redirect('/' + new_hash);
         });
     });
 });
 
-app.post('/p/:old_hash/alternatives', needuser, function (req, res, next) {
+app.post('/:old_hash/alternatives', needuser, function (req, res, next) {
     var old_hash = req.params.old_hash; // FIXME validate
+    if (!db.valid_hash.test(old_hash)) {
+        return next();
+    }
     var username = req.session.user.username;
     if (req.body.adopt) {
         var new_hash = req.body.premises;
@@ -393,7 +408,7 @@ app.post('/p/:old_hash/alternatives', needuser, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/p/' + new_hash);
+            res.redirect('/' + new_hash);
         });
     } else if (req.body.reject) {
         return res.send('Sorry, reject not implemented yet', 500);  // FIXME
