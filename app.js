@@ -203,7 +203,14 @@ app.get('/point/:hashprefix', function (req, res, next) {
                                 opposing:   premises.filter(function (r) { return !r.supports; }),
                                 related: related,
                                 outgoing: outgoing,
-                                preferred: preferred
+                                preferred: preferred,
+                                meta: [
+                                    [ 'og:title', point.text ],
+                                    [ 'og:description', 'Arguments and opinions for and against' ],
+                                    [ 'og:type', 'article' ],
+                                    [ 'og:url', config.rooturl + '/point/' + point.hash ],
+                                    [ 'og:image', config.rooturl + '/cp-logo.png' ]
+                                ]
                             });
                         });
                     });

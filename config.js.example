@@ -1,5 +1,5 @@
 module.exports = {
-    rooturl: 'http://counterpointy.org/',
+    rooturl: 'http://counterpointy.org',
     listen_port: 80,
     session_secret: 'SESSION SECRET',
 

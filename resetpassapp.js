@@ -40,7 +40,7 @@ app.post('/forgot_passwd', function (req, res, next){
                     '',
                     'To reset your password go to:',
                     '',
-                    config.rooturl + 'reset/' + token
+                    config.rooturl + '/reset/' + token
                 ]
             });
             res.render('resetpass/email_sent', { username: username });

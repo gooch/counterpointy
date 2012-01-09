@@ -1,9 +1,14 @@
 <!doctype html>
-<html>
+<html prefix="og: http://ogp.me/ns#">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, user-scalable=no" />
 <title>Counterpointy<%= title ? ': ' + title : '' %></title>
+<% meta.forEach(function (pair) { %>
+<meta property="<%= pair[0] %>" content="<%= pair[1] %>" />
+<% }); %>
+<meta property="og:site_name" content="Counterpointy" />
+
 <link rel="stylesheet" href="/style.css" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="/counterpointy.js"></script>

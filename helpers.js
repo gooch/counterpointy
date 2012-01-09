@@ -6,6 +6,7 @@ module.exports = function (app) {
     app.helpers({
         title: null,
         query: null,
+        meta: [],
         showCheckbox: false,
         gravatar: gravatar,
         linkify: linkify
