@@ -209,7 +209,7 @@ app.get('/p/:hashprefix', function (req, res, next) {
                                     [ 'og:description', 'Arguments and opinions for and against' ],
                                     [ 'og:type', 'article' ],
                                     [ 'og:url', config.rooturl + '/p/' + point.hash ],
-                                    [ 'og:image', config.rooturl + '/cp-logo.png' ]
+                                    [ 'og:image', config.rooturl + '/logo.png' ]
                                 ]
                             });
                         });
