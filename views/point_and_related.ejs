@@ -1,3 +1,4 @@
+<div class="fullwidth">
 <div class="main-point" data-text="<%= point.text %>">
 <%- linkify(point.text) %>
 </div>
@@ -26,6 +27,13 @@
 <% if (disagree.length) { %>
     <p class="heading">Disagree: <% showUsers(disagree, partial); %></p>
 <% } %>
+</div>
+
+<div class="share fullwidth">
+<h4>Share this point:</h4>
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="<%= rooturl + '/' + shorthash(point.hash) %>" data-text="<%= point.text %>">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</div>
 
 <% if (preferred || outgoing.length) { %>
     <hr class="clear-both" />

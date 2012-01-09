@@ -1,6 +1,7 @@
 var gravatar = require('gravatar');
 var linkify = require('./linkify');
 var shorthash = require('./shorthash');
+var config = require('./config');
 
 module.exports = function (app) {
 
@@ -11,7 +12,8 @@ module.exports = function (app) {
         showCheckbox: false,
         gravatar: gravatar,
         linkify: linkify,
-        shorthash: shorthash
+        shorthash: shorthash,
+        rooturl : config.rooturl
     });
 
     app.dynamicHelpers({
