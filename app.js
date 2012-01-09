@@ -153,6 +153,15 @@ app.get('/logout', function (req, res, next) {
     });
 });
 
+// For backward compatibility: point URLs used to be of this form:
+app.get('/point/:hashprefix', function (req, res, next) {
+    var hashprefix = req.params.hashprefix;
+    if (!db.valid_hashprefix.test(hashprefix)) {
+        return next();
+    }
+    res.redirect('/' + hashprefix);
+});
+
 app.get('/:hashprefix', function (req, res, next) {
     var hashprefix = req.params.hashprefix;
     if (!db.valid_hashprefix.test(hashprefix)) {
