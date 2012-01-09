@@ -7,11 +7,15 @@ $(document).ready(function () {
         }[event.target.nodeName.toLowerCase()];
     }
 
+    function shorthash(hash) {
+        return hash.substr(0, 16);
+    }
+
     $('.point').click(function (event) {
         if (targetIsNotThePoint(event)) {
             return;
         }
-        document.location = '/' + $(this).data('pointHash');
+        document.location = '/' + shorthash($(this).data('pointHash'));
     });
 
     $('.expandable').click(function () {

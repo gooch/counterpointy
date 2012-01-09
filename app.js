@@ -9,6 +9,7 @@ var DbStore = require('./db-store')(express);
 var config = require('./config');
 var emailregexp = require('./emailregexp');
 var linkify = require('./linkify');
+var shorthash = require('./shorthash');
 var ms = require('./ms');
 
 var app = module.exports = express.createServer();
@@ -263,7 +264,7 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
                     if (err) {
                         return next(err);
                     }
-                    res.redirect('/' + conclusion_hash);
+                    res.redirect('/' + shorthash(conclusion_hash));
                 });
             }
         );
@@ -281,7 +282,7 @@ app.post('/new_point', needuser, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/' + point_hash);
+            res.redirect('/' + shorthash(point_hash));
         });
     });
 });
@@ -304,7 +305,7 @@ app.post('/:hash/pstance', needuser, function (req, res, next) {
         if (err) {
             return next(err);
         }
-        res.redirect('/' + hash);
+        res.redirect('/' + shorthash(hash));
     });
 });
 
@@ -378,7 +379,7 @@ app.post('/:hash/premises/:supports', needuser, function (req, res, next) {
         if (err) {
             return next(err);
         }
-        return res.redirect('/' + hash);
+        return res.redirect('/' + shorthash(hash));
     });
 });
 
@@ -396,7 +397,7 @@ app.post('/:old_hash/edit', needuser, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/' + new_hash);
+            res.redirect('/' + shorthash(new_hash));
         });
     });
 });
@@ -417,7 +418,7 @@ app.post('/:old_hash/alternatives', needuser, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/' + new_hash);
+            res.redirect('/' + shorthash(new_hash));
         });
     } else if (req.body.reject) {
         return res.send('Sorry, reject not implemented yet', 500);  // FIXME

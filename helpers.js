@@ -1,5 +1,6 @@
 var gravatar = require('gravatar');
 var linkify = require('./linkify');
+var shorthash = require('./shorthash');
 
 module.exports = function (app) {
 
@@ -9,7 +10,8 @@ module.exports = function (app) {
         meta: [],
         showCheckbox: false,
         gravatar: gravatar,
-        linkify: linkify
+        linkify: linkify,
+        shorthash: shorthash
     });
 
     app.dynamicHelpers({
