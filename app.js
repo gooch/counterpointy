@@ -416,9 +416,9 @@ function carry_to_edit(username, old_hash, new_hash, callback)
 if (config.crashtest) {
     app.get('/crash', function (req, res, next) {
         console.log('About to crash.');
-        nextTick(function () {
+        setTimeout(function () {
             throw new Error('Crash test.');
-        });
+        }, 100);
     });
 }
 
