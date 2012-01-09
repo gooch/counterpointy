@@ -306,7 +306,7 @@ app.get('/search', function (req, res, next) {
     });
 });
 
-app.get('/user/:other_username', function (req, res, next) {
+app.get('/u/:other_username', function (req, res, next) {
     var other_username = req.params.other_username;
     var my_username = req.session && req.session.user && req.session.user.username;
     db.get_user(other_username, function (err, user) {
