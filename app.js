@@ -42,8 +42,8 @@ app.configure('production', function(){
 
 
 app.get('/', function (req, res, next) {
-    var username = req.session && req.session.user && req.session.user.username;
-    db.get_featured_points(username, function (err, featured_points) {
+    var my_username = req.session && req.session.user && req.session.user.username;
+    db.get_featured_points(my_username, function (err, featured_points) {
         if (err) {
             return next(err);
         }
@@ -52,7 +52,7 @@ app.get('/', function (req, res, next) {
                 featured_points: featured_points
             });
         }
-        db.get_recent_points(username, function (err, recent_points) {
+        db.get_recent_points(my_username, function (err, recent_points) {
             if (err) {
                 return next(err);
             }
@@ -168,8 +168,8 @@ app.get('/:hashprefix', function (req, res, next) {
     if (!db.valid_hashprefix.test(hashprefix)) {
         return next();
     }
-    var username = req.session && req.session.user && req.session.user.username;
-    db.get_points_with_stance(hashprefix, username, function (err, points) {
+    var my_username = req.session && req.session.user && req.session.user.username;
+    db.get_points_with_stance(hashprefix, my_username, function (err, points) {
         if (err) {
             return next(err);
         }
@@ -184,11 +184,11 @@ app.get('/:hashprefix', function (req, res, next) {
         }
         var point = points[0];
         var hash = point.hash;
-        db.get_premises_for_conclusion(hash, username, function (err, premises) {
+        db.get_premises_for_conclusion(hash, my_username, function (err, premises) {
             if (err) {
                 return next(err);
             }
-            db.get_conclusions_for_premise(hash, username, function (err, related) {
+            db.get_conclusions_for_premise(hash, my_username, function (err, related) {
                 if (err) {
                     return next(err);
                 }
@@ -196,11 +196,11 @@ app.get('/:hashprefix', function (req, res, next) {
                     if (err) {
                         return next(err);
                     }
-                    db.get_my_outgoing_edit(username, hash, function (err, preferred) {
+                    db.get_my_outgoing_edit(my_username, hash, function (err, preferred) {
                         if (err) {
                             return next(err);
                         }
-                        db.get_other_outgoing_edits(username, hash, preferred && preferred.hash, function (err, outgoing) {
+                        db.get_other_outgoing_edits(my_username, hash, preferred && preferred.hash, function (err, outgoing) {
                             if (err) {
                                 return next(err);
                             }
@@ -245,7 +245,7 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
     }
     premise_text = '' + premise_text;
     var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
-    var username = req.session.user.username;
+    var my_username = req.session.user.username;
 
     db.get_point(conclusion_hash, function (err, point) {
         if (err) {
@@ -255,12 +255,12 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
             return res.send(404);
         }
         db.add_premise(
-            conclusion_hash, premise_text, supports, username,
+            conclusion_hash, premise_text, supports, my_username,
             function (err, premise_hash) {
                 if (err) {
                     return next(err);
                 }
-                db.set_pstance(username, premise_hash, stance, function (err) {
+                db.set_pstance(my_username, premise_hash, stance, function (err) {
                     if (err) {
                         return next(err);
                     }
@@ -272,13 +272,13 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
 });
 
 app.post('/new_point', needuser, function (req, res, next) {
-    var username = req.session.user.username;
+    var my_username = req.session.user.username;
     var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
     db.create_point(req.body.text, function (err, point_hash) {
         if (err) {
             return next(err);
         }
-        db.set_pstance(username, point_hash, stance, function (err) {
+        db.set_pstance(my_username, point_hash, stance, function (err) {
             if (err) {
                 return next(err);
             }
@@ -300,8 +300,8 @@ app.post('/:hash/pstance', needuser, function (req, res, next) {
         return next();
     }
     var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
-    var username = req.session.user.username;
-    db.set_pstance(username, hash, stance, function (err) {
+    var my_username = req.session.user.username;
+    db.set_pstance(my_username, hash, stance, function (err) {
         if (err) {
             return next(err);
         }
@@ -322,17 +322,17 @@ app.get('/search', function (req, res, next) {
     });
 });
 
-app.get('/~:other_username', function (req, res, next) {
-    var other_username = req.params.other_username;
+app.get('/~:username', function (req, res, next) {
+    var username = req.params.username;
     var my_username = req.session && req.session.user && req.session.user.username;
-    db.get_user(other_username, function (err, user) {
+    db.get_user(username, function (err, user) {
         if (err) {
             return next(err);
         }
         if (!user) {
             return res.send(404);
         }
-        db.get_other_user_stances(my_username, other_username, function (err, points) {
+        db.get_other_user_stances(my_username, username, function (err, points) {
             if (err) {
                 return next(err);
             }
@@ -349,7 +349,7 @@ app.post('/:hash/premises/:supports', needuser, function (req, res, next) {
     if (!db.valid_hash.test(hash)) {
         return next();
     }
-    var username = req.session.user.username;
+    var my_username = req.session.user.username;
     var supports = { 'support': 1, 'oppose': 0 }[req.params.supports];
     if (undefined === supports) {
         return res.send('support or oppose expected', 404);
@@ -358,19 +358,19 @@ app.post('/:hash/premises/:supports', needuser, function (req, res, next) {
     var action;
     if (req.body.remove) {
         action = function (premise_hash, done) {
-            db.set_relevance_vote(username, hash, premise_hash, supports, 0, done);
+            db.set_relevance_vote(my_username, hash, premise_hash, supports, 0, done);
         }
     } else if (req.body.keep) {
         action = function (premise_hash, done) {
-            db.set_relevance_vote(username, hash, premise_hash, supports, 1, done);
+            db.set_relevance_vote(my_username, hash, premise_hash, supports, 1, done);
         }
     } else if (req.body.agree) {
         action = function (premise_hash, done) {
-            db.set_pstance(username, premise_hash, 1, done);
+            db.set_pstance(my_username, premise_hash, 1, done);
         }
     } else if (req.body.disagree) {
         action = function (premise_hash, done) {
-            db.set_pstance(username, premise_hash, -1, done);
+            db.set_pstance(my_username, premise_hash, -1, done);
         }
     } else {
         return res.send('keep, remove, agree or disagree expected', 400);
@@ -388,12 +388,12 @@ app.post('/:old_hash/edit', needuser, function (req, res, next) {
     if (!db.valid_hash.test(old_hash)) {
         return next();
     }
-    var username = req.session.user.username;
+    var my_username = req.session.user.username;
     db.create_point(req.body.text, function (err, new_hash) {
         if (err) {
             return next(err);
         }
-        carry_to_edit(username, old_hash, new_hash, function (err) {
+        carry_to_edit(my_username, old_hash, new_hash, function (err) {
             if (err) {
                 return next(err);
             }
@@ -407,14 +407,14 @@ app.post('/:old_hash/alternatives', needuser, function (req, res, next) {
     if (!db.valid_hash.test(old_hash)) {
         return next();
     }
-    var username = req.session.user.username;
+    var my_username = req.session.user.username;
     if (req.body.adopt) {
         var new_hash = req.body.premises;
         if (!db.valid_hash.test(new_hash)) {
             return res.send('You need to select one wording to adopt.', 400);
         }
         // FIXME validate new_hash exists
-        carry_to_edit(username, old_hash, new_hash, function (err) {
+        carry_to_edit(my_username, old_hash, new_hash, function (err) {
             if (err) {
                 return next(err);
             }
@@ -427,20 +427,20 @@ app.post('/:old_hash/alternatives', needuser, function (req, res, next) {
     }
 });
 
-function carry_to_edit(username, old_hash, new_hash, callback)
+function carry_to_edit(my_username, old_hash, new_hash, callback)
 {
     if (old_hash === new_hash) {
         return callback();
     }
-    db.carry_stance(username, old_hash, new_hash, function (err) {
+    db.carry_stance(my_username, old_hash, new_hash, function (err) {
         if (err) {
             return callback(err);
         }
-        db.create_edit(username, old_hash, new_hash, function (err) {
+        db.create_edit(my_username, old_hash, new_hash, function (err) {
             if (err) {
                 return callback(err);
             }
-            db.carry_alternative_votes(username, old_hash, new_hash, callback);
+            db.carry_alternative_votes(my_username, old_hash, new_hash, callback);
         });
     });
 }
