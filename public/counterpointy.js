@@ -8,7 +8,7 @@ $(document).ready(function () {
     }
 
     function shorthash(hash) {
-        return hash.substr(0, 16);
+        return hash.substr(0, 12);
     }
 
     $('.point').click(function (event) {
