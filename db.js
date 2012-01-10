@@ -420,7 +420,7 @@ db.get_other_outgoing_edits = function (username, old_hash, preferred_hash, call
         'ON p.hash = ps.point_hash ' +
         'WHERE e.old_hash = ? AND e.new_hash != ? ' +
         'GROUP BY e.old_hash',
-        [ username, old_hash, preferred_hash ],
+        [ username, old_hash, preferred_hash || '' ],
         callback
     );
 };
