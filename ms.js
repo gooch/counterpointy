@@ -15,8 +15,10 @@ No more painful `setTimeout(fn, 60 * 4 * 3 * 2 * 1 * Infinity * NaN * '☃')`.
 
 **/
 
-(function () {
-  var _ = {}
+(function (g) {
+  var r = /(\d*.?\d+)([mshd]+)/
+    , _ = {}
+
   _.ms = 1;
   _.s = 1000;
   _.m = _.s * 60;
@@ -24,15 +26,10 @@ No more painful `setTimeout(fn, 60 * 4 * 3 * 2 * 1 * Infinity * NaN * '☃')`.
   _.d = _.h * 24;
 
   function ms (s) {
-    if ('number' == typeof s || s == Number(s)) return Number(s);
-    var p = s.toLowerCase().match(/([0-9\.]+)([a-z]+)/);
-    if (!_[p[2]]) throw new Error('Unknown time unit: ' + p[2]);
-    return p[1] * _[p[2]];
+    if (s == Number(s)) return Number(s);
+    r.exec(s.toLowerCase());
+    return RegExp.$1 * _[RegExp.$2];
   }
 
-  if ('object' == typeof window) {
-    window.ms = ms;
-  } else {
-    module.exports = ms;
-  }
-})();
+  g.top ? g.ms = ms : module.exports = ms;
+})(this);
