@@ -64,7 +64,8 @@ db.get_recent_points = function (username, callback) {
         '  LEFT OUTER JOIN ' +
         '    (SELECT * FROM PStances WHERE username = ?) ps ' +
         '    ON ps.point_hash = p.hash ' +
-        '  ORDER BY p.create_time DESC',
+        '  ORDER BY p.create_time DESC' +
+        '  LIMIT 10',
         [ username ],
         function (err, results, fields) {
             callback(err, results);
@@ -261,7 +262,7 @@ function escapeSqlRegex(str)
 // callback(err, points)
 db.points_with_prefix = function (prefix, callback) {
     client.query(
-        'SELECT text FROM Points WHERE text LIKE ?',
+        'SELECT text FROM Points WHERE text LIKE ? LIMIT 10',
         [ escapeSqlRegex(prefix) + '%' ],
         callback
     );
