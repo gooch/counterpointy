@@ -324,7 +324,7 @@ app.get('/search', function (req, res, next) {
 
 app.get('/suggest.json', function (req, res, next) {
     var query = '' + (req.query.term || '');
-    db.search(query, function (err, points) {
+    db.points_with_prefix(query, function (err, points) {
         if (err) {
             return next(err);
         }

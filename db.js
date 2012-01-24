@@ -253,6 +253,20 @@ db.search = function (query, callback) {
     );
 };
 
+function escapeSqlRegex(str)
+{
+    return str.replace(/\\/g, '\\\\').replace(/%/g, '\\%').replace(/_/g, '\\_');
+}
+
+// callback(err, points)
+db.points_with_prefix = function (prefix, callback) {
+    client.query(
+        'SELECT text FROM Points WHERE text LIKE ?',
+        [ escapeSqlRegex(prefix) + '%' ],
+        callback
+    );
+};
+
 // callback(err)
 db.set_relevance_vote = function (username, conclusion_hash, premise_hash, supports, relevant, callback) {
     client.query(

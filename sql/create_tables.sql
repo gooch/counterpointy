@@ -15,7 +15,8 @@ CREATE TABLE Points (
   create_time   TIMESTAMP NOT NULL
 );
 
-CREATE FULLTEXT INDEX Points_text ON Points(text);
+CREATE FULLTEXT INDEX Points_fulltext ON Points(text);
+CREATE INDEX Points_text ON Points(text(20));
 CREATE INDEX Points_create_time ON Points(create_time);
 
 
