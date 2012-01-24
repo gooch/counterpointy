@@ -58,6 +58,10 @@ div.login {
   clear: both;
 }
 
+.ui-autocomplete {
+  max-width: 310px;
+}
+
 div.container {
   width: 310px;
   padding: 5px;
@@ -68,6 +72,10 @@ div.container {
 }
 
 @media (min-width: 640px) {
+  .ui-autocomplete {
+    max-width: 630px;
+  }
+
   div.container {
     width: 630px;
     margin-top: 15px;
