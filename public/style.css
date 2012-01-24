@@ -21,8 +21,6 @@ td {
 }
 
 .main-point-edit textarea {
-  font: inherit;
-  /*font: 13px/1.5 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif;*/
   font-weight: bold;
   font-size: 15px;
   padding: 10px 0;
@@ -37,6 +35,7 @@ a:hover, a:active {
 }
 
 textarea {
+  font: inherit;
   width: 100%;
   max-width: 100%;    /* Constrain manual resizing */
   -webkit-box-sizing: border-box;
