@@ -7,7 +7,7 @@ if (session.user) { %>
             <a href="#">Add <%= article_gerund %> point</a>
         </div>
         <form method="POST" action="/<%= point.hash %>/add_premise/<%= verb %>">
-            <textarea name="text" rows="4"></textarea>
+            <textarea class="point-entry" name="text" rows="4"></textarea>
             <%- partial('select_stance', { stance: 1 }) %>
             <input class="save-button" type="submit" value="Save" />
         </form>

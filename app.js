@@ -322,6 +322,16 @@ app.get('/search', function (req, res, next) {
     });
 });
 
+app.get('/suggest.json', function (req, res, next) {
+    var query = '' + (req.query.term || '');
+    db.search(query, function (err, points) {
+        if (err) {
+            return next(err);
+        }
+        res.send(points.map(function (p) { return p.text; }));
+    });
+});
+
 app.get('/~:username', function (req, res, next) {
     var username = req.params.username;
     var my_username = req.session && req.session.user && req.session.user.username;

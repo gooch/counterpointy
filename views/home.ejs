@@ -1,6 +1,6 @@
 <p class="heading">Make your point:</p>
 <form method="POST" action="/new_point">
-    <textarea name="text"></textarea>
+    <textarea class="point-entry" name="text"></textarea>
     <%- partial('select_stance', { stance: 1 }) %>
     <input class="save-button" type="submit" value="Save" />
 </form>

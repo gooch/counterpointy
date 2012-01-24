@@ -63,4 +63,9 @@ $(document).ready(function () {
         }
     });
 
+    $('.point-entry').autocomplete({
+        source: '/suggest.json',
+        minLength: 3
+    });
+
 });
