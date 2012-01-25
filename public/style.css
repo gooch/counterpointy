@@ -116,6 +116,10 @@ img.avatar80 {
   border: 1px solid #ccc;
 }
 
+a img {
+  border: none;
+}
+
 .profile-avatar {
   float: left;
 }
