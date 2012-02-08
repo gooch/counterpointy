@@ -46,8 +46,14 @@ textarea {
 
 div.title {
   float: left;
-  font-size: 14px;
-  margin: 10px 0;
+  margin: 10px 5px;
+}
+
+div.title a {
+  font-size: 26px;
+  font-weight: bold;
+  color: #999;
+  text-decoration: none;
 }
 
 div.loggedin {
@@ -240,4 +246,15 @@ td.point-text {
 
 div.footer {
   padding: 15px;
+}
+
+div.footer a {
+  color: #999;
+  text-decoration: none;
+}
+
+div.footer ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
