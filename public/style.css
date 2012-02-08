@@ -150,35 +150,43 @@ a img {
 }
 
 .point {
+  clear: both;
   padding: 5px 0;
   margin: 0 -8px;
   border-top: 1px solid rgba(0,0,0,0.2);
 }
 
-.point-text:hover, .main-point:hover {
+.main-point:hover {
   background-color: #b8d8ff;
   cursor: pointer;
 }
 
-.point td {
-  vertical-align: middle;
+.point:hover {
+  background-color: #f6f6f6;
+  cursor: pointer;
 }
 
-td.point-voting {
-  width: 22px;
+.point-voting {
+  width: 20px;
+  float: left;
 }
 
-td.point-stance {
-  width: 12px;
+.point-stance {
+  width: 20px;
+  float: left;
+  text-align: center;
 }
 
-td.point-text {
+.point-text {
+  float: left;
   width: 250px;
+  word-wrap: break-word;
 }
 
-.point table {
-  width: 100%;
-  table-layout: fixed;
+.point-link {
+  float: right;
+  width: 16px;
+  text-align: center;
 }
 
 .fork-me {
@@ -223,6 +231,8 @@ td.point-text {
 
 .upvote, .downvote {
   color: #bbb;
+  width: 100%;
+  text-align: right;
 }
 
 .upvote:hover, .downvote:hover {
@@ -239,9 +249,8 @@ td.point-text {
   color: #e72;
 }
 
-.upvote, .downvote, .relevancevotes {
-  width: 100%;
-  text-align: center;
+.loggedin a {
+  color: #666;
 }
 
 div.footer {
@@ -249,7 +258,7 @@ div.footer {
 }
 
 div.footer a {
-  color: #999;
+  color: #666;
   text-decoration: none;
 }
 

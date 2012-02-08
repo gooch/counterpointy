@@ -11,7 +11,7 @@ $(document).ready(function () {
         return hash.substr(0, 12);
     }
 
-    $('.point-text').click(function (event) {
+    $('.point').click(function (event) {
         if (targetIsNotThePoint(event)) {
             return;
         }

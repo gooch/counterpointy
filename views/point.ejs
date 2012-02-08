@@ -1,28 +1,22 @@
 <div class="point" data-point-hash="<%= point.hash %>">
-<table><tr>
-    <td class="point-voting">
-        <% if (opt.voting) { %>
+    <% if (opt.voting) { %>
+        <div class="point-voting">
             <div class="upvote <%= +point.myupvotes ? 'checked' : '' %>">
                 &#x25b2;
             </div>
-            <!--
-            <div class="relevancevotes">
-                <%= point.upvotes - point.downvotes %>
-            </div>
-            -->
             <div class="downvote <%= +point.mydownvotes ? 'checked' : '' %>">
                 &#x25bc;
             </div>
-        <% } %>
-    </td>
-    <td class="point-stance">
+        </div>
+    <% } %>
+    <div class="point-stance">
         <%- point.stance > 0 ? '&#x2713;' : point.stance < 0 ? '&#x2715;' : '-' %>
-    </td>
-    <td class="point-text">
+    </div>
+    <div class="point-text">
         <%- linkify(point.text) %>
-    </td>
-    <td class="point-link">
+    </div>
+    <div class="point-link">
         <a href="/<%= shorthash(point.hash) %>">&gt;</a>
-    </td>
-</tr></table>
+    </div>
+    <div class="clear-both"></div>
 </div>
