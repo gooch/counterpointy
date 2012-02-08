@@ -13,20 +13,8 @@ if (session.user) { %>
         </form>
     </div>
 <% } %>
-<form class="premises" method="POST" action="/<%= point.hash %>/premises/<%= verb %>">
-    <% if (session.user && premises.length) { %>
-        <input type="submit" disabled name="keep" value="Keep"
-            title="Keep the checked points in this list, because they are relevant. Points with checkboxes highlighted orange may otherwise disappear from this list if other users Remove them." />
-        <input type="submit" disabled name="remove" value="Remove"
-            title="Remove the checked points from this list, because they are not relevant." />
-        <input type="submit" disabled name="agree" value="Agree"
-            title="Agree with the checked points." />
-        <input type="submit" disabled name="disagree" value="Disagree"
-            title="Disagree with the checked points." />
-    <% } %>
-    <div>
-        <% premises.forEach(function (p) { %>
-            <%- partial('point', { point: p, showCheckbox: !!session.user }) %>
-        <% }); %>
-    </div>
-</form>
+<div>
+    <% premises.forEach(function (p) { %>
+        <%- partial('point', { point: p, opt: { voting: true } }) %>
+    <% }); %>
+</div>

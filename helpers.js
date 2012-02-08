@@ -9,7 +9,7 @@ module.exports = function (app) {
         title: null,
         query: null,
         meta: [],
-        showCheckbox: false,
+        opt: {},
         gravatar: gravatar,
         linkify: linkify,
         shorthash: shorthash,

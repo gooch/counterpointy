@@ -91,7 +91,7 @@ db.get_premises_for_conclusion = function (conclusion_hash, username, callback) 
         '    rs.username = ? ' +
         '    AND rs.conclusion_hash = ? ' +
         '    AND rs.upvotes AND NOT rs.mydownvotes ' +
-        '  ORDER BY upvotes - downvotes',
+        '  ORDER BY upvotes - downvotes DESC',
         [ username, username || '', conclusion_hash ],
         callback
     );
@@ -278,6 +278,21 @@ db.set_relevance_vote = function (username, conclusion_hash, premise_hash, suppo
         '  supports = ?, ' +
         '  relevant = ?',
         [ conclusion_hash, premise_hash, username || '', supports, relevant ],
+        // FIXME why accept username falsy?
+        callback
+    );
+};
+
+// callback(err)
+db.delete_relevance_vote = function (username, conclusion_hash, premise_hash, supports, callback) {
+    client.query(
+        'DELETE FROM RelevanceVotes WHERE ' +
+        '  conclusion_hash = ? AND ' +
+        '  premise_hash = ? AND ' +
+        '  username = ? AND ' +
+        '  supports = ? ' +
+        '  LIMIT 1',
+        [ conclusion_hash, premise_hash, username, supports ],
         callback
     );
 };

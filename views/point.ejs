@@ -1,10 +1,18 @@
 <div class="point" data-point-hash="<%= point.hash %>">
 <table><tr>
-    <td class="point-checkbox">
-        <% if (showCheckbox) { %>
-            <span <%- +point.myupvotes ? '' : 'class="premise-unvoted"' %> >
-                <input type="checkbox" name="premises" value="<%= point.hash %>" />
-            </span>
+    <td class="point-voting">
+        <% if (opt.voting) { %>
+            <div class="upvote <%= +point.myupvotes ? 'checked' : '' %>">
+                &#x25b2;
+            </div>
+            <!--
+            <div class="relevancevotes">
+                <%= point.upvotes - point.downvotes %>
+            </div>
+            -->
+            <div class="downvote <%= +point.mydownvotes ? 'checked' : '' %>">
+                &#x25bc;
+            </div>
         <% } %>
     </td>
     <td class="point-stance">

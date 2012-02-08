@@ -1,17 +1,18 @@
-<p class="heading">Make your point:</p>
-<form method="POST" action="/new_point">
-    <textarea class="point-entry" name="text"></textarea>
-    <%- partial('select_stance', { stance: 1 }) %>
-    <input class="save-button" type="submit" value="Save" />
-</form>
+<div class="fullwidth">
+    <p class="heading">Make your point:</p>
+    <form method="POST" action="/new_point">
+        <textarea class="point-entry" name="text"></textarea>
+        <%- partial('select_stance', { stance: 1 }) %>
+        <input class="save-button" type="submit" value="Save" />
+    </form>
+</div>
 
-<hr class="clear-both" />
-
-<div class="column">
+<div class="left featured column">
     <h2>Featured points:</h2>
     <%- partial('points', { points: featured_points }) %>
 </div>
-<div class="column">
+
+<div class="right recent column">
     <h2>Recent points:</h2>
     <%- partial('points', { points: recent_points }) %>
 </div>

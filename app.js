@@ -49,6 +49,7 @@ app.get('/', function (req, res, next) {
         }
         if (!req.session || !req.session.user) {
             return res.render('welcome', {
+                opt: { layout_complex: true },
                 featured_points: featured_points
             });
         }
@@ -57,6 +58,7 @@ app.get('/', function (req, res, next) {
                 return next(err);
             }
             res.render('home', {
+                opt: { layout_complex: true },
                 featured_points: featured_points,
                 recent_points: recent_points
             });
@@ -178,6 +180,7 @@ app.get('/:hashprefix', function (req, res, next) {
         }
         if (points.length > 1) {
             return res.render('hashprefix_disambiguation', {
+                opt: { layout_complex: true },
                 points: points,
                 hashprefix: hashprefix
             });
@@ -205,6 +208,7 @@ app.get('/:hashprefix', function (req, res, next) {
                                 return next(err);
                             }
                             res.render('point_and_related', {
+                                opt: { layout_complex: true },
                                 title: point.text,
                                 point: point,
                                 agree:    opinions.filter(function (o) { return o.stance > 0; }),
@@ -316,6 +320,7 @@ app.get('/search', function (req, res, next) {
             return next(err);
         }
         res.render('search', {
+            opt: { layout_complex: true },
             query: query,
             points: points
         });
@@ -354,43 +359,46 @@ app.get('/~:username', function (req, res, next) {
     });
 });
 
-app.post('/:hash/premises/:supports', needuser, function (req, res, next) {
+app.post('/:hash/:supports/:premise_hash', needuser, function (req, res, next) {
     var hash = req.params.hash;
     if (!db.valid_hash.test(hash)) {
         return next();
     }
+    var premise_hash = req.params.premise_hash;
+    if (!db.valid_hash.test(premise_hash)) {
+        return next();
+    }
     var my_username = req.session.user.username;
-    var supports = { 'support': 1, 'oppose': 0 }[req.params.supports];
+    var supports = { 'supporting': 1, 'opposing': 0 }[req.params.supports];
     if (undefined === supports) {
-        return res.send('support or oppose expected', 404);
+        return next();
     }
-    var premises = [].concat(req.body.premises);
-    var action;
-    if (req.body.remove) {
-        action = function (premise_hash, done) {
-            db.set_relevance_vote(my_username, hash, premise_hash, supports, 0, done);
-        }
-    } else if (req.body.keep) {
-        action = function (premise_hash, done) {
-            db.set_relevance_vote(my_username, hash, premise_hash, supports, 1, done);
-        }
-    } else if (req.body.agree) {
-        action = function (premise_hash, done) {
-            db.set_pstance(my_username, premise_hash, 1, done);
-        }
-    } else if (req.body.disagree) {
-        action = function (premise_hash, done) {
-            db.set_pstance(my_username, premise_hash, -1, done);
-        }
+    if (req.body.vote === 'none') {
+        db.delete_relevance_vote(
+            my_username, hash, premise_hash, supports, function (err) {
+                if (err) {
+                    return next(err);
+                }
+                res.send(200);
+            }
+        );
     } else {
-        return res.send('keep, remove, agree or disagree expected', 400);
-    }
-    async.forEachSeries(premises, action, function (err) {
-        if (err) {
-            return next(err);
+        var relevant = {
+            'up': 1,
+            'down': 0
+        }[req.body.vote];
+        if (undefined === relevant) {
+            return res.send('vote not recognised', 400);
         }
-        return res.redirect('/' + shorthash(hash));
-    });
+        db.set_relevance_vote(
+            my_username, hash, premise_hash, supports, relevant, function (err){
+                if (err) {
+                    return next(err);
+                }
+                res.send(200);
+            }
+        );
+    }
 });
 
 app.post('/:old_hash/edit', needuser, function (req, res, next) {

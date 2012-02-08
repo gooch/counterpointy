@@ -17,16 +17,16 @@ td {
 .main-point {
   font-weight: bold;
   font-size: 15px;
-  padding: 10px 0;
+  margin: 5px 3px;
 }
 
 .main-point-edit textarea {
   font-weight: bold;
   font-size: 15px;
-  padding: 10px 0;
 }
 
 a:link, a:visited {
+  color: #00e;
   text-decoration: none;
 }
 
@@ -50,7 +50,7 @@ div.title {
   margin: 10px 0;
 }
 
-div.login {
+div.loggedin {
   float: right;
 }
 
@@ -63,12 +63,10 @@ div.login {
 }
 
 div.container {
-  width: 310px;
-  padding: 5px;
+  width: 320px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
-  background-color: #fff;
 }
 
 @media (min-width: 640px) {
@@ -77,12 +75,7 @@ div.container {
   }
 
   div.container {
-    width: 630px;
-    margin-top: 15px;
-    margin-bottom: 25px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    width: 640px;
   }
   .main-point {
     font-size: 20px;
@@ -92,18 +85,39 @@ div.container {
   }
 }
 
+div.header {
+  margin: 5px;
+}
+
 div.column {
-  width: 300px;
+  width: 292px;
+}
+
+div.column, div.fullwidth {
+  background-color: #fff;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 8px;
+  margin: 5px;
+}
+
+div.left {
   float: left;
-  margin: 5px 5px 10px 5px;
 }
 
-div.fullwidth {
-  margin: 5px 5px 10px 5px;
+div.right {
+  float: right;
 }
 
-h3, h4 {
-  margin: 0;
+div.related {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
 }
 
 img.avatar20 {
@@ -130,25 +144,22 @@ a img {
 }
 
 .point {
-  width: 100%;
-  padding: 5px 0px;
-  border-top: 1px solid #ddd;
+  padding: 5px 0;
+  margin: 0 -8px;
+  border-top: 1px solid rgba(0,0,0,0.2);
 }
 
-.point:first-child {
-  border-top: 0px;
-}
-
-.point:hover, .main-point:hover {
+.point-text:hover, .main-point:hover {
   background-color: #b8d8ff;
+  cursor: pointer;
 }
 
 .point td {
   vertical-align: middle;
 }
 
-td.point-checkbox {
-  width: 27px;
+td.point-voting {
+  width: 22px;
 }
 
 td.point-stance {
@@ -156,7 +167,7 @@ td.point-stance {
 }
 
 td.point-text {
-  width: 245px;
+  width: 250px;
 }
 
 .point table {
@@ -195,14 +206,6 @@ td.point-text {
   background-color: #fb4;
 }
 
-.premise-unvoted {
-  background-color: #fb4;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  padding: 2px;
-}
-
 .title img {
   -webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.2);
@@ -210,4 +213,31 @@ td.point-text {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
+}
+
+.upvote, .downvote {
+  color: #bbb;
+}
+
+.upvote:hover, .downvote:hover {
+  color: #999;
+  cursor: pointer;
+}
+
+.upvote.checked {
+  color: #0b0;
+}
+
+.downvote.checked {
+  /* color: #e33; */
+  color: #e72;
+}
+
+.upvote, .downvote, .relevancevotes {
+  width: 100%;
+  text-align: center;
+}
+
+div.footer {
+  padding: 15px;
 }

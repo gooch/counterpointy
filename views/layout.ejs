@@ -15,30 +15,41 @@
 <script src="/js/jquery-ui-1.8.17.custom.min.js"></script>
 <script src="/counterpointy.js"></script>
 </head>
-<body>
-<a class="fork-me" href="https://github.com/benw/counterpointy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/fork-me.png" alt="Fork me on GitHub"></a>
+<body data-username="<%= session.user ? session.user.username : '' %>">
+<!-- <a class="fork-me" href="https://github.com/benw/counterpointy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/fork-me.png" alt="Fork me on GitHub"></a> -->
 <div class="container">
-<div class="title">
-    <a href="/"><img src="/logo.png" width="112" height="37" alt="Counterpointy" /></a>
+<div class="header">
+    <div class="title">
+        <a href="/">Counterpointy</a>
+        <!-- <a href="/"><img src="/logo.png" width="112" height="37" alt="Counterpointy" /></a> -->
+    </div>
+    <div class="loggedin">
+    <% if (session.user) { %>
+        <a href="/options"><%= session.user.fullname %></a>
+        <%- partial('avatar20', { user: session.user }) %>
+    <% } else { %>
+        <a href="/login">Log in</a> or <a href="/signup">Sign up</a>
+    <% } %>
+    </div>
+    <div class="searchbar">
+        <form method="GET" action="/search">
+        <input type="text" name="q" value="<%= query || '' %>" />
+        <!-- <input type="submit" value="Search" /> -->
+        </form>
+    </div>
 </div>
-<div class="login">
-<% if (session.user) { %>
-    <a href="/options"><%= session.user.fullname %></a>
-    <%- partial('avatar20', { user: session.user }) %>
-<% } else { %>
-    <a href="/login">Log in</a> or <a href="/signup">Sign up</a>
-<% } %>
-</div>
-<div class="searchbar">
-    <form method="GET" action="/search">
-    <input type="text" name="q" value="<%= query || '' %>" />
-    <!-- <input type="submit" value="Search" /> -->
-    </form>
-</div>
-<hr class="clear-both" />
+<div class="clear-both"></div>
+<% if (opt.layout_complex) { %>
 <%- body %>
-<hr class="clear-both" />
-<a href="https://github.com/benw/counterpointy/wiki/About-Counterpointy">About</a>
+<% } else { %>
+<div class="fullwidth">
+<%- body %>
+</div>
+<% } %>
+<div class="clear-both"></div>
+<div class="footer">
+    <a href="https://github.com/benw/counterpointy/wiki/About-Counterpointy">About</a>
+</div>
 </div>
 </body>
 </html>

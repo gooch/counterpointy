@@ -1,5 +1,5 @@
 <div class="fullwidth">
-<div class="main-point" data-text="<%= point.text %>">
+<div class="main-point" data-hash="<%= point.hash %>" data-text="<%= point.text %>">
 <%- linkify(point.text) %>
 </div>
 <% if (session.user) { %>
@@ -29,18 +29,20 @@
 <% } %>
 </div>
 
+<!--
 <div class="share fullwidth">
 <h4>Share this point:</h4>
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="<%= rooturl + '/' + shorthash(point.hash) %>" data-text="<%= point.text %>">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </div>
+-->
 
 <% if (preferred || outgoing.length) { %>
-    <hr class="clear-both" />
+    <div class="clear-both"></div>
 <% } %>
 
 <% if (preferred) { %>
-    <div class="preferred column">
+    <div class="left preferred column">
         <h4>Your preferred wording:</h4>
         <div>
             <%- partial('point', { point: preferred}) %>
@@ -49,36 +51,38 @@
 <% } %>
 
 <% if (outgoing.length) { %>
-    <div class="outgoing column">
+    <div class="right outgoing column">
         <h4>Alternative wordings:</h4>
         <form method="POST" action="/<%= point.hash %>/alternatives">
             <div>
                 <% outgoing.forEach(function (p) { %>
-                    <%- partial('point', { point: p, showCheckbox: !!session.user}) %>
+                    <%- partial('point', { point: p }) %>
                 <% }); %>
             </div>
+            <!-- FIXME
             <% if (session.user) { %>
                 <input type="submit" name="adopt" value="Adopt" />
                 <!-- <input type="submit" name="reject" value="Reject" /> -->
             <% } %>
+            -->
         </form>
     </div>
 <% } %>
 
-<hr class="clear-both" />
+<div class="clear-both"></div>
 
-<div class="supporting column">
+<div class="left supporting column">
     <h3>Supporting:</h3>
     <%- partial('premises', { point: point, support: true, premises: supporting }) %>
 </div>
 
-<div class="opposing column">
+<div class="right opposing column">
     <h3>Opposing:</h3>
     <%- partial('premises', { point: point, support: false, premises: opposing }) %>
 </div>
 
 <% if (related.length) { %>
-    <hr class="clear-both" />
+    <div class="clear-both"></div>
     <div class="related column">
         <h4>Related:</h4>
         <div>
