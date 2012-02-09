@@ -1,10 +1,10 @@
 <div class="point" data-point-hash="<%= point.hash %>">
     <% if (opt.voting) { %>
         <div class="point-voting">
-            <div class="upvote <%= +point.myupvotes ? 'checked' : '' %>">
+            <div class="upvote button <%= +point.myupvotes ? 'checked' : '' %>">
                 &#x25b2;
             </div>
-            <div class="downvote <%= +point.mydownvotes ? 'checked' : '' %>">
+            <div class="downvote button <%= +point.mydownvotes ? 'checked' : '' %>">
                 &#x25bc;
             </div>
         </div>

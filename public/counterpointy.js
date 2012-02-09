@@ -4,7 +4,8 @@ $(document).ready(function () {
         return {
             'a': true,
             'input': true
-        }[event.target.nodeName.toLowerCase()];
+        }[event.target.nodeName.toLowerCase()] ||
+            $(event.target).hasClass('button');
     }
 
     function shorthash(hash) {
@@ -74,9 +75,9 @@ $(document).ready(function () {
         var premise_hash = $this.closest('.point').data('pointHash');
 
         var premiseStance;
-        if ($this.closest('.supporting')) {
+        if ($this.closest('.supporting').length) {
             premiseStance = 'supporting';
-        } else if ($this.closest('.opposing')) {
+        } else if ($this.closest('.opposing').length) {
             premiseStance = 'opposing';
         } else {
             throw new Error('confused about premiseStance');
