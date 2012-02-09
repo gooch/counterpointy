@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    var username = $('body').data('username');
+
     function targetIsNotThePoint(event) {
         return {
             'a': true,
@@ -21,11 +23,13 @@ $(document).ready(function () {
     });
 
     $('.expandable').click(function () {
+        if (!username) {
+            alert('Please log in to contribute.');
+            return false;
+        }
         $(this).hide().next().show().children('textarea').focus();
         return false;
     });
-
-    $('.expandable').next().hide();
 
     $('.focus-on-load').focus();
 
@@ -33,12 +37,13 @@ $(document).ready(function () {
         if (targetIsNotThePoint(event)) {
             return;
         }
-        var editdiv = $('.main-point-edit');
-        if (editdiv.length) {
-            $(this).hide();
-            $('.pstance select').attr('disabled', 'disabled');
-            editdiv.show().find('textarea').focus().select();
+        if (!username) {
+            alert('Please log in to edit.');
+            return false;
         }
+        $(this).hide();
+        $('.pstance select').attr('disabled', 'disabled');
+        $('.main-point-edit').show().find('textarea').focus().select();
     });
 
     $('.main-point-edit .cancel-button').click(function () {
@@ -60,7 +65,6 @@ $(document).ready(function () {
     });
 
     $('.upvote, .downvote').click(function () {
-        var username = $('body').data('username');
         if (!username) {
             alert('Please log in to vote.');    // FIXME alert sucks
             return;

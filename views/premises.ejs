@@ -1,18 +1,17 @@
 <%
 var article_gerund = support ? 'a supporting' : 'an opposing';
 var verb = support ? 'support' : 'oppose';
-if (session.user) { %>
-    <div class="add-premise">
-        <div class="expandable">
-            <a href="#">Add <%= article_gerund %> point</a>
-        </div>
-        <form method="POST" action="/<%= point.hash %>/add_premise/<%= verb %>">
-            <textarea class="point-entry" name="text" rows="4"></textarea>
-            <%- partial('select_stance', { stance: 1 }) %>
-            <input class="save-button" type="submit" value="Save" />
-        </form>
+%>
+<div class="add-premise">
+    <div class="expandable">
+        <a href="#">Add <%= article_gerund %> point</a>
     </div>
-<% } %>
+    <form style="display: none" method="POST" action="/<%= point.hash %>/add_premise/<%= verb %>">
+        <textarea class="point-entry" name="text" rows="4"></textarea>
+        <%- partial('select_stance', { stance: 1 }) %>
+        <input class="save-button" type="submit" value="Save" />
+    </form>
+</div>
 <div>
     <% premises.forEach(function (p) { %>
         <%- partial('point', { point: p, opt: { voting: true } }) %>
