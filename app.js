@@ -352,6 +352,7 @@ app.get('/~:username', function (req, res, next) {
                 return next(err);
             }
             res.render('user', {
+                opt: { layout_complex: true },
                 user: user,
                 points: points
             });

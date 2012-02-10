@@ -1,4 +1,4 @@
-<div class="column">
+<div class="left column">
     <div class="profile-avatar">
         <%- partial('avatar80', { user: user }) %>
     </div>
@@ -11,7 +11,7 @@
         </p>
     </div>
 </div>
-<div class="column">
+<div class="right column">
     <% if (session.user && session.user.username == user.username) { %>
         <div>
             <p>
@@ -22,16 +22,13 @@
                 <br />
                 (We're using <%= session.user.email %>)
             </p>
-            <p>
-                <a href="/logout">Log out</a>
-            </p>
         </div>
     <% } %>
 </div>
 
-<hr class="clear-both" />
+<br class="clear-both" />
 
-<div class="column">
+<div class="left column">
     <h3><%= user.username %> agrees:</h3>
     <%- partial('points', {
             points: points.filter(function (p) {
@@ -41,7 +38,7 @@
     %>
 </div>
 
-<div class="column">
+<div class="right column">
     <h3><%= user.username %> disagrees:</h3>
     <%- partial('points', {
             points: points.filter(function (p) {
