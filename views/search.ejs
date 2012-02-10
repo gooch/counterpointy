@@ -1,10 +1,8 @@
 <div class="column">
-    <% if (query.trim()) { %>
     <p class="heading">
         <%= ('' + points.length) %>
         <%= (1 == points.length) ? 'match' : 'matches' %>
     </p>
-    <% } %>
 
     <div>
     <% points.forEach(function (p) { %>
