@@ -67,8 +67,8 @@ CREATE VIEW RelevanceScores AS SELECT
   r.supports,
   SUM(u.username = r.username AND r.relevant) AS myupvotes,
   SUM(u.username = r.username AND NOT r.relevant) AS mydownvotes,
-  SUM(r.relevant) as upvotes,
-  SUM(NOT r.relevant) as downvotes
+  SUM(r.relevant) AS upvotes,
+  SUM(NOT r.relevant) AS downvotes
   FROM Users u JOIN RelevanceVotes r
   GROUP BY u.username, r.conclusion_hash, r.premise_hash, r.supports;
 
