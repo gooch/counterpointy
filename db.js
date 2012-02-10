@@ -80,6 +80,7 @@ db.get_premises_for_conclusion = function (conclusion_hash, username, callback) 
         '     , rs.supports AS supports ' +
         '     , ps.stance AS stance ' +
         '     , rs.myupvotes as myupvotes ' +
+        '     , rs.mydownvotes as mydownvotes ' +
         '     , rs.upvotes as upvotes ' +
         '     , rs.downvotes as downvotes ' +
         '  FROM RelevanceScores rs ' +
@@ -90,8 +91,8 @@ db.get_premises_for_conclusion = function (conclusion_hash, username, callback) 
         '  WHERE ' +
         '    rs.username = ? ' +
         '    AND rs.conclusion_hash = ? ' +
-        '    AND rs.upvotes AND NOT rs.mydownvotes ' +
-        '  ORDER BY upvotes - downvotes DESC',
+        '    AND rs.upvotes ' + // 'AND NOT rs.mydownvotes ' +
+        '  ORDER BY myupvotes - mydownvotes DESC, upvotes - downvotes DESC',
         [ username, username || '', conclusion_hash ],
         callback
     );
