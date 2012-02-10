@@ -15,12 +15,10 @@ td {
 }
 
 .main-point {
-  font-weight: bold;
-  font-size: 15px;
   margin: 5px 3px;
 }
 
-.main-point-edit textarea {
+.main-point, .main-point-edit textarea {
   font-weight: bold;
   font-size: 15px;
 }
@@ -83,10 +81,8 @@ div.container {
   div.container {
     width: 640px;
   }
-  .main-point {
-    font-size: 20px;
-  }
-  .main-point-edit textarea {
+
+  .main-point, .main-point-edit textarea {
     font-size: 20px;
   }
 }
@@ -107,6 +103,7 @@ div.column, div.fullwidth {
   border: 1px solid rgba(0,0,0,0.2);
   padding: 8px;
   margin: 5px;
+  overflow: auto;
 }
 
 div.left {
@@ -128,12 +125,16 @@ h1, h2, h3, h4, h5, h6 {
 
 img.avatar20 {
   vertical-align: -5px;
+  width: 20px;
+  height: 20px;
 }
 
 img.avatar80 {
   padding: 3px;
   background: white;
   border: 1px solid #ccc;
+  width: 80px;
+  height: 80px;
 }
 
 a img {
@@ -216,6 +217,10 @@ a img {
   margin: 5px 0;
 }
 
+.add-premise a {
+  color: #666;
+}
+
 .stance-undecided {
   background-color: #fb4;
 }
@@ -230,23 +235,33 @@ a img {
 }
 
 .upvote, .downvote {
-  color: #bbb;
+  color: #ddd;
   width: 100%;
   text-align: right;
 }
 
-.upvote:hover, .downvote:hover {
-  color: #999;
+.button:hover {
   cursor: pointer;
+}
+
+.upvote:hover, .downvote:hover {
+  color: #bbb;
 }
 
 .upvote.checked {
   color: #0b0;
 }
 
+.upvote.checked:hover {
+  color: #4c4;
+}
+
 .downvote.checked {
-  /* color: #e33; */
-  color: #e72;
+  color: #e33;
+}
+
+.downvote.checked:hover {
+  color: #f66;
 }
 
 .loggedin a {
