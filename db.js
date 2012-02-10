@@ -361,7 +361,7 @@ db.carry_alternative_votes = function (username, old_hash, new_hash, callback) {
         return callback();
     }
     client.query(
-        'REPLACE INTO RelevanceVotes ' +
+        'INSERT INTO RelevanceVotes ' +
         '  (conclusion_hash, premise_hash, username, relevant, supports) ' +
         'SELECT ? AS conclusion_hash ' +
         '     , premise_hash AS premise_hash ' +
@@ -369,14 +369,15 @@ db.carry_alternative_votes = function (username, old_hash, new_hash, callback) {
         '     , NOT mydownvotes AS relevant ' +
         '     , supports AS supports ' +
         'FROM RelevanceScores ' +
-        'WHERE conclusion_hash = ? AND username = ?',
+        'WHERE conclusion_hash = ? AND username = ?' +
+        'ON DUPLICATE KEY UPDATE username = VALUES(username)',
         [ new_hash, old_hash, username],
         function (err) {
             if (err) {
                 return callback(err);
             }
             client.query(
-                'REPLACE INTO RelevanceVotes ' +
+                'INSERT INTO RelevanceVotes ' +
                 '  (conclusion_hash, premise_hash, username, relevant, supports) ' +
                 'SELECT conclusion_hash AS conclusion_hash ' +
                 '     , ? AS premise_hash ' +
@@ -384,7 +385,8 @@ db.carry_alternative_votes = function (username, old_hash, new_hash, callback) {
                 '     , NOT mydownvotes AS relevant ' +
                 '     , supports AS supports ' +
                 'FROM RelevanceScores ' +
-                'WHERE premise_hash = ? AND username = ?',
+                'WHERE premise_hash = ? AND username = ?' +
+                'ON DUPLICATE KEY UPDATE username = VALUES(username)',
                 [ new_hash, old_hash, username],
                 function (err) {
                     if (err) {
