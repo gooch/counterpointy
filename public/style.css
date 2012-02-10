@@ -209,6 +209,19 @@ a img {
   margin: 5px 0;
 }
 
+.searchbar input[type="text"] {
+  border: 1px solid rgba(0,0,0,0.2);
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  padding: 3px 3px 3px 20px;
+  background-color: #fff;
+  background-image: url(/search.png);
+  background-repeat: no-repeat;
+  background-position: 5px center;
+
+}
+
 .required {
   color: #d44;
 }
