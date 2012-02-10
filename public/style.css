@@ -23,6 +23,26 @@ td {
   font-size: 15px;
 }
 
+a:link, a:visited, a:hover {
+  color: #666;
+}
+
+.point-inner a:link {
+  color: #00e;
+}
+
+.point-inner a:visited {
+  color: #551a8b;
+}
+
+.point-inner a:hover {
+  color: #00e;
+}
+
+.point-inner a:active {
+  color: #e00;
+}
+
 a:link, a:visited {
   text-decoration: none;
 }
@@ -227,10 +247,6 @@ a img {
 
 .add-premise {
   margin: 5px 0;
-}
-
-.add-premise a, .point-link a, .loggedin a, .footer a, a.cancel-button {
-  color: #666;
 }
 
 .stance-undecided {
