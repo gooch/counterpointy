@@ -76,7 +76,8 @@ $(document).ready(function () {
         var $this = $(this);
 
         var conclusion_hash = $('.main-point').data('hash');
-        var premise_hash = $this.closest('.point').data('pointHash');
+        var point = $this.closest('.point');
+        var premise_hash = point.data('pointHash');
 
         var premiseStance;
         if ($this.closest('.supporting').length) {
@@ -110,7 +111,15 @@ $(document).ready(function () {
                 );
             },
             success: function () {
-                location.reload(true);  // FIXME unwanted page load
+                var upvote = point.find('.upvote');
+                var downvote = point.find('.downvote');
+                upvote.removeClass('checked');
+                downvote.removeClass('checked');
+                if (vote === 'up') {
+                    upvote.addClass('checked');
+                } else if (vote === 'down') {
+                    downvote.addClass('checked');
+                }
             }
         });
     });
