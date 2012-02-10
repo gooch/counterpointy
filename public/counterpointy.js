@@ -27,7 +27,7 @@ $(document).ready(function () {
             alert('Please log in to contribute.');
             return false;
         }
-        $(this).hide().next().show().children('textarea').focus();
+        $(this).next().toggle().children('textarea').focus();
         return false;
     });
 
