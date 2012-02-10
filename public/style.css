@@ -24,7 +24,6 @@ td {
 }
 
 a:link, a:visited {
-  color: #00e;
   text-decoration: none;
 }
 
@@ -230,7 +229,7 @@ a img {
   margin: 5px 0;
 }
 
-.add-premise a {
+.add-premise a, .point-link a, .loggedin a, .footer a, a.cancel-button {
   color: #666;
 }
 
@@ -277,17 +276,8 @@ a img {
   color: #f66;
 }
 
-.loggedin a {
-  color: #666;
-}
-
 div.footer {
   padding: 15px;
-}
-
-div.footer a {
-  color: #666;
-  text-decoration: none;
 }
 
 div.footer ul {
