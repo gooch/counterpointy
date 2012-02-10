@@ -219,7 +219,7 @@ a img {
   background-image: url(/search.png);
   background-repeat: no-repeat;
   background-position: 5px center;
-
+  width: 90px;
 }
 
 .required {
