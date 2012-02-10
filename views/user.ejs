@@ -1,4 +1,4 @@
-<div class="left column">
+<div class="fullwidth">
     <div class="profile-avatar">
         <%- partial('avatar80', { user: user }) %>
     </div>
@@ -11,8 +11,8 @@
         </p>
     </div>
 </div>
-<div class="right column">
-    <% if (session.user && session.user.username == user.username) { %>
+<% if (session.user && session.user.username == user.username) { %>
+    <div class="right column">
         <div>
             <p>
                 This is you!&nbsp; <a href="/options">Edit your profile</a>
@@ -23,8 +23,8 @@
                 (We're using <%= session.user.email %>)
             </p>
         </div>
-    <% } %>
-</div>
+    </div>
+<% } %>
 
 <br class="clear-both" />
 
