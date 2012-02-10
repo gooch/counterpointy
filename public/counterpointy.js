@@ -56,7 +56,29 @@ $(document).ready(function () {
     });
 
     $('.pstance select').change(function () {
-        $(this).closest('form').submit();
+        var $this = $(this);
+        var val = $this.val();
+        var hash = $('.main-point').data('hash');
+        $.ajax({
+            type: 'POST',
+            url: '/' + hash + '/pstance',
+            data: { stance: val },
+            error: function (xhr, textStatus, errorThrown) {
+                // FIXME friendly ajax error message
+                alert(
+                    (textStatus || '') + '\n' +
+                    (errorThrown || '') + '\n' +
+                    (xhr.statusText || '')
+                );
+            },
+            success: function () {
+                if (val === 'undecided') {
+                    $this.addClass('stance-undecided');
+                } else {
+                    $this.removeClass('stance-undecided');
+                }
+            }
+        });
     });
 
     $('.point-entry').autocomplete({
