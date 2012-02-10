@@ -1,5 +1,6 @@
 body {
   font: 13px/1.5 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif;
+  color: #222;
   background-color: #e2e1de;
   margin: 0px;
   word-wrap: break-word;
@@ -23,24 +24,12 @@ td {
   font-size: 15px;
 }
 
-a:link, a:visited, a:hover {
+a {
   color: #666;
 }
 
-.point-inner a:link {
-  color: #00e;
-}
-
-.point-inner a:visited {
-  color: #551a8b;
-}
-
-.point-inner a:hover {
-  color: #00e;
-}
-
-.point-inner a:active {
-  color: #e00;
+.point-inner a {
+  color: #08b;
 }
 
 a:link, a:visited {
