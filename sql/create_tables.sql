@@ -3,7 +3,7 @@ CREATE TABLE Users (
   fullname      VARCHAR(255) CHARACTER SET utf8 NOT NULL,
   email         VARCHAR(255) CHARACTER SET ascii NOT NULL,
   password_hash VARCHAR(60) CHARACTER SET ascii NOT NULL,
-  create_time   TIMESTAMP NOT NULL
+  create_time   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 INSERT INTO Users SET username = "", fullname = "Anonymous User";
