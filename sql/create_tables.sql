@@ -46,6 +46,18 @@ CREATE INDEX Edits_old_hash_new_hash
   on Edits (old_hash, new_hash);
 
 
+CREATE TABLE EditRejections (
+  old_hash      VARCHAR(64) CHARACTER SET ascii NOT NULL,
+  username      VARCHAR(16) CHARACTER SET ascii NOT NULL,
+  new_hash      VARCHAR(64) CHARACTER SET ascii NOT NULL,
+  create_time   TIMESTAMP NOT NULL,
+  PRIMARY KEY (old_hash, new_hash, username),
+  FOREIGN KEY (old_hash) REFERENCES Points (hash),
+  FOREIGN KEY (new_hash) REFERENCES Points (hash),
+  FOREIGN KEY (username) REFERENCES Users (username)
+);
+
+
 CREATE TABLE RelevanceVotes (
   conclusion_hash       VARCHAR(64) CHARACTER SET ascii NOT NULL,
   premise_hash          VARCHAR(64) CHARACTER SET ascii NOT NULL,
