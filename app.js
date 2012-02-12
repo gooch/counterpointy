@@ -278,7 +278,7 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
 app.post('/new_point', needuser, function (req, res, next) {
     var my_username = req.session.user.username;
     var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
-    db.create_point(req.body.text, function (err, point_hash) {
+    db.create_point(req.body.text, my_username, function (err, point_hash) {
         if (err) {
             return next(err);
         }
@@ -408,7 +408,7 @@ app.post('/:old_hash/edit', needuser, function (req, res, next) {
         return next();
     }
     var my_username = req.session.user.username;
-    db.create_point(req.body.text, function (err, new_hash) {
+    db.create_point(req.body.text, my_username, function (err, new_hash) {
         if (err) {
             return next(err);
         }

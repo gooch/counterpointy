@@ -12,7 +12,9 @@ INSERT INTO Users SET username = "", fullname = "Anonymous User";
 CREATE TABLE Points (
   hash          VARCHAR(64) CHARACTER SET ascii NOT NULL PRIMARY KEY,
   text          TEXT CHARACTER SET utf8 NOT NULL,
-  create_time   TIMESTAMP NOT NULL
+  username      VARCHAR(16) CHARACTER SET ascii NOT NULL,
+  create_time   TIMESTAMP NOT NULL,
+  FOREIGN KEY (username) REFERENCES Users (username)
 );
 
 CREATE FULLTEXT INDEX Points_fulltext ON Points(text);

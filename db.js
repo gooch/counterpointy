@@ -128,7 +128,7 @@ db.get_opinions = function (hash, callback) {
 };
 
 db.add_premise = function (conclusion_hash, text, supports, username, callback) {
-    db.create_point(text, function (err, premise_hash) {
+    db.create_point(text, username, function (err, premise_hash) {
         if (err) {
             return callback(err);
         }
@@ -232,13 +232,13 @@ db.set_pstance = function (username, hash, stance, callback) {
 };
 
 // callback(err, hash)
-db.create_point = function (text, callback) {
+db.create_point = function (text, username, callback) {
     text = ('' + text).trim().replace(/\s+/g, ' ');
     var hash = sha256(text);
     client.query(
-        'INSERT INTO Points SET hash = ?, text = ? ' +
+        'INSERT INTO Points SET hash = ?, text = ?, username = ? ' +
         ' ON DUPLICATE KEY UPDATE hash = hash',
-        [ hash, text ],
+        [ hash, text, username ],
         function (err) {
             callback(err, hash);
         }
