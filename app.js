@@ -318,7 +318,8 @@ app.post('/:hash/pstance', needuser, function (req, res, next) {
 
 app.get('/search', function (req, res, next) {
     var query = '' + (req.query.q || '');
-    db.search(query, function (err, points) {
+    var my_username = req.session && req.session.user && req.session.user.username;
+    db.search(my_username, query, function (err, points) {
         if (err) {
             return next(err);
         }

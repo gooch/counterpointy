@@ -258,10 +258,15 @@ db.create_point = function (text, username, callback) {
 
 // callback(err, points)
 // http://www.slideshare.net/billkarwin/practical-full-text-search-with-my-sql
-db.search = function (query, callback) {
+db.search = function (username, query, callback) {
     client.query(
-        'SELECT hash, text FROM Points WHERE MATCH(text) AGAINST(?)',
-        [ '' + query ],
+        'SELECT p.hash, p.text, ps.stance ' +
+        '  FROM Points p ' +
+        '  LEFT OUTER JOIN ' +
+        '    (SELECT * FROM PStances WHERE username = ?) ps ' +
+        '    ON ps.point_hash = p.hash ' +
+        '  WHERE MATCH(text) AGAINST(?)',
+        [ username, '' + query ],
         callback
     );
 };
