@@ -55,10 +55,29 @@ $(document).ready(function () {
         return false;
     });
 
-    $('.pstance select').change(function () {
+    $('.pvote .button').click(function () {
+        if (!username) {
+            alert('Please log in to vote.');    // FIXME alert sucks
+            return;
+        }
         var $this = $(this);
-        var val = $this.val();
-        var hash = $('.main-point').data('hash');
+        var hash = $this.closest('.point').data('pointHash') ||
+                    $('.main-point').data('hash');
+        if (!hash) {
+            throw new Error('confused about hash');
+        }
+        var val;
+        if ($this.hasClass('checked')) {
+            val = 'neutral';
+        } else if ($this.hasClass('true')) {
+            val = 'true';
+        } else if ($this.hasClass('undecided')) {
+            val = 'undecided';
+        } else if ($this.hasClass('false')) {
+            val = 'false';
+        } else {
+            throw new Error('confused about val');
+        }
         $.ajax({
             type: 'POST',
             url: '/' + hash + '/pstance',
@@ -72,10 +91,14 @@ $(document).ready(function () {
                 );
             },
             success: function () {
-                if (val === 'undecided') {
-                    $this.addClass('stance-undecided');
-                } else {
-                    $this.removeClass('stance-undecided');
+                var pvote = $this.closest('.pvote');
+                pvote.children('.button').removeClass('checked');
+                if (val === 'true') {
+                    pvote.find('.true').addClass('checked');
+                } else if (val == 'undecided') {
+                    pvote.find('.undecided').addClass('checked');
+                } else if (val == 'false') {
+                    pvote.find('.false').addClass('checked');
                 }
             }
         });

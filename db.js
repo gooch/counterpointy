@@ -226,7 +226,18 @@ db.set_pstance = function (username, hash, stance, callback) {
     client.query(
         'REPLACE INTO PStances ' +
         '  SET username = ?, point_hash = ?, stance = ?',
-        [ username, hash, stance || 0 ],
+        [ username, hash, stance ],
+        callback
+    );
+};
+
+// callback(err)
+db.delete_pstance = function (username, hash, callback) {
+    client.query(
+        'DELETE FROM PStances ' +
+        '  WHERE username = ? AND point_hash = ? ' +
+        '  LIMIT 1',
+        [ username, hash ],
         callback
     );
 };

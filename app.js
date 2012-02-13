@@ -303,13 +303,28 @@ app.post('/:hash/pstance', needuser, function (req, res, next) {
     if (!db.valid_hash.test(hash)) {
         return next();
     }
-    var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
     var my_username = req.session.user.username;
-    db.set_pstance(my_username, hash, stance, function (err) {
+    var stance = {
+        'true': 1,
+        'neutral': 0,
+        'false': -1,
+        'undecided': null
+    }[req.body.stance];
+    if (undefined === stance) {
+        console.log(req.body);
+        return res.send('invalid stance', 400);
+    }
+    (function (done) {
+        if (null === stance) {
+            db.delete_pstance(my_username, hash, done);
+        } else {
+            db.set_pstance(my_username, hash, stance, done);
+        }
+    })(function (err) {
         if (err) {
             return next(err);
         }
-        res.redirect('/' + shorthash(hash));
+        res.send(200);
     });
 });
 

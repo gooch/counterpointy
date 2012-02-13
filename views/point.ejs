@@ -9,14 +9,11 @@
             </div>
         </div>
     <% } %>
-    <div class="point-stance">
-        <%- point.stance > 0 ? '&#x2713;' : point.stance < 0 ? '&#x2715;' : '-' %>
+    <div class="point-link">
+        <a href="/<%= shorthash(point.hash) %>">&gt;</a>
     </div>
     <div class="point-text point-inner">
         <%- linkify(point.text) %>
     </div>
-    <div class="point-link">
-        <a href="/<%= shorthash(point.hash) %>">&gt;</a>
-    </div>
-    <div class="clear-both"></div>
+    <%- partial('pvote') %>
 </div>

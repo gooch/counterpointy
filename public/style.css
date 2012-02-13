@@ -19,7 +19,7 @@ td {
   margin: 5px 3px;
 }
 
-.main-point, .main-point-edit textarea {
+.main-point, .main-point-edit textarea, .main-pvote {
   font-weight: bold;
   font-size: 15px;
 }
@@ -90,7 +90,7 @@ div.container {
     width: 640px;
   }
 
-  .main-point, .main-point-edit textarea {
+  .main-point, .main-point-edit textarea, .main-pvote {
     font-size: 20px;
   }
 }
@@ -160,7 +160,8 @@ a img {
 
 .point {
   clear: both;
-  padding: 5px 0;
+  position: relative;
+  padding: 8px 0;
   margin: 0 -8px;
   border-top: 1px solid rgba(0,0,0,0.2);
 }
@@ -177,23 +178,18 @@ a img {
 
 .point-voting {
   width: 20px;
-  float: left;
-}
-
-.point-stance {
-  width: 20px;
-  float: left;
-  text-align: center;
+  position: absolute;
 }
 
 .point-text {
-  float: left;
-  width: 250px;
+  padding-left: 28px;
+  padding-right: 16px;
   word-wrap: break-word;
 }
 
 .point-link {
-  float: right;
+  position: absolute;
+  right: 0;
   width: 16px;
   text-align: center;
 }
@@ -238,10 +234,6 @@ a img {
   margin: 5px 0;
 }
 
-.stance-undecided {
-  background-color: #fb4;
-}
-
 .title img {
   -webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.2);
@@ -266,11 +258,11 @@ a img {
 }
 
 .upvote.checked {
-  color: #0b0;
+  color: #08b;
 }
 
 .upvote.checked:hover {
-  color: #4c4;
+  color: #4ac;
 }
 
 .downvote.checked {
@@ -289,4 +281,77 @@ div.footer ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+}
+
+
+/* A .pvote block contains green, yellow and red buttons
+ * for voting true/undecided/false on points, centred,
+ * with vote counts on left and right.
+ */
+.pvote {
+  font-size: 0.8em;
+  line-height: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0.6em;
+}
+
+.pvote div {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.pvote .count {
+  width: 2em;
+}
+
+.pvote .true, .pvote .undecided, .pvote .false {
+  width: 1.5em;
+  height: 1.5em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  border-radius: 1em;
+  background-color: #ddd;
+  color: #fff;
+}
+
+.pvote .true:before {
+  content: "\2713";
+}
+
+.pvote .undecided:before {
+  content: "?";
+}
+
+.pvote .false:before {
+  content: "\2715";
+}
+
+.pvote .button:hover {
+  background-color: #bbb;
+}
+
+.pvote .true.checked {
+  background-color: #0b0;
+}
+
+.pvote .true.checked.button:hover {
+  background-color: #4c4;
+}
+
+.pvote .undecided.checked {
+  background-color: #fb4;
+}
+
+.pvote .undecided.checked.button:hover {
+  background-color: #fc8;
+}
+
+.pvote .false.checked {
+  background-color: #e33;
+}
+
+.pvote .false.checked.button:hover {
+  background-color: #f66;
 }

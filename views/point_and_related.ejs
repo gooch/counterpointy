@@ -2,6 +2,9 @@
 <div class="main-point point-inner" data-hash="<%= point.hash %>" data-text="<%= point.text %>">
 <%- linkify(point.text) %>
 </div>
+<div class="main-pvote">
+    <%- partial('pvote') %>
+</div>
 <% if (session.user) { %>
     <div class="main-point-edit" style="display: none">
         <form method="POST" action="/<%= point.hash %>/edit">
@@ -10,9 +13,6 @@
             <a href="#" class="cancel-button">Cancel</a>
         </form>
     </div>
-    <form class="pstance" method="POST" action="/<%= point.hash %>/pstance">
-        <%- partial('select_stance', { stance: point.stance }) %>
-    </form>
 <% } %>
 
 <% function showUsers(users, partial) {

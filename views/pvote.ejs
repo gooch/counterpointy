@@ -1,0 +1,11 @@
+<div class="pvote">
+    <% if (!isNaN(+point.truevotes)) { %>
+        <div class="count"><%= +point.truevotes %></div>
+    <% } %>
+    <div class="true <%= point.stance > 0 ? 'checked' : '' %> button"></div>
+    <div class="undecided <%= (null === point.stance) ? 'checked' : '' %> button"></div>
+    <div class="false <%= point.stance < 0 ? 'checked' : '' %> button"></div>
+    <% if (!isNaN(+point.falsevotes)) { %>
+        <div class="count"><%= +point.falsevotes %></div>
+    <% } %>
+</div>
