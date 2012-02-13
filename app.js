@@ -248,7 +248,6 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
         return res.send("Premise text is required.", 400);
     }
     premise_text = '' + premise_text;
-    var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
     var my_username = req.session.user.username;
 
     db.get_point(conclusion_hash, function (err, point) {
@@ -264,12 +263,7 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                db.set_pstance(my_username, premise_hash, stance, function (err) {
-                    if (err) {
-                        return next(err);
-                    }
-                    res.redirect('/' + shorthash(conclusion_hash));
-                });
+                res.redirect('/' + shorthash(conclusion_hash));
             }
         );
     });
@@ -277,17 +271,11 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
 
 app.post('/new_point', needuser, function (req, res, next) {
     var my_username = req.session.user.username;
-    var stance = { 'agree': 1, 'disagree': -1 }[req.body.stance];
     db.create_point(req.body.text, my_username, function (err, point_hash) {
         if (err) {
             return next(err);
         }
-        db.set_pstance(my_username, point_hash, stance, function (err) {
-            if (err) {
-                return next(err);
-            }
-            res.redirect('/' + shorthash(point_hash));
-        });
+        res.redirect('/' + shorthash(point_hash));
     });
 });
 

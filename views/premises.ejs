@@ -8,7 +8,6 @@ var verb = support ? 'support' : 'oppose';
     </div>
     <form style="display: none" method="POST" action="/<%= point.hash %>/add_premise/<%= verb %>">
         <textarea class="point-entry" name="text" rows="4"></textarea>
-        <%- partial('select_stance', { stance: 1 }) %>
         <input class="save-button" type="submit" value="Save" />
     </form>
 </div>
