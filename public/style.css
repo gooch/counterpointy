@@ -258,11 +258,11 @@ a img {
 }
 
 .upvote.checked {
-  color: #08b;
+  color: #0b0;
 }
 
 .upvote.checked:hover {
-  color: #4ac;
+  color: #4c4;
 }
 
 .downvote.checked {
@@ -314,6 +314,11 @@ div.footer ul {
   border-radius: 1em;
   background-color: #ddd;
   color: #fff;
+}
+
+.pvote .undecided {
+  margin-left: 1em;
+  margin-right: 1em;
 }
 
 .pvote .true:before {
