@@ -176,7 +176,7 @@ a img {
   border-top: 1px solid rgba(0,0,0,0.2);
 }
 
-.main-point:hover {
+.main-point .point-inner:hover {
   background-color: #b8d8ff;
   cursor: pointer;
 }

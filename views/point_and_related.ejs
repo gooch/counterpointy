@@ -1,9 +1,11 @@
 <div class="fullwidth">
 <div class="main-point point-inner" data-hash="<%= point.hash %>" data-text="<%= point.text %>">
-<%- linkify(point.text) %>
-</div>
-<div class="main-pvote">
-    <%- partial('pvote') %>
+    <div class="point-inner">
+        <%- linkify(point.text) %>
+    </div>
+    <div class="main-pvote">
+        <%- partial('pvote') %>
+    </div>
 </div>
 <% if (session.user) { %>
     <div class="main-point-edit" style="display: none">
