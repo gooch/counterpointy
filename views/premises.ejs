@@ -2,12 +2,9 @@
 var article_gerund = support ? 'a supporting' : 'an opposing';
 var verb = support ? 'support' : 'oppose';
 %>
-<div class="add-premise">
-    <div class="expandable">
-        <a href="#">Add <%= article_gerund %> point</a>
-    </div>
-    <form style="display: none" method="POST" action="/<%= point.hash %>/add_premise/<%= verb %>">
-        <textarea class="point-entry" name="text" rows="4"></textarea>
+<div class="point-entry collapsed">
+    <form method="POST" action="/<%= point.hash %>/add_premise/<%= verb %>">
+        <textarea name="text" rows="1">Add <%= article_gerund %> point</textarea>
         <input class="save-button" type="submit" value="Save" />
     </form>
 </div>

@@ -104,9 +104,20 @@ $(document).ready(function () {
         });
     });
 
-    $('.point-entry').autocomplete({
+    $('.point-entry textarea').autocomplete({
         source: '/suggest.json',
         minLength: 3
+    });
+
+    $('.point-entry textarea').focus(function () {
+        var $this = $(this);
+        var entry = $this.closest('.point-entry');
+        if (!entry.hasClass('collapsed')) {
+            return;
+        }
+        entry.removeClass('collapsed');
+        $this.val('');
+        $this.attr('rows', '4');
     });
 
     $('.upvote, .downvote').click(function () {

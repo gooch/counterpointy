@@ -250,10 +250,6 @@ a img {
   color: #d44;
 }
 
-.add-premise {
-  margin: 5px 0;
-}
-
 .title img {
   -webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.2);
@@ -419,4 +415,20 @@ div.footer ul {
 .carrot-right-upper {
   right: 248px;
   border-right: none;
+}
+
+.point-entry.collapsed textarea {
+  color: #666;
+}
+
+.point-entry.collapsed input.save-button {
+  display: none;
+}
+
+textarea {
+  border: 1px solid #ddd;
+}
+
+textarea:hover {
+  border-color: #999;
 }
