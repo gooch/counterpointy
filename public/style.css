@@ -122,6 +122,11 @@ div.column, div.fullwidth {
   overflow: auto;
 }
 
+div.over-carrot {
+  position: relative;
+  z-index: 1;
+}
+
 div.left {
   float: left;
 }
