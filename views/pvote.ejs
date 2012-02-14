@@ -2,9 +2,9 @@
     <div class="count">
         <%- partial('linkedcount', { count: +point.truevotes, href: opt.truevotehref }) %>
     </div>
-    <div class="true <%= point.stance > 0 ? 'checked' : '' %> button"></div>
-    <div class="undecided <%= (null === point.stance) ? 'checked' : '' %> button"></div>
-    <div class="false <%= point.stance < 0 ? 'checked' : '' %> button"></div>
+    <div class="true <%= point.stance > 0 ? 'checked' : '' %> button" title="True"></div>
+    <div class="undecided <%= (null === point.stance) ? 'checked' : '' %> button" title="Undecided"></div>
+    <div class="false <%= point.stance < 0 ? 'checked' : '' %> button" title="False"></div>
     <div class="count">
         <%- partial('linkedcount', { count: +point.falsevotes, href: opt.falsevotehref }) %>
     </div>
