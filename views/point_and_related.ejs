@@ -1,5 +1,5 @@
 <div class="fullwidth">
-<div class="main-point point-inner" data-hash="<%= point.hash %>" data-text="<%= point.text %>">
+<div class="main-point" data-hash="<%= point.hash %>" data-text="<%= point.text %>">
     <div class="point-inner">
         <%- linkify(point.text) %>
     </div>
@@ -16,21 +16,6 @@
         </form>
     </div>
 <% } %>
-
-<% function showUsers(users, partial) {
-    users.forEach(function (user) {
-        %><%- partial('avatar20', { user: user }) %><%
-    });
-}
-%>
-<!--
-<% if (agree.length) { %>
-    <p class="heading">Agree: <% showUsers(agree, partial); %></p>
-<% } %>
-<% if (disagree.length) { %>
-    <p class="heading">Disagree: <% showUsers(disagree, partial); %></p>
-<% } %>
--->
 
 </div>
 
