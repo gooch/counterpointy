@@ -1,0 +1,9 @@
+<% if (!isNaN(count)) {
+    if (href) { %>
+        <a href="<%= href %>">
+            <%= count %>
+        </a>
+    <% } else { %>
+        <%= count %>
+    <% } %>
+<% } %>
