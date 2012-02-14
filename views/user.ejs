@@ -29,7 +29,7 @@
 <br class="clear-both" />
 
 <div class="left column">
-    <h3><%= user.username %> agrees:</h3>
+    <h3><%= user.username %> agrees</h3>
     <%- partial('points', {
             points: points.filter(function (p) {
                         return p.other_stance > 0;
@@ -39,7 +39,7 @@
 </div>
 
 <div class="right column">
-    <h3><%= user.username %> disagrees:</h3>
+    <h3><%= user.username %> disagrees</h3>
     <%- partial('points', {
             points: points.filter(function (p) {
                         return p.other_stance < 0;

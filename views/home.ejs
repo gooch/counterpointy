@@ -1,5 +1,5 @@
 <div class="fullwidth">
-    <p class="heading">Make your point:</p>
+    <h4>Make your point</h4>
     <form method="POST" action="/new_point">
         <textarea class="point-entry" name="text"></textarea>
         <input class="save-button" type="submit" value="Save" />
@@ -7,11 +7,11 @@
 </div>
 
 <div class="left featured column">
-    <h2>Featured points:</h2>
+    <h2>Featured points</h2>
     <%- partial('points', { points: featured_points }) %>
 </div>
 
 <div class="right recent column">
-    <h2>Recent points:</h2>
+    <h2>Recent points</h2>
     <%- partial('points', { points: recent_points }) %>
 </div>
