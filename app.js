@@ -165,27 +165,49 @@ app.get('/point/:hashprefix', function (req, res, next) {
     res.redirect('/' + hashprefix);
 });
 
+// callback(err, point)
+//
+// hashprefix must match db.valid_hashprefix
+//
+// If err and point are falsy a response has already been sent:
+// either a 404 or a list of the points matching hashprefix.
+//
+function disambiguate(hashprefix, req, res, callback)
+{
+    var my_username = req.session && req.session.user && req.session.user.username;
+    db.get_points_with_stance(hashprefix, my_username, function (err, points) {
+        if (err) {
+            return callback(err);
+        }
+        if (!points || !points.length) {
+            res.send(404);
+            return callback();
+        }
+        if (points.length > 1) {
+            res.render('hashprefix_disambiguation', {
+                opt: { layout_complex: true },
+                points: points,
+                hashprefix: hashprefix
+            });
+            return callback();
+        }
+        return callback(null, points[0]);
+    });
+}
+
 app.get('/:hashprefix', function (req, res, next) {
     var hashprefix = req.params.hashprefix;
     if (!db.valid_hashprefix.test(hashprefix)) {
         return next();
     }
     var my_username = req.session && req.session.user && req.session.user.username;
-    db.get_points_with_stance(hashprefix, my_username, function (err, points) {
+    disambiguate(hashprefix, req, res, function (err, point) {
         if (err) {
             return next(err);
         }
-        if (!points || !points.length) {
-            return res.send(404);
+        if (!point) {
+            return;
         }
-        if (points.length > 1) {
-            return res.render('hashprefix_disambiguation', {
-                opt: { layout_complex: true },
-                points: points,
-                hashprefix: hashprefix
-            });
-        }
-        var point = points[0];
         var hash = point.hash;
         db.get_premises_for_conclusion(hash, my_username, function (err, premises) {
             if (err) {
@@ -195,10 +217,12 @@ app.get('/:hashprefix', function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                db.get_opinions(hash, function (err, opinions) {
+                db.count_pvotes(hash, function (err, pvotes) {
                     if (err) {
                         return next(err);
                     }
+                    point.truecount = pvotes.truecount;
+                    point.falsecount = pvotes.falsecount;
                     db.get_my_outgoing_edit(my_username, hash, function (err, preferred) {
                         if (err) {
                             return next(err);
@@ -211,8 +235,6 @@ app.get('/:hashprefix', function (req, res, next) {
                                 opt: { layout_complex: true },
                                 title: point.text,
                                 point: point,
-                                agree:    opinions.filter(function (o) { return o.stance > 0; }),
-                                disagree: opinions.filter(function (o) { return o.stance < 0; }),
                                 supporting: premises.filter(function (r) { return r.supports; }),
                                 opposing:   premises.filter(function (r) { return !r.supports; }),
                                 related: related,
@@ -233,6 +255,38 @@ app.get('/:hashprefix', function (req, res, next) {
         });
     });
 });
+
+app.get('/:hashprefix/votes', function (req, res, next) {
+    var hashprefix = req.params.hashprefix;
+    if (!db.valid_hashprefix.test(hashprefix)) {
+        return next();
+    }
+    var my_username = req.session && req.session.user && req.session.user.username;
+    disambiguate(hashprefix, req, res, function (err, point) {
+        if (err) {
+            return next(err);
+        }
+        if (!point) {
+            return;
+        }
+        db.get_opinions(point.hash, function(err, pvotes) {
+            if (err) {
+                return next(err);
+            }
+            var truevotes = pvotes.filter(function(v){return v.stance > 0;});
+            var falsevotes = pvotes.filter(function(v){return v.stance < 0;});
+            point.truecount = truevotes.length;
+            point.falsecount = falsevotes.length;
+            return res.render('pvotes', {
+                opt: { layout_complex: true },
+                point: point,
+                truevotes: truevotes,
+                falsevotes: falsevotes,
+            });
+        });
+    });
+});
+
 
 app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
     var conclusion_hash = req.params.hash;

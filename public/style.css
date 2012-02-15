@@ -145,7 +145,7 @@ div.related {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin-top: 0;
+  margin-top: auto;
   margin-bottom: 0.66em;
   text-align: center;
 }
@@ -177,10 +177,10 @@ a img {
   margin: 6px 0px 6px 12px;
 }
 
-.point {
+.point, .item {
   clear: both;
   position: relative;
-  padding: 8px 0;
+  padding: 8px;
   margin: 0 -8px;
   border-top: 1px solid rgba(0,0,0,0.2);
 }
@@ -196,12 +196,11 @@ a img {
 }
 
 .point-voting {
-  width: 20px;
   position: absolute;
 }
 
 .point-text {
-  padding-left: 28px;
+  padding-left: 20px;
   padding-right: 16px;
   word-wrap: break-word;
 }
@@ -313,16 +312,15 @@ div.footer ul {
   padding: 0.6em;
 }
 
-.pvote div {
+.pvote .count {
   vertical-align: middle;
   display: inline-block;
-}
-
-.pvote .count {
   width: 2em;
 }
 
-.pvote .true, .pvote .undecided, .pvote .false {
+.pvote-true, .pvote-undecided, .pvote-false {
+  vertical-align: middle;
+  display: inline-block;
   width: 1.5em;
   height: 1.5em;
   -webkit-border-radius: 0.75em;
@@ -332,20 +330,20 @@ div.footer ul {
   color: #fff;
 }
 
-.pvote .undecided {
+.pvote .pvote-undecided {
   margin-left: 1em;
   margin-right: 1em;
 }
 
-.pvote .true:before {
+.pvote-true:before {
   content: "\2713";
 }
 
-.pvote .undecided:before {
+.pvote-undecided:before {
   content: "?";
 }
 
-.pvote .false:before {
+.pvote-false:before {
   content: "\2715";
 }
 
@@ -353,27 +351,27 @@ div.footer ul {
   background-color: #bbb;
 }
 
-.pvote .true.checked {
+.pvote-true.checked {
   background-color: #0b0;
 }
 
-.pvote .true.checked.button:hover {
+.pvote-true.checked.button:hover {
   background-color: #4c4;
 }
 
-.pvote .undecided.checked {
+.pvote-undecided.checked {
   background-color: #fb4;
 }
 
-.pvote .undecided.checked.button:hover {
+.pvote-undecided.checked.button:hover {
   background-color: #fc8;
 }
 
-.pvote .false.checked {
+.pvote-false.checked {
   background-color: #e33;
 }
 
-.pvote .false.checked.button:hover {
+.pvote-false.checked.button:hover {
   background-color: #f66;
 }
 

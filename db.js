@@ -127,6 +127,20 @@ db.get_opinions = function (hash, callback) {
     );
 };
 
+// callback(err, pvotes)
+db.count_pvotes = function (hash, callback) {
+    client.query(
+        'SELECT SUM(stance > 0) AS truecount ' +
+        '     , SUM(stance < 0) AS falsecount ' +
+        '  FROM PStances ' +
+        '  WHERE point_hash = ? ',
+        [ hash ],
+        function (err, results) {
+            callback(err, results && results[0]);
+        }
+    );
+};
+
 db.add_premise = function (conclusion_hash, text, supports, username, callback) {
     db.create_point(text, username, function (err, premise_hash) {
         if (err) {

@@ -1,23 +1,4 @@
-<div class="fullwidth">
-<div class="main-point" data-hash="<%= point.hash %>" data-text="<%= point.text %>">
-    <div class="point-inner">
-        <%- linkify(point.text) %>
-    </div>
-    <div class="main-pvote">
-        <%- partial('pvote') %>
-    </div>
-</div>
-<% if (session.user) { %>
-    <div class="main-point-edit" style="display: none">
-        <form method="POST" action="/<%= point.hash %>/edit">
-            <textarea name="text" rows="4"><%= point.text %></textarea>
-            <input class="save-button" type="submit" value="Save" />
-            <a href="#" class="cancel-button">Cancel</a>
-        </form>
-    </div>
-<% } %>
-
-</div>
+<%- partial('main_point') %>
 
 <!--
 <div class="share fullwidth">
@@ -61,12 +42,7 @@
 
 <div class="clear-both"></div>
 
-<div class="carrots">
-    <div class="carrot-lower carrot-left"></div>
-    <div class="carrot-upper carrot-left"></div>
-    <div class="carrot-lower carrot-right"></div>
-    <div class="carrot-upper carrot-right"></div>
-</div>
+<%- partial('carrots') %>
 
 <div class="left supporting column">
     <h3>Supporting</h3>

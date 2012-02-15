@@ -69,11 +69,11 @@ $(document).ready(function () {
         var val;
         if ($this.hasClass('checked')) {
             val = 'neutral';
-        } else if ($this.hasClass('true')) {
+        } else if ($this.hasClass('pvote-true')) {
             val = 'true';
-        } else if ($this.hasClass('undecided')) {
+        } else if ($this.hasClass('pvote-undecided')) {
             val = 'undecided';
-        } else if ($this.hasClass('false')) {
+        } else if ($this.hasClass('pvote-false')) {
             val = 'false';
         } else {
             throw new Error('confused about val');
@@ -94,11 +94,11 @@ $(document).ready(function () {
                 var pvote = $this.closest('.pvote');
                 pvote.children('.button').removeClass('checked');
                 if (val === 'true') {
-                    pvote.find('.true').addClass('checked');
+                    pvote.find('.pvote-true').addClass('checked');
                 } else if (val == 'undecided') {
-                    pvote.find('.undecided').addClass('checked');
+                    pvote.find('.pvote-undecided').addClass('checked');
                 } else if (val == 'false') {
-                    pvote.find('.false').addClass('checked');
+                    pvote.find('.pvote-false').addClass('checked');
                 }
             }
         });

@@ -1,0 +1,8 @@
+<% voters.forEach(function (voter) { %>
+    <div class="item">
+        <%- partial('avatar20', { user: voter }) %>
+        <a href="/~<%= voter.username %>">
+            <%= voter.fullname || voter.username %>
+        </a>
+    </div>
+<% }); %>
