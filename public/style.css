@@ -389,16 +389,6 @@ div.footer ul {
   border-bottom: none;
 }
 
-.carrot-left-lower {
-  left: 248px;
-  border-left: none;
-}
-
-.carrot-right-lower {
-  right: 248px;
-  border-right: none;
-}
-
 .carrot-upper {
   position: absolute;
   bottom: -6px;
@@ -407,13 +397,13 @@ div.footer ul {
   border-bottom: none;
 }
 
-.carrot-left-upper {
-  left: 248px;
+.carrot-left {
+  left: 244px;
   border-left: none;
 }
 
-.carrot-right-upper {
-  right: 248px;
+.carrot-right{
+  right: 244px;
   border-right: none;
 }
 
