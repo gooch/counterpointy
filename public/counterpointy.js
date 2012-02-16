@@ -33,7 +33,7 @@ $(document).ready(function () {
 
     $('.focus-on-load').focus();
 
-    $('.main-point').click(function (event) {
+    $('.main-point .point-inner').click(function (event) {
         if (targetIsNotThePoint(event)) {
             return;
         }
