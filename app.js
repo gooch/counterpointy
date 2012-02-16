@@ -175,7 +175,7 @@ app.get('/point/:hashprefix', function (req, res, next) {
 function disambiguate(hashprefix, req, res, callback)
 {
     var my_username = req.session && req.session.user && req.session.user.username;
-    db.get_points_with_stance(hashprefix, my_username, function (err, points) {
+    db.get_points_and_stances(hashprefix, my_username, function (err, points) {
         if (err) {
             return callback(err);
         }
@@ -304,7 +304,7 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
     premise_text = '' + premise_text;
     var my_username = req.session.user.username;
 
-    db.get_point(conclusion_hash, function (err, point) {
+    db.get_point_and_stance(conclusion_hash, my_username, function (err, point) {
         if (err) {
             return next(err);
         }
@@ -317,7 +317,18 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                res.redirect('/' + shorthash(conclusion_hash));
+                // User by default agrees with their new premise,
+                // unless they already had a stance on it, or
+                // the premise conflicts with their stance on the conclusion.
+                var defaultStance = (!point.stance ||
+                    (point.stance > 0 && supports) ||
+                    (point.stance < 0 && !supports)) ? 1 : 0;
+                db.default_pstance(my_username, premise_hash, defaultStance, function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.redirect('/' + shorthash(conclusion_hash));
+                });
             }
         );
     });
@@ -325,11 +336,16 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
 
 app.post('/new_point', needuser, function (req, res, next) {
     var my_username = req.session.user.username;
-    db.create_point(req.body.text, my_username, function (err, point_hash) {
+    db.create_point(req.body.text, my_username, function (err, hash) {
         if (err) {
             return next(err);
         }
-        res.redirect('/' + shorthash(point_hash));
+        db.default_pstance(my_username, hash, 1, function (err) {
+            if (err) {
+                return next(err);
+            }
+            res.redirect('/' + shorthash(hash));
+        });
     });
 });
 
@@ -353,7 +369,6 @@ app.post('/:hash/pstance', needuser, function (req, res, next) {
         'undecided': null
     }[req.body.stance];
     if (undefined === stance) {
-        console.log(req.body);
         return res.send('invalid stance', 400);
     }
     (function (done) {

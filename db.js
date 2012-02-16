@@ -25,7 +25,22 @@ db.get_point = function (hash, callback) {
 };
 
 // callback(err, points)
-db.get_points_with_stance = function (hashprefix, username, callback) {
+db.get_point_and_stance = function (hash, username, callback) {
+    client.query(
+        'SELECT p.hash AS hash, p.text AS text, ps.stance AS stance ' +
+        '  FROM Points p LEFT OUTER JOIN ' +
+        '    (SELECT * FROM PStances WHERE username = ?) ps ' +
+        '  ON p.hash = ps.point_hash ' +
+        '  WHERE p.hash = ?',
+        [ username, hash ],
+        function (err, results, fields) {
+            callback(err, results && results[0]);
+        }
+    );
+};
+
+// callback(err, points)
+db.get_points_and_stances = function (hashprefix, username, callback) {
     hashprefix = '' + hashprefix;
     // require at least 32 bits of hash
     if (hashprefix.length < 8) {
@@ -240,6 +255,20 @@ db.set_pstance = function (username, hash, stance, callback) {
     client.query(
         'REPLACE INTO PStances ' +
         '  SET username = ?, point_hash = ?, stance = ?',
+        [ username, hash, stance ],
+        callback
+    );
+};
+
+// callback(err)
+db.default_pstance = function (username, hash, stance, callback) {
+    if (!stance) {
+        return callback();
+    }
+    client.query(
+        'INSERT INTO PStances ' +
+        '  SET username = ?, point_hash = ?, stance = ? ' +
+        '  ON DUPLICATE KEY UPDATE username = username',
         [ username, hash, stance ],
         callback
     );
