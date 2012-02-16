@@ -171,10 +171,12 @@ $(document).ready(function () {
                 var downvote = point.find('.downvote');
                 upvote.removeClass('checked');
                 downvote.removeClass('checked');
+                point.removeClass('newdownvote');
                 if (vote === 'up') {
                     upvote.addClass('checked');
                 } else if (vote === 'down') {
                     downvote.addClass('checked');
+                    point.addClass('newdownvote');
                 }
             }
         });

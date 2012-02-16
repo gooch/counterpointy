@@ -212,6 +212,21 @@ a img {
   text-align: center;
 }
 
+.point.newdownvote .upvote {
+  display: none;
+}
+
+.point.newdownvote .point-text {
+  height: 1.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.point.newdownvote .pvote {
+  display: none;
+}
+
 .fork-me {
   display: block;
   z-index: -1;
