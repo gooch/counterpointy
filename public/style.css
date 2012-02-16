@@ -32,7 +32,15 @@ a {
   color: #666;
 }
 
-.point-inner a {
+a.fullname {
+  font-weight: bold;
+}
+
+a.fullname:link, a.fullname:visited {
+  color: #222;
+}
+
+.point-inner a, a.fullname:hover, a.fullname:active {
   color: #08b;
 }
 
@@ -43,6 +51,7 @@ a:link, a:visited {
 a:hover, a:active {
   text-decoration: underline;
 }
+
 
 textarea {
   font: inherit;
