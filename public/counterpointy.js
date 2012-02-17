@@ -2,6 +2,10 @@ $(document).ready(function () {
 
     var username = $('body').data('username');
 
+    $('.point a, .point .button').click(function (event) {
+        event.stopPropagation();
+    });
+
     function targetIsNotThePoint(event) {
         return {
             'a': true,
@@ -14,10 +18,7 @@ $(document).ready(function () {
         return hash.substr(0, 12);
     }
 
-    $('.point').click(function (event) {
-        if (targetIsNotThePoint(event)) {
-            return;
-        }
+    $('.point-navigable').click(function (event) {
         var point = $(this).closest('.point');
         document.location = '/' + shorthash(point.data('pointHash'));
     });
@@ -34,7 +35,7 @@ $(document).ready(function () {
     $('.focus-on-load').focus();
 
     $('.main-point.editable .point-inner').click(function (event) {
-        if (targetIsNotThePoint(event)) {
+        if (targetIsNotThePoint(event)) {   // FIXME remove
             return;
         }
         if (!username) {

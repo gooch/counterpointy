@@ -1,19 +1,23 @@
-<div class="point item" data-point-hash="<%= point.hash %>">
-    <% if (opt.voting) { %>
-        <div class="point-voting">
-            <div class="upvote button <%= +point.myupvotes ? 'checked' : '' %>">
-                &#x25b2;
+<div class="item">
+    <div class="point" data-point-hash="<%= point.hash %>">
+        <% if (opt.relevance) { %>
+            <div class="point-relevance">
+                <div class="upvote button <%= +point.myupvotes ? 'checked' : '' %>">
+                    &#x25b2;
+                </div>
+                <div class="downvote button <%= +point.mydownvotes ? 'checked' : '' %>">
+                    &#x25bc;
+                </div>
             </div>
-            <div class="downvote button <%= +point.mydownvotes ? 'checked' : '' %>">
-                &#x25bc;
+        <% } %>
+        <div class="point-navigable">
+            <div class="point-link">
+                <a href="/<%= shorthash(point.hash) %>">&gt;</a>
             </div>
+            <div class="point-text">
+                <%- linkify(point.text) %>
+            </div>
+            <%- partial('pvote') %>
         </div>
-    <% } %>
-    <div class="point-link">
-        <a href="/<%= shorthash(point.hash) %>">&gt;</a>
     </div>
-    <div class="point-text point-inner">
-        <%- linkify(point.text) %>
-    </div>
-    <%- partial('pvote') %>
 </div>

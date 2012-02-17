@@ -40,7 +40,7 @@ a.fullname:link, a.fullname:visited {
   color: #222;
 }
 
-.point-inner a, a.fullname:hover, a.fullname:active {
+.point-text a, a.fullname:hover, a.fullname:active {
   color: #08b;
 }
 
@@ -186,31 +186,49 @@ a img {
   margin: 6px 0px 6px 12px;
 }
 
-.point, .item {
-  clear: both;
-  position: relative;
-  padding: 8px;
-  margin: 0 -8px;
-  border-top: 1px solid rgba(0,0,0,0.2);
-}
-
 .main-point.editable .point-inner:hover {
   background-color: #b8d8ff;
   cursor: pointer;
 }
 
-.point:hover {
+.point-relevance:hover, .point-navigable:hover {
   background-color: #f6f6f6;
   cursor: pointer;
 }
 
-.point-voting {
+.item {
+  clear: both;
+  position: relative;
+  border-top: 1px solid rgba(0,0,0,0.2);
+  padding: 8px;
+  margin-left: -8px;
+  margin-right: -8px;
+}
+
+.item:first-child {
+  border-top: none;
+}
+
+.point {
+  margin: -8px;
+  padding: 0;
+}
+
+.point-relevance {
   position: absolute;
+  padding: 8px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.point-navigable {
+  margin-left: 28px;
+  padding: 8px;
+  padding-right: 16px;
 }
 
 .point-text {
-  padding-left: 20px;
-  padding-right: 16px;
   word-wrap: break-word;
 }
 
@@ -284,8 +302,6 @@ a img {
 
 .upvote, .downvote {
   color: #ddd;
-  width: 100%;
-  text-align: right;
 }
 
 .button:hover {

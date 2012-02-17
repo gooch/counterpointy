@@ -56,12 +56,10 @@
 <%- partial('carrots') %>
 
 <div class="left supporting column">
-    <h3>Supporting</h3>
     <%- partial('premises', { point: point, support: true, premises: supporting }) %>
 </div>
 
 <div class="right opposing column">
-    <h3>Opposing</h3>
     <%- partial('premises', { point: point, support: false, premises: opposing }) %>
 </div>
 

@@ -1,15 +1,15 @@
 <%
+var heading = support ? 'Supporting' : 'Opposing';
 var article_gerund = support ? 'a supporting' : 'an opposing';
 var verb = support ? 'support' : 'oppose';
 %>
-<div class="point-entry collapsed">
+<div class="item point-entry collapsed">
+    <h3><%= heading %></h3>
     <form method="POST" action="/<%= point.hash %>/add_premise/<%= verb %>">
         <textarea name="text" rows="1">Add <%= article_gerund %> point</textarea>
         <input class="save-button" type="submit" value="Save" />
     </form>
 </div>
-<div>
-    <% premises.forEach(function (p) { %>
-        <%- partial('point', { point: p, opt: { voting: true } }) %>
-    <% }); %>
-</div>
+<% premises.forEach(function (p) { %>
+    <%- partial('point', { point: p, opt: { relevance: true } }) %>
+<% }); %>
