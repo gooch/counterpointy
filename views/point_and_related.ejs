@@ -1,4 +1,15 @@
-<%- partial('main_point') %>
+<div class="fullwidth">
+    <%- partial('main_point', { opt: { editable: true } } ) %>
+    <% if (session.user) { %>
+        <div class="main-point-edit" style="display: none">
+            <form method="POST" action="/<%= point.hash %>/edit">
+                <textarea name="text" rows="4"><%= point.text %></textarea>
+                <input class="save-button" type="submit" value="Save" />
+                <a href="#" class="cancel-button">Cancel</a>
+            </form>
+        </div>
+    <% } %>
+</div>
 
 <!--
 <div class="share fullwidth">

@@ -1,19 +1,8 @@
-<div class="fullwidth">
-    <div class="main-point" data-hash="<%= point.hash %>" data-text="<%= point.text %>">
-        <div class="point-inner">
-            <%- linkify(point.text) %>
-        </div>
-        <div class="main-pvote">
-            <%- partial('pvote') %>
-        </div>
+<div class="main-point <%= opt.editable ? 'editable' : '' %>" data-hash="<%= point.hash %>" data-text="<%= point.text %>">
+    <div class="point-inner">
+        <%- linkify(point.text) %>
     </div>
-    <% if (session.user) { %>
-        <div class="main-point-edit" style="display: none">
-            <form method="POST" action="/<%= point.hash %>/edit">
-                <textarea name="text" rows="4"><%= point.text %></textarea>
-                <input class="save-button" type="submit" value="Save" />
-                <a href="#" class="cancel-button">Cancel</a>
-            </form>
-        </div>
-    <% } %>
+    <div class="main-pvote">
+        <%- partial('pvote') %>
+    </div>
 </div>

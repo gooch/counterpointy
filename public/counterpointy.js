@@ -33,7 +33,7 @@ $(document).ready(function () {
 
     $('.focus-on-load').focus();
 
-    $('.main-point .point-inner').click(function (event) {
+    $('.main-point.editable .point-inner').click(function (event) {
         if (targetIsNotThePoint(event)) {
             return;
         }
@@ -41,9 +41,11 @@ $(document).ready(function () {
             alert('Please log in to edit.');
             return false;
         }
-        $(this).hide();
-        $('.pstance select').attr('disabled', 'disabled');
-        $('.main-point-edit').show().find('textarea').focus().select();
+        var editor = $('.main-point-edit');
+        if (editor.length) {
+            $('.main-point').hide();
+            editor.show().find('textarea').focus().select();
+        }
     });
 
     $('.main-point-edit .cancel-button').click(function () {
@@ -51,7 +53,6 @@ $(document).ready(function () {
         $('.main-point-edit textarea').val(text);
         $('.main-point-edit').hide();
         $('.main-point').show();
-        $('.pstance select').removeAttr('disabled');
         return false;
     });
 
