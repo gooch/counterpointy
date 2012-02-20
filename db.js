@@ -556,3 +556,43 @@ db.get_other_user_stances = function (my_username, other_username, callback) {
         callback
     );
 };
+
+// Find an argument (conclusion and premise) where:
+//
+// I have a stance on the conclusion;
+// I have no vote on the relevance of the premise; and
+// I have no stance on the premise,
+//     or a stance that contradicts my stance on the conclusion.
+//
+// callback(err, argument)
+db.get_point_to_consider = function (username, callback) {
+    client.query(
+        'SELECT rs.conclusion_hash  AS conclusion_hash ' +
+        '     , cps.stance          AS conclusion_stance ' +
+        '     , rs.premise_hash     AS premise_hash ' +
+        '     , pps.stance          AS premise_stance ' +
+        '     , rs.myupvotes        AS myupvotes ' +
+        '     , rs.mydownvotes      AS mydownvotes ' +
+        '     , rs.upvotes          AS upvotes ' +
+        '     , rs.downvotes        AS downvotes ' +
+        '     , cp.text             AS conclusion_text ' +
+        '     , pp.text             AS premise_text ' +
+        'FROM PStances cps ' +
+        '  JOIN RelevanceScores rs ON cps.point_hash = rs.conclusion_hash ' +
+        '                         AND cps.username = rs.username ' +
+        '  LEFT OUTER JOIN PStances pps ON pps.point_hash = rs.premise_hash ' +
+        '                              AND pps.username = cps.username ' +
+        'WHERE cps.username = ? ' +
+        '  AND ((cps.stance > 0 AND !rs.supports) ' +
+        '    OR (cps.stance < 0 AND rs.supports)) ' +
+        '  AND rs.upvotes ' +
+        '  AND !rs.myupvotes ' +
+        '  AND !rs.mydownvotes ' +
+        '  AND (pps.stance IS NULL OR pps.stance >= 0) ' +
+        'LIMIT 1',
+        [ username ],
+        function (err, results) {
+            callback(err, results && results[0]);
+        }
+    );
+};
