@@ -113,6 +113,11 @@ $(document).ready(function () {
 
     $('.point-entry textarea').focus(function () {
         var $this = $(this);
+        if (!username) {
+            alert('Please log in to contribute.');
+            $this.blur();
+            return false;
+        }
         var entry = $this.closest('.point-entry');
         if (!entry.hasClass('collapsed')) {
             return;
