@@ -1,16 +1,16 @@
-<div class="fullwidth make-your-point point-entry collapsed">
-    <form method="POST" action="/new_point">
+<div class="bubble make-your-point point-entry collapsed">
+    <form class="item" method="POST" action="/new_point">
         <textarea name="text" rows="1">Make your point</textarea>
         <input class="save-button" type="submit" value="Save" />
     </form>
 </div>
 
-<div class="left featured column">
+<div class="left column bubble">
     <h2>Featured points</h2>
     <%- partial('points', { points: featured_points }) %>
 </div>
 
-<div class="right recent column">
+<div class="right column bubble">
     <h2>Recent points</h2>
     <%- partial('points', { points: recent_points }) %>
 </div>

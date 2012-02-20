@@ -1,18 +1,20 @@
-<div class="fullwidth">
-    <div class="profile-avatar">
-        <%- partial('avatar80', { user: user }) %>
-    </div>
-    <div class="profile-details">
-        <p class="username">
-            <%= user.username %>
-        </p>
-        <p class="fullname">
-            <%= user.fullname %>
-        </p>
+<div class="left column bubble">
+    <div class="item">
+        <div class="profile-avatar">
+            <%- partial('avatar80', { user: user }) %>
+        </div>
+        <div class="profile-details">
+            <p class="username">
+                <%= user.username %>
+            </p>
+            <p class="fullname">
+                <%= user.fullname %>
+            </p>
+        </div>
     </div>
 </div>
 <% if (session.user && session.user.username == user.username) { %>
-    <div class="right column">
+    <div class="right column bubble">
         <div>
             <p>
                 This is you!&nbsp; <a href="/options">Edit your profile</a>
@@ -26,9 +28,9 @@
     </div>
 <% } %>
 
-<br class="clear-both" />
+<div class="clear-both"></div>
 
-<div class="left column">
+<div class="left column bubble">
     <h3><%= user.username %> agrees</h3>
     <%- partial('points', {
             points: points.filter(function (p) {
@@ -38,7 +40,7 @@
     %>
 </div>
 
-<div class="right column">
+<div class="right column bubble">
     <h3><%= user.username %> disagrees</h3>
     <%- partial('points', {
             points: points.filter(function (p) {

@@ -1,4 +1,4 @@
-<div class="fullwidth">
+<div class="bubble">
     <%- partial('main_point', { opt: { editable: true } } ) %>
     <% if (session.user) { %>
         <div class="main-point-edit" style="display: none">
@@ -12,7 +12,7 @@
 </div>
 
 <!--
-<div class="share fullwidth">
+<div class="share bubble">
 <h4>Share this point</h4>
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="<%= rooturl + '/' + shorthash(point.hash) %>" data-text="<%= point.text %>">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
@@ -24,7 +24,7 @@
 <% } %>
 
 <% if (preferred) { %>
-    <div class="left preferred column over-carrot">
+    <div class="left preferred column bubble over-carrot">
         <h4>Your preferred wording</h4>
         <div>
             <%- partial('point', { point: preferred}) %>
@@ -33,7 +33,7 @@
 <% } %>
 
 <% if (outgoing.length) { %>
-    <div class="right outgoing column over-carrot">
+    <div class="right outgoing column bubble over-carrot">
         <h4>Alternative wordings</h4>
         <form method="POST" action="/<%= point.hash %>/alternatives">
             <div>
@@ -55,17 +55,17 @@
 
 <%- partial('carrots') %>
 
-<div class="left supporting column">
+<div class="left supporting column bubble">
     <%- partial('premises', { point: point, support: true, premises: supporting }) %>
 </div>
 
-<div class="right opposing column">
+<div class="right opposing column bubble">
     <%- partial('premises', { point: point, support: false, premises: opposing }) %>
 </div>
 
 <% if (related.length) { %>
     <div class="clear-both"></div>
-    <div class="related column">
+    <div class="related column bubble">
         <h4>Related</h4>
         <div>
             <% related.forEach(function (p) { %>

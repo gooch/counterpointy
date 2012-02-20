@@ -1,15 +1,15 @@
 <div class="item">
     <div class="point" data-point-hash="<%= point.hash %>">
-        <% if (opt.relevance) { %>
-            <div class="point-relevance">
+        <div class="point-relevance">
+            <% if (opt.relevance) { %>
                 <div class="upvote button <%= +point.myupvotes ? 'checked' : '' %>">
                     &#x25b2;
                 </div>
                 <div class="downvote button <%= +point.mydownvotes ? 'checked' : '' %>">
                     &#x25bc;
                 </div>
-            </div>
-        <% } %>
+            <% } %>
+        </div>
         <div class="point-navigable">
             <div class="point-link">
                 <a href="/<%= shorthash(point.hash) %>">&gt;</a>

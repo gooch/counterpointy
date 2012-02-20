@@ -1,10 +1,6 @@
-<div class="column">
-    <p>
+<div class="column bubble">
+    <div class="item">
         There are <%= points.length %> points with hashes that start with <%= hashprefix %>:
-    </p>
-    <div>
-        <% points.forEach(function (p) { %>
-            <%- partial('point', { point: p }) %>
-        <% }); %>
     </div>
+    <%- partial('points', { points: points }) %>
 </div>

@@ -1,14 +1,14 @@
-<div class="fullwidth">
+<div class="bubble">
     <%- partial('main_point') %>
 </div>
 <%- partial('carrots') %>
 
-<div class="left column">
+<div class="left column bubble">
     <h3>Votes For</h3>
     <%- partial('voters', { point: point, voters: truevotes }) %>
 </div>
 
-<div class="right column">
+<div class="right column bubble">
     <h3>Votes Against</h3>
     <%- partial('voters', { point: point, voters: falsevotes }) %>
 </div>
