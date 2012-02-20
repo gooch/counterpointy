@@ -56,11 +56,11 @@
 <%- partial('carrots') %>
 
 <div class="left supporting column bubble">
-    <%- partial('premises', { point: point, support: true, premises: supporting }) %>
+    <%- partial('premises', { point: point, support: true, premises: supporting, conclusion_hash: point.hash }) %>
 </div>
 
 <div class="right opposing column bubble">
-    <%- partial('premises', { point: point, support: false, premises: opposing }) %>
+    <%- partial('premises', { point: point, support: false, premises: opposing, conclusion_hash: point.hash }) %>
 </div>
 
 <% if (related.length) { %>

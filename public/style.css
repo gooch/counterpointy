@@ -193,7 +193,7 @@ a img {
   cursor: pointer;
 }
 
-.point-relevance:hover, .point-navigable:hover {
+.point:hover {
   background-color: #f6f6f6;
   cursor: pointer;
 }
@@ -223,9 +223,13 @@ a img {
 }
 
 .point-navigable {
-  margin-left: 28px;
+  margin-left: 8px;
   padding: 8px;
   padding-right: 16px;
+}
+
+.premise .point-navigable {
+  margin-left: 28px;
 }
 
 .point-text {
@@ -300,8 +304,22 @@ a img {
   border-radius: 10px;
 }
 
-.upvote, .downvote {
+.upvote, .downvote, .relvotesum {
   color: #ddd;
+  text-align: center;
+}
+
+.relvotesum a {
+  font-size: 0.8em;
+  color: #666;
+}
+
+.upvote:before {
+  content: "\25b2";
+}
+
+.downvote:before {
+  content: "\25bc";
 }
 
 .button:hover {
