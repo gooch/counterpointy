@@ -16,9 +16,14 @@ var app = module.exports = express.createServer();
 
 require('./helpers')(app);
 
+express.logger.token('username', function (req, res) {
+    return (req.session && req.session.user && req.session.user.username) || '-';
+});
+
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
+  app.use(express.logger(':req[x-real-ip] :username :method :url :status :res[content-length] :response-time ms ":user-agent" :referrer'));
   app.use(express.bodyParser());
   app.use(express.cookieParser());
   app.use(express.session({
