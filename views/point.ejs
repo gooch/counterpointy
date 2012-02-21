@@ -1,20 +1,33 @@
 <div class="item">
-    <div class="point <%= opt.relevance ? 'premise' : '' %>" data-point-hash="<%= point.hash %>">
-        <% if (opt.relevance) { %>
-            <div class="point-relevance">
-                <div class="upvote button <%= +point.myupvotes ? 'checked' : '' %>" title="Relevant"></div>
-                <div class="relvotesum"><a href="/<%= shorthash(conclusion_hash) + '/' + shorthash(point.hash) %>" title="Relevance votes"><%= +point.upvotes - point.downvotes %></a></div>
-                <div class="downvote button <%= +point.mydownvotes ? 'checked' : '' %>" title="Not relevant"></div>
+    <div class="point <%= opt.relevance ? 'premise' : '' %> <%= opt.editable ? 'editable' : (opt.nonNavigable ? '' : 'navigable') %>" data-hash="<%= point.hash %>" data-text="<%= point.text %>" <% if (opt.relevance) { %> data-conclusion-hash="<%= conclusion_hash %>" <% } %> >
+        <div class="point-view">
+            <% if (opt.relevance) { %>
+                <div class="point-relevance">
+                    <div class="upvote button <%= +point.myupvotes ? 'checked' : '' %>" title="Relevant"></div>
+                    <div class="relvotesum"><a href="/<%= shorthash(conclusion_hash) + (support ? '+' : '-') + shorthash(point.hash) %>" title="Relevance votes"><%= +point.upvotes - point.downvotes %></a></div>
+                    <div class="downvote button <%= +point.mydownvotes ? 'checked' : '' %>" title="Not relevant"></div>
+                </div>
+            <% } %>
+            <div class="point-navigable">
+                <% if (!opt.editable && !opt.nonNavigable) { %>
+                    <div class="point-link">
+                        <a href="/<%= shorthash(point.hash) %>">&gt;</a>
+                    </div>
+                <% } %>
+                <div class="point-text">
+                    <%- linkify(point.text) %>
+                </div>
+                <%- partial('pvote') %>
+            </div>
+        </div>
+        <% if (opt.editable) { %>
+            <div class="point-edit" style="display: none">
+                <form method="POST" action="/<%= point.hash %>/edit">
+                    <textarea name="text" rows="4"><%= point.text %></textarea>
+                    <input class="save-button" type="submit" value="Save" />
+                    <a href="#" class="cancel-button">Cancel</a>
+                </form>
             </div>
         <% } %>
-        <div class="point-navigable">
-            <div class="point-link">
-                <a href="/<%= shorthash(point.hash) %>">&gt;</a>
-            </div>
-            <div class="point-text">
-                <%- linkify(point.text) %>
-            </div>
-            <%- partial('pvote') %>
-        </div>
     </div>
 </div>

@@ -1,14 +1,5 @@
-<div class="bubble">
-    <%- partial('main_point', { opt: { editable: true } } ) %>
-    <% if (session.user) { %>
-        <div class="main-point-edit" style="display: none">
-            <form method="POST" action="/<%= point.hash %>/edit">
-                <textarea name="text" rows="4"><%= point.text %></textarea>
-                <input class="save-button" type="submit" value="Save" />
-                <a href="#" class="cancel-button">Cancel</a>
-            </form>
-        </div>
-    <% } %>
+<div class="main bubble">
+    <%- partial('point', { opt: { editable: true } } ) %>
 </div>
 
 <!--
@@ -26,28 +17,14 @@
 <% if (preferred) { %>
     <div class="left preferred column bubble over-carrot">
         <h4>Your preferred wording</h4>
-        <div>
-            <%- partial('point', { point: preferred}) %>
-        </div>
+        <%- partial('point', { point: preferred}) %>
     </div>
 <% } %>
 
 <% if (outgoing.length) { %>
     <div class="right outgoing column bubble over-carrot">
         <h4>Alternative wordings</h4>
-        <form method="POST" action="/<%= point.hash %>/alternatives">
-            <div>
-                <% outgoing.forEach(function (p) { %>
-                    <%- partial('point', { point: p }) %>
-                <% }); %>
-            </div>
-            <!-- FIXME
-            <% if (session.user) { %>
-                <input type="submit" name="adopt" value="Adopt" />
-                <input type="submit" name="reject" value="Reject" />
-            <% } %>
-            -->
-        </form>
+        <%- partial('points', { points: outgoing }) %>
     </div>
 <% } %>
 
@@ -65,12 +42,8 @@
 
 <% if (related.length) { %>
     <div class="clear-both"></div>
-    <div class="related column bubble">
+    <div class="center column bubble">
         <h4>Related</h4>
-        <div>
-            <% related.forEach(function (p) { %>
-                <%- partial('point', { point: p}) %>
-            <% }); %>
-        </div>
+        <%- partial('points', { points: related }) %>
     </div>
 <% } %>

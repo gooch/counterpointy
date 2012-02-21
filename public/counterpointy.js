@@ -2,49 +2,38 @@ $(document).ready(function () {
 
     var username = $('body').data('username');
 
-    $('.point a, .point .button').click(function (event) {
+    $('.point-navigable a, .point-navigable .button').click(function (event) {
         event.stopPropagation();
     });
-
-    function targetIsNotThePoint(event) {
-        return {
-            'a': true,
-            'input': true
-        }[event.target.nodeName.toLowerCase()] ||
-            $(event.target).hasClass('button');
-    }
 
     function shorthash(hash) {
         return hash.substr(0, 12);
     }
 
-    $('.point-navigable').click(function (event) {
+    $('.point.navigable .point-navigable').click(function (event) {
         var point = $(this).closest('.point');
-        document.location = '/' + shorthash(point.data('pointHash'));
+        document.location = '/' + shorthash(point.data('hash'));
     });
 
     $('.focus-on-load').focus();
 
-    $('.main-point.editable .point-inner').click(function (event) {
-        if (targetIsNotThePoint(event)) {   // FIXME remove
-            return;
-        }
+    $('.point.editable .point-text').click(function (event) {
         if (!username) {
             alert('Please log in to edit.');
             return false;
         }
-        var editor = $('.main-point-edit');
-        if (editor.length) {
-            $('.main-point').hide();
-            editor.show().find('textarea').focus().select();
-        }
+        var point = $(this).closest('.point');
+        point.find('.point-view').hide();
+        point.find('.point-edit').show().find('textarea').focus().select();
     });
 
-    $('.main-point-edit .cancel-button').click(function () {
-        var text = $('.main-point').data('text');
-        $('.main-point-edit textarea').val(text);
-        $('.main-point-edit').hide();
-        $('.main-point').show();
+    $('.point-edit .cancel-button').click(function () {
+        var point = $(this).closest('.point');
+        var text = point.data('text');
+        var editor = point.find('.point-edit');
+        editor.find('textarea').val(text);
+        editor.hide();
+        point.find('.point-view').show();
         return false;
     });
 
@@ -54,8 +43,7 @@ $(document).ready(function () {
             return;
         }
         var $this = $(this);
-        var hash = $this.closest('.point').data('pointHash') ||
-                    $('.main-point').data('hash');
+        var hash = $this.closest('.point').data('hash')
         if (!hash) {
             throw new Error('confused about hash');
         }
@@ -129,9 +117,9 @@ $(document).ready(function () {
         */
         var $this = $(this);
 
-        var conclusion_hash = $('.main-point').data('hash');
         var point = $this.closest('.point');
-        var premise_hash = point.data('pointHash');
+        var premise_hash = point.data('hash');
+        var conclusion_hash = point.data('conclusionHash');
 
         var premiseStance;
         if ($this.closest('.supporting').length) {

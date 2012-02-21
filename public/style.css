@@ -15,11 +15,7 @@ td {
   font-size: 10px;
 }
 
-.main-point {
-  margin: 5px 3px;
-}
-
-.main-point, .main-point-edit textarea, .main-pvote {
+.main .point .point-view, .main .point textarea {
   font-weight: bold;
   font-size: 15px;
 }
@@ -55,6 +51,8 @@ a:hover, a:active {
 
 textarea {
   font: inherit;
+  font-size: inherit;
+  font-weight: inherit;
   width: 100%;
   max-width: 100%;    /* Constrain manual resizing */
   -webkit-box-sizing: border-box;
@@ -107,12 +105,14 @@ div.container {
     width: 640px;
   }
 
-  .main-point, .main-point-edit textarea, .main-pvote {
+  .main .point .point-view, .main .point textarea {
     font-size: 20px;
   }
 
   .carrots {
     display: block;
+    height: 1px;        /* prevent margin collapse */
+    margin-top: -1px;
   }
 }
 
@@ -135,7 +135,25 @@ div.header {
   border-radius: 6px;
   border: 1px solid rgba(0,0,0,0.2);
   margin: 5px;
-  overflow: auto;
+  overflow: hidden;
+}
+
+.item:first-child .point {
+  -webkit-border-top-left-radius: 6px;
+  -webkit-border-top-right-radius: 6px;
+  -moz-border-top-left-radius: 6px;
+  -moz-border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.item:last-child .point {
+  -webkit-border-bottom-left-radius: 6px;
+  -webkit-border-bottom-right-radius: 6px;
+  -moz-border-bottom-left-radius: 6px;
+  -moz-border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 
 div.over-carrot {
@@ -151,7 +169,7 @@ div.right {
   float: right;
 }
 
-div.related {
+div.center {
   margin-left: auto;
   margin-right: auto;
 }
@@ -188,12 +206,12 @@ a img {
   margin: 6px 0px 6px 12px;
 }
 
-.main-point.editable .point-inner:hover {
+.point.editable .point-text:hover {
   background-color: #b8d8ff;
   cursor: pointer;
 }
 
-.point:hover {
+.point.navigable:hover {
   background-color: #f6f6f6;
   cursor: pointer;
 }
@@ -228,6 +246,10 @@ a img {
   padding-right: 16px;
 }
 
+.point-edit {
+  padding: 8px;
+}
+
 .premise .point-navigable {
   margin-left: 28px;
 }
@@ -239,8 +261,9 @@ a img {
 .point-link {
   position: absolute;
   right: 0;
-  width: 16px;
+  width: 1em;
   text-align: center;
+  font-weight: normal;
 }
 
 .point.newdownvote .upvote {

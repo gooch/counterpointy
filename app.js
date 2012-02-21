@@ -542,6 +542,44 @@ function carry_to_edit(my_username, old_hash, new_hash, callback)
     });
 }
 
+var valid_hashpair  = /^([0-9a-f]{8,64})([+-])([0-9a-f]{8,64})$/i;
+
+app.get('/:hashpair', function (req, res, next) {
+    var matches = valid_hashpair.exec(req.params.hashpair);
+    if (!matches) {
+        return next();
+    }
+    var conclusion_hashprefix = matches[1];
+    var supports = { '+': 1, '-': 0 }[matches[2]];
+    var premise_hashprefix = matches[3];
+    var my_username = req.session && req.session.user && req.session.user.username;
+    disambiguate(conclusion_hashprefix, req, res, function (err, conclusion) {
+        if (err) {
+            return next(err);
+        }
+        if (!conclusion) {
+            return;
+        }
+        disambiguate(premise_hashprefix, req, res, function (err, premise) {
+            if (err) {
+                return next(err);
+            }
+            if (!premise) {
+                return;
+            }
+            // FIXME load RelevanceVotes
+            res.render('rvotes', {
+                conclusion: conclusion,
+                premise: premise,
+                supports: supports,
+                opt: { layout_complex: true },
+            });
+        });
+    });
+});
+
+
+
 if (config.crashtest) {
     app.get('/crash', function (req, res, next) {
         console.log('About to crash.');
