@@ -23,15 +23,6 @@ $(document).ready(function () {
         document.location = '/' + shorthash(point.data('pointHash'));
     });
 
-    $('.expandable').click(function () {
-        if (!username) {
-            alert('Please log in to contribute.');
-            return false;
-        }
-        $(this).next().toggle().children('textarea').focus();
-        return false;
-    });
-
     $('.focus-on-load').focus();
 
     $('.main-point.editable .point-inner').click(function (event) {
