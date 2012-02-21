@@ -266,7 +266,7 @@ a img {
   font-weight: normal;
 }
 
-.point.newdownvote .upvote {
+.point.newdownvote .upvote, .point.newdownvote .rvotesum {
   display: none;
 }
 
@@ -327,12 +327,12 @@ a img {
   border-radius: 10px;
 }
 
-.upvote, .downvote, .relvotesum {
+.upvote, .downvote, .rvotesum {
   color: #ddd;
   text-align: center;
 }
 
-.relvotesum a {
+.rvotesum a {
   font-size: 0.8em;
   color: #666;
 }

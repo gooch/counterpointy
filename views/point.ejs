@@ -4,7 +4,7 @@
             <% if (opt.relevance) { %>
                 <div class="point-relevance">
                     <div class="upvote button <%= +point.myupvotes ? 'checked' : '' %>" title="Relevant"></div>
-                    <div class="relvotesum"><a href="/<%= shorthash(conclusion_hash) + (support ? '+' : '-') + shorthash(point.hash) %>" title="Relevance votes"><%= +point.upvotes - point.downvotes %></a></div>
+                    <div class="rvotesum"><a href="/<%= shorthash(conclusion_hash) + (support ? '+' : '-') + shorthash(point.hash) %>" title="Relevance votes"><%= +point.upvotes - point.downvotes %></a></div>
                     <div class="downvote button <%= +point.mydownvotes ? 'checked' : '' %>" title="Not relevant"></div>
                 </div>
             <% } %>
