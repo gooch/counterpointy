@@ -266,18 +266,18 @@ a img {
   font-weight: normal;
 }
 
-.point.newdownvote .upvote, .point.newdownvote .rvotesum {
+.column .point.newdownvote .upvote, .column .point.newdownvote .rvotesum {
   display: none;
 }
 
-.point.newdownvote .point-text {
+.column .point.newdownvote .point-text {
   height: 1.5em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.point.newdownvote .pvote {
+.column .point.newdownvote .pvote {
   display: none;
 }
 

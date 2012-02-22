@@ -2,7 +2,7 @@
     <%- partial('point', { point: conclusion }) %>
 </div>
 <div class="carrots">
-    <% if (supports) { %>
+    <% if (support) { %>
         <div class="carrot-lower carrot-left"></div>
         <div class="carrot-upper carrot-left"></div>
     <% } else { %>
@@ -10,18 +10,20 @@
         <div class="carrot-upper carrot-right"></div>
     <% } %>
 </div>
-<div class="main bubble">
-    <%- partial('point', { point: premise }) %>
+<div class="main bubble <%= support ? 'supporting' : 'opposing' %>">
+    <%- partial('point', {
+                point: premise,
+                conclusion_hash: conclusion.hash,
+                opt: {relevance: true }
+    }) %>
 </div>
 
-<!--
 <div class="left column bubble">
-    <h3>&#x25b2; Votes for Relevant</h3>
-    <%- partial('voters', { voters: [] }) %>
+    <h3>&#x25b2; Relevant</h3>
+    <%- partial('voters', { voters: upvoters }) %>
 </div>
 
 <div class="right column bubble">
-    <h3>&#x25bc; Votes for Not Relevant</h3>
-    <%- partial('voters', { voters: [] }) %>
+    <h3>&#x25bc; Not Relevant</h3>
+    <%- partial('voters', { voters: downvoters }) %>
 </div>
--->

@@ -596,3 +596,37 @@ db.get_point_to_consider = function (username, callback) {
         }
     );
 };
+
+// callback(err, rvotes)
+db.get_rvotes = function (conclusion_hash, supports, premise_hash, callback) {
+    client.query(
+        'SELECT rv.username ' +
+        '     , rv.relevant ' +
+        '     , rv.create_time ' +
+        '     , u.fullname ' +
+        '     , u.email ' +
+        '  FROM RelevanceVotes rv ' +
+        '  JOIN Users u ON u.username = rv.username ' +
+        '  WHERE rv.conclusion_hash = ? ' +
+        '    AND rv.supports = ? ' +
+        '    AND rv.premise_hash = ?',
+        [ conclusion_hash, supports, premise_hash ],
+        callback
+    );
+};
+
+// callback(err, rvote)
+db.get_one_rvote = function (conclusion_hash, supports, premise_hash, username, callback) {
+    client.query(
+        'SELECT relevant ' +
+        '  FROM RelevanceVotes ' +
+        '  WHERE conclusion_hash = ? ' +
+        '    AND supports = ? ' +
+        '    AND premise_hash = ? ' +
+        '    AND username = ?',
+        [ conclusion_hash, supports, premise_hash, username ],
+        function (err, results) {
+            callback(err, results && results[0]);
+        }
+    );
+};

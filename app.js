@@ -550,7 +550,7 @@ app.get('/:hashpair', function (req, res, next) {
         return next();
     }
     var conclusion_hashprefix = matches[1];
-    var supports = { '+': 1, '-': 0 }[matches[2]];
+    var support = { '+': 1, '-': 0 }[matches[2]];
     var premise_hashprefix = matches[3];
     var my_username = req.session && req.session.user && req.session.user.username;
     disambiguate(conclusion_hashprefix, req, res, function (err, conclusion) {
@@ -567,12 +567,29 @@ app.get('/:hashpair', function (req, res, next) {
             if (!premise) {
                 return;
             }
-            // FIXME load RelevanceVotes
-            res.render('rvotes', {
-                conclusion: conclusion,
-                premise: premise,
-                supports: supports,
-                opt: { layout_complex: true },
+            db.get_rvotes(conclusion.hash, support, premise.hash, function (err, rvotes) {
+                if (err) {
+                    return next(err);
+                }
+                db.get_one_rvote(conclusion.hash, support, premise.hash, my_username, function (err, my_rvote) {
+                    if (err) {
+                        return next(err);
+                    }
+                    var upvoters = rvotes.filter(function (v) { return v.relevant; });
+                    var downvoters = rvotes.filter(function (v) { return !v.relevant; });
+                    premise.upvotes = upvoters.length;
+                    premise.downvotes = downvoters.length;
+                    premise.myupvotes = my_rvote && my_rvote.relevant;
+                    premise.mydownvotes = my_rvote && !my_rvote.relevant;
+                    res.render('rvotes', {
+                        conclusion: conclusion,
+                        premise: premise,
+                        support: support,
+                        upvoters: upvoters,
+                        downvoters: downvoters,
+                        opt: { layout_complex: true },
+                    });
+                });
             });
         });
     });
