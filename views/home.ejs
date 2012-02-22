@@ -5,12 +5,22 @@
     </form>
 </div>
 
+<% if (consider) { %>
+    <div class="center column">
+        <%- partial('conclusion_and_premise', {
+            conclusion: consider.conclusion,
+            support: consider.support,
+            premise: consider.premise
+        }) %>
+    </div>
+<% } %>
+
 <div class="left column bubble">
-    <h2>Featured points</h2>
+    <h3>Featured points</h3>
     <%- partial('points', { points: featured_points }) %>
 </div>
 
 <div class="right column bubble">
-    <h2>Recent points</h2>
+    <h3>Recent points</h3>
     <%- partial('points', { points: recent_points }) %>
 </div>

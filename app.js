@@ -62,10 +62,25 @@ app.get('/', function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.render('home', {
-                opt: { layout_complex: true },
-                featured_points: featured_points,
-                recent_points: recent_points
+            db.get_point_to_consider(my_username, function (err, arg) {
+                if (err) {
+                    return next(err);
+                }
+                var consider = arg ? {
+                    premise: arg,
+                    support: arg.supports,
+                    conclusion: {
+                        hash: arg.conclusion_hash,
+                        text: arg.conclusion_text,
+                        stance: arg.conclusion_stance
+                    }
+                } : null;
+                res.render('home', {
+                    opt: { layout_complex: true },
+                    consider: consider,
+                    featured_points: featured_points,
+                    recent_points: recent_points
+                });
             });
         });
     });

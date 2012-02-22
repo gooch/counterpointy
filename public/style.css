@@ -89,6 +89,12 @@ div.container {
 
 .carrots {
   display: none;
+  height: 1px;        /* prevent margin collapse */
+  margin-top: -1px;
+}
+
+.column .carrots {
+  display: block;
 }
 
 @media (min-width: 640px) {
@@ -106,8 +112,6 @@ div.container {
 
   .carrots {
     display: block;
-    height: 1px;        /* prevent margin collapse */
-    margin-top: -1px;
   }
 }
 
@@ -480,6 +484,14 @@ div.footer ul {
 .carrot-right{
   right: 244px;
   border-right: none;
+}
+
+.column .carrot-left {
+  left: 100px;
+}
+
+.column .carrot-right {
+  right: 100px;
 }
 
 .point-entry.collapsed textarea {

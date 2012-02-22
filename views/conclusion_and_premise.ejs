@@ -1,0 +1,20 @@
+<div class="bubble">
+    <%- partial('point', { point: conclusion }) %>
+</div>
+<div class="carrots">
+    <% if (support) { %>
+        <div class="carrot-lower carrot-left"></div>
+        <div class="carrot-upper carrot-left"></div>
+    <% } else { %>
+        <div class="carrot-lower carrot-right"></div>
+        <div class="carrot-upper carrot-right"></div>
+    <% } %>
+</div>
+<div class="bubble <%= support ? 'supporting' : 'opposing' %>">
+    <%- partial('point', {
+                point: premise,
+                conclusion_hash: conclusion.hash,
+                opt: {relevance: true }
+    }) %>
+</div>
+
