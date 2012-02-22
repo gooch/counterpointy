@@ -1,11 +1,11 @@
-<div class="item">
+<div class="item" <%- (opt.hidedownvoted && +point.mydownvotes) ? 'style="display: none"' : '' %> >
     <div class="point <%= opt.relevance ? 'premise' : '' %> <%= opt.editable ? 'editable' : (opt.nonNavigable ? '' : 'navigable') %>" data-hash="<%= point.hash %>" data-text="<%= point.text %>" <% if (opt.relevance) { %> data-conclusion-hash="<%= conclusion_hash %>" <% } %> >
         <div class="point-view">
             <% if (opt.relevance) { %>
                 <div class="point-relevance">
                     <div class="upvote button <%= +point.myupvotes ? 'checked' : '' %>" title="Relevant"></div>
                     <div class="rvotesum"><a href="/<%= shorthash(conclusion_hash) + (support ? '+' : '-') + shorthash(point.hash) %>" title="Relevance votes"><%= +point.upvotes - point.downvotes %></a></div>
-                    <div class="downvote button <%= +point.mydownvotes ? 'checked' : '' %>" title="Not relevant"></div>
+                    <div class="downvote button <%= +point.mydownvotes ? 'checked' : '' %>" title="Irrelevant"></div>
                 </div>
             <% } %>
             <div class="point-navigable">

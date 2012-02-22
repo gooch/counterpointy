@@ -10,4 +10,13 @@ var verb = support ? 'support' : 'oppose';
         <input class="save-button" type="submit" value="Save" />
     </form>
 </div>
-<%- partial('points', { points: premises, opt: {relevance: true } }) %>
+<% var downvoted; %>
+<% premises.forEach(function (p, i) { %>
+    <% if (+p.mydownvotes && !downvoted) {
+        downvoted = premises.length - i; %>
+        <div class="item downvotesbelow">
+            <a href="#">&#x25bc; <%= downvoted %> irrelevant</a>
+        </div>
+    <% } %>
+    <%- partial('point', { point: p, opt: { relevance: true, hidedownvoted: true } }) %>
+<% }); %>

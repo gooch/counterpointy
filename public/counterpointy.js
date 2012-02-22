@@ -168,4 +168,14 @@ $(document).ready(function () {
         });
     });
 
+    $('.downvotesbelow').click(function () {
+        var items = $(this).closest('.item').nextAll();
+        if (items.is(':hidden')) {
+            items.slideDown(100);
+        } else {
+            items.slideUp(100);
+        }
+        return false;
+    });
+
 });
