@@ -2,17 +2,12 @@ body {
   font: 13px/1.5 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif;
   color: #222;
   background-color: #e2e1de;
-  margin: 0px;
+  margin: 0;
   word-wrap: break-word;
 }
 
 td {
   word-wrap: break-word;
-}
-
-.heading {
-  text-transform: uppercase;
-  font-size: 10px;
 }
 
 .main .point .point-view, .main .point textarea {
@@ -234,24 +229,25 @@ a img {
 
 .point-relevance {
   position: absolute;
-  padding: 8px;
+  padding: 0.7em;
   top: 0;
   bottom: 0;
   left: 0;
+  line-height: 1.4em;
 }
 
 .point-navigable {
-  margin-left: 8px;
-  padding: 8px;
-  padding-right: 16px;
+  margin-left: 0.7em;
+  padding: 0.7em;
+  padding-right: 1.4em;
 }
 
 .point-edit {
-  padding: 8px;
+  padding: 0.7em;
 }
 
 .premise .point-navigable {
-  margin-left: 28px;
+  margin-left: 2em;
 }
 
 .point-text {
