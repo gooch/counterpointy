@@ -25,10 +25,13 @@
     </div>
     <div class="loggedin">
     <% if (session.user) { %>
-        <a href="/~<%= user.username %>"><%= session.user.fullname %></a>
+        <a href="/~<%= session.user.username %>"><%= session.user.fullname %></a>
         <%- partial('avatar20', { user: session.user }) %>
-    <% } else { %>
-        <a href="/login">Log in</a> or <a href="/signup">Sign up</a>
+    <% } else {
+        var qs = querystring.stringify({ return_to: this_url });
+        %>
+        <a href="/login?<%= qs %>">Log in</a> or
+        <a href="/signup?<%= qs %>">Sign up</a>
     <% } %>
     </div>
     <div class="searchbar">

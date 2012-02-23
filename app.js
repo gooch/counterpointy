@@ -12,6 +12,7 @@ var linkify = require('./linkify');
 var shorthash = require('./shorthash');
 var ms = require('./ms');
 var reserved_usernames = require('./reserved_usernames');
+var safe_redirect = require('./safe_redirect');
 
 var app = module.exports = express.createServer();
 
@@ -56,6 +57,7 @@ app.get('/', function (req, res, next) {
         if (!req.session || !req.session.user) {
             return res.render('welcome', {
                 opt: { layout_complex: true },
+                return_to: req.query.return_to,
                 featured_points: featured_points
             });
         }
@@ -88,7 +90,12 @@ app.get('/', function (req, res, next) {
 });
 
 app.get('/signup', function (req, res, next) {
+    var my_username = req.session && req.session.user && req.session.user.username;
+    if (my_username) {
+        return res.redirect('/~' + my_username);
+    }
     res.render('signup', {
+        return_to: req.query.return_to,
         title: 'Sign up'
     });
 });
@@ -131,13 +138,18 @@ app.post('/signup', function (req, res, next) {
                 fullname: fullname,
                 email: email
             }
-            res.redirect('/');
+            res.redirect(safe_redirect(req.body.return_to));
         });
     });
 });
 
 app.get('/login', function (req, res, next) {
+    var my_username = req.session && req.session.user && req.session.user.username;
+    if (my_username) {
+        return res.redirect('/~' + my_username);
+    }
     res.render('login', {
+        return_to: req.query.return_to,
         title: 'Log in'
     });
 });
@@ -154,7 +166,7 @@ app.post('/login', function (req, res, next) {
         }
         req.session.regenerate(function () {
             req.session.user = user;
-            res.redirect('/');
+            res.redirect(safe_redirect(req.body.return_to));
         });
     });
 });
