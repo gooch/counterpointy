@@ -1,13 +1,12 @@
-var url = require('url');
 var assert = require('assert');
 
 var safe_redirect = module.exports = function safe_redirect(path) {
     // stay on this site - path only, no protocol or host.
-    var safepath = url.parse(path || '').path || '/';
-    if (/\/\//.test(safepath)) {
-        safepath = '/';
+    path = '' + path;
+    if (!path || /\/\//.test(path) || path[0] !== '/') {
+        return '/';
     }
-    return safepath;
+    return path;
 };
 
 var tests = [
@@ -18,7 +17,8 @@ var tests = [
     [ '//foo', '/' ],
     [ '///foo', '/' ],
     [ '//foo/bar', '/' ],
-    [ '/foo+bar', '/foo+bar' ]
+    [ '/foo+bar', '/foo+bar' ],
+    [ 'foo/bar', '/' ]
 ];
 
 function runTests() {
