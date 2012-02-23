@@ -7,7 +7,6 @@ var safe_redirect = module.exports = function safe_redirect(path) {
     if (/\/\//.test(safepath)) {
         safepath = '/';
     }
-    console.log(path + ' => ' + safepath);
     return safepath;
 };
 
