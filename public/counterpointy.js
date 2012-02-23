@@ -178,4 +178,45 @@ $(document).ready(function () {
         return false;
     });
 
+    $('.signup-username input').change(function () {
+        var input = $(this);
+        var label = input.closest('label');
+        var form = input.closest('form');
+        var validation = label.find('.validation');
+        var submit = form.find('[type="submit"]');
+        var valid_username = /^[a-z0-9_]{3,15}$/i;
+
+        function set_availability(text, happy) {
+            validation.show().text(text);
+            validation.toggleClass('invalid', !happy);
+            if (form.find('.invalid').length) {
+                submit.attr('disabled', 'disabled');
+            } else {
+                submit.removeAttr('disabled');
+            }
+        }
+
+        var username = input.val();
+        if (!username) {
+            return set_availability('Required', false);
+        }
+        if (username.length < 3) {
+            return set_availability('Too short', false);
+        }
+        if (username.length > 15) {
+            return set_availability('Too long', false);
+        }
+        if (!valid_username.test(username)) {
+            return set_availability('Prohibited characters', false);
+        }
+        $.ajax({
+            url: '/validate_new_username',
+            data: { username: input.val() },
+            complete: function (jqxhr) {
+                set_availability(jqxhr.responseText,
+                        'Available' == jqxhr.responseText);
+            }
+        });
+    });
+
 });

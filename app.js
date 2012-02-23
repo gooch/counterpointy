@@ -11,6 +11,7 @@ var emailregexp = require('./emailregexp');
 var linkify = require('./linkify');
 var shorthash = require('./shorthash');
 var ms = require('./ms');
+var reserved_usernames = require('./reserved_usernames');
 
 var app = module.exports = express.createServer();
 
@@ -607,6 +608,42 @@ app.get('/:hashpair', function (req, res, next) {
                 });
             });
         });
+    });
+});
+
+var reserved_username_map = {};
+reserved_usernames.forEach(function (n) {
+    reserved_username_map[n] = true;
+});
+
+app.get('/validate_new_username', function (req, res, next) {
+    res.contentType('text/plain');
+    var username = req.query.username;
+    if (!username) {
+        return res.send('Required');
+    }
+    username = '' + username;
+    if (username.length < 3) {
+        return res.send('Too short');
+    }
+    if (username.length > 15) {
+        return res.send('Too long');
+    }
+    if (!db.valid_username.test(username)) {
+        return res.send('Prohibited characters');
+    }
+    if (reserved_username_map[username.toLowerCase()]) {
+        return res.send('Reserved');
+    }
+    db.get_user(username, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        if (user) {
+            return res.send('Taken');
+        } else {
+            return res.send('Available');
+        }
     });
 });
 

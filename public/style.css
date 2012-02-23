@@ -509,3 +509,13 @@ textarea {
 textarea:hover {
   border-color: #999;
 }
+
+.validation {
+  color: #fff;
+  background-color: #0b0;
+  padding: 3px;
+}
+
+.validation.invalid {
+  background-color: #e33;
+}
