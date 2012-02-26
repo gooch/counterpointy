@@ -19,7 +19,8 @@
     "oauth": "~0.9.5",
     "gravatar": "~1.0.3",
     "async": "~0.1.15",
-    "daemon": "~0.4.1"
+    "daemon": "~0.4.1",
+    "showdown": "0.0.1"
   },
   "devDependencies": {}
 }

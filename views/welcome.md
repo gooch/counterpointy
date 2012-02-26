@@ -1,0 +1,8 @@
+# Welcome!
+
+Counterpointy is a place to state what you think
+and why you think it - and to see where you
+agree or disagree with others.
+This is an experiment in structured debate.
+        
+[Learn more...](https://github.com/benw/counterpointy/wiki/About-Counterpointy)

@@ -35,6 +35,7 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(require('./resetpassapp'));
+  app.register('.md', require('./md'));
 });
 
 app.configure('development', function(){
