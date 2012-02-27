@@ -663,6 +663,15 @@ app.get('/validate_new_username', function (req, res, next) {
     });
 });
 
+app.get('/about/:page?', function (req, res, next) {
+    var page = req.params.page || 'About+Counterpointy';
+    page = page.replace(/\+/g, ' ');
+    res.render('about/' + page + '.mkd', {
+        title: page,
+        layout: 'layout.ejs'
+    });
+});
+
 
 
 if (config.crashtest) {

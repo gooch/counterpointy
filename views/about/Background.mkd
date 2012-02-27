@@ -1,0 +1,88 @@
+# Background
+
+## Why
+
+I'm frustrated by the state of public debate, by the misconceptions that continue to be repeated to widespread acceptance, by our degenerate politics.
+
+Public debate is so disconnected. When a public figure says something that is not the unvarnished truth, the relevant experts are rarely standing next to them to set it straight. Opposing arguments appear in different spaces before different audiences.
+
+And there's rarely a simple right and wrong. When a public figure says something that I think is untrue, there are no doubt real reasons why many people would agree with that statement. We are not going to reach common ground without understanding and addressing those points.
+
+Often the evidence gets left out of the argument, because sufficiently brief summaries are not close to hand. Drilling down requires research effort, and commentary on the evidence is similarly disconnected from the evidence itself.
+
+Debunking outside one's area of expertise is hard work, requiring research and a preparedness to engage in the details of counterarguments. The truth is complicated; details matter; it's not black and white; solutions to entrenched problems are not simple. So we all pick our battles and inevitably put up with some frustration at the rest.
+
+Received wisdom is uncertain but necessary, because none of us can verify every detail that might be relevant. Years ago I took an anti-nuclear position in a debate with a colleague, and invoked the argument that if nuclear power overtook coal it would become uneconomic because of the demand on limited uranium reserves. He took the time to send me an article that shot that argument down, and I conceded the point. A rational approach to debate requires being open to a change of opinion in the face of new evidence.
+
+Democracy seems not to be working so well, perhaps because ad-hominem arguments are baked into the formal process. Every few years we hold a popularity contest, and then hope those elected will represent our views and interests in parliament. Writing letters to parliamentarians has little visible influence. Can we really expect any representative to be across every detail of every policy debate, and to argue honestly and rationally with no regard for the incentives of reelection?
+
+Our political process could be much better at leveraging the breadth and depth of knowledge in the community. There must be better ways than via elections for us to deliberate and decide on policy, to take collective action as a functioning society.
+
+How does any group, organisation, society deliberate and decide on collective action? The problems with elected representation are evident in groups of any size.
+
+Sociocracy is interesting, but I think there are limits to how far it can scale. It is still a system that relies on individuals to represent the interests and views of groups. I hope for a system that is more radically democratic.
+
+
+## What
+
+Being a software engineer of course I believe that every non-technical problem has a technical solution. My view of the problem is that the good information is held too far from the bad information. We can solve that problem by changing the structure in which it is represented and the rules by which individuals can provide their input.
+
+Wikipedia is an awesome resource, but it is not the venue for a debate. Wiki is centralised - there is a single current version of the article on any given topic. The article format does not represent the structure of the debate. The scope and level of detail are limited to what is appropriate for an article.
+
+Participants in a debate typically fall into competing camps. A system that facilitates debate needs to balance the following:
+
+* Allow people to collaborate in areas where they agree
+* Minimise disturbance to that collaboration from those who disagree
+* Give reasonable visibility to challenges and rebuttals
+
+For the purpose of debate a wiki's granularity of content and of version control is too coarse.
+
+The premise of wiki, that anyone can edit a centralised resource, works well in areas where there is general agreement, but not where there is contention. The article on global warming is jiggled left and right by the Brownian motion of editors trying to align it with their views. Some would argue that Wikipedia works best when there is contention and therefore greater attention paid to a topic, and I'm sure the global warming article is of high quality, but it is still just an article. It does not provide a map of the debate that allows you to drill down to every claim and counterclaim that anyone has ever raised; many are deleted from the article, with the reasoning buried somewhere in the history of the talk page.
+
+Debatepedia is an effort to adapt a wiki engine for debate, but in my opinion it suffers all of the limitations mentioned above.
+
+Austhink is a Melbourne company that makes "argument mapping" software and consults on the use of argument mapping techniques for facilitating debate and deliberation. An argument map is a diagramatic visualisation of an argument as conclusions with supporting and opposing premises. Their tools and approach evidently work well in a facilitated group situation, where the map can be explained and understood, and where a single operator can make coherent changes and additions.
+
+Here is an example of a [quite large argument map](http://digbib.ubka.uni-karlsruhe.de/volltexte/1000022371).
+
+I like the conceptual structure of argument maps, with claims stated as brief points linked together in a graph where edges connote relevance. But the visual format does not scale beyond what can reasonably be consumed from a diagram, and for newcomers it is not obvious how the map should be interpreted.
+
+So I propose a different view: A single page for a single point, with links to supporting and opposing points listed beneath. Each point might be a sentence or two stating an assertion, so this view should be readily digestible even on a mobile device.
+
+Current argument mapping tools are essentially drawing aids intended for use by a single operator. To build a collaborative resource to which many people can contribute asynchronously over an extended period of time, I propose the following:
+
+* Anyone can suggest supporting or opposing points, which other users may choose to accept or reject, in effect voting up or down their relevance.
+
+* Anyone can edit the text of any point for themselves, but each other user may choose to adopt the new wording or not.
+
+Because each user can record whether they agree or disagree with each point, and they can filter for themselves the supporting and opposing point lists, the system can present a view of a particular user's opinions linked with their chosen reasons for holding those opinions. This becomes a useful resource for the user themselves and for others wanting to understand their opinions.
+
+Similarly, groups can be composed of lists of users, so the system can show an aggregate view of the opinions within a group.
+
+These views, filtered to a single user or a group of users, can also link to the lists of supporting and opposing points that have been excluded by the filter - answering the question of which points are currently unaddressed by that person or group. And the ordering of points in that list could be set according to the relevance as voted by a different person or group, allowing collaboration on that filtering for attention.
+
+There is no reason that these graphs of points could not be visualised diagrammatically as argument maps; but this would remain a visualisation rather than the primary format for interaction.
+
+This leaves the question of how a user finds their way into the soup of interconnected points and arguments. If users can highlight starting points for arguments of interest, visitors can use a user's profile page as an entry point. And each point has a permanent unique URL for linking from elsewhere.
+
+Counterpointy.org is my effort towards building this system. Think of it as an anti-wiki of sorts:
+
+* Each point is a brief assertion, a sentence or two with hyperlinks permitted, much like a single tweet.
+
+* Points are immutable - an "edit" just creates a new point.
+
+* Every point has a unique URL, based on the hash of the point text.
+
+* There are no topics or article titles; a point's title is its body.
+
+* Each user can agree or disagree with any point, and change their stance at any time.
+
+* No user can alter the beliefs of any other user, but it is easy for users to stay in sync if they so choose.
+
+Wiki's version control is centralised, live Subversion. Counterpointy's is distributed, like Git. Like GitHub project forks, on Counterpointy every user has complete control over their own version of every point.
+
+There are lots of features lacking, but Counterpointy is useable and at time of writing has twenty registered users and over a hundred points. This is enough to demonstrate that the format works, and that it can provide a resource that allows users to quickly drill down to salient details, links to evidence and other online articles. I hope to build the user base further and discover some areas of genuine disagreement, so that we can see how it performs facilitating a real debate.
+
+Ben Williamson, Jan 2012.
+
+Still reading? Next: [Scalable Democracy](/about/Scalable+Democracy)

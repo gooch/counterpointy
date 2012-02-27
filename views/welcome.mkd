@@ -5,4 +5,4 @@ and why you think it - and to see where you
 agree or disagree with others.
 This is an experiment in structured debate.
         
-[Learn more...](https://github.com/benw/counterpointy/wiki/About-Counterpointy)
+[Learn more...](/about)

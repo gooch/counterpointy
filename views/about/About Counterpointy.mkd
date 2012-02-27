@@ -1,0 +1,77 @@
+# About Counterpointy
+
+[Counterpointy.org](http://counterpointy.org) is a community site for collaborative structured debate. You can:
+
+* State what you think on any topic - in brief points
+
+* Agree or disagree with points made by others (or yourself)
+
+* Add supporting or opposing points to justify your position
+
+Supporting and opposing points are themselves just points, that can be supported or opposed by further points - making it possible to drill down to the important details in an argument.
+
+## What's the point?
+
+*Not all details matter - but some details matter quite a lot.*
+
+Counterpointy aims to make it easier for non-experts to back up opinions with reasons and evidence, by collaborating with the crowd.
+
+You can exchange supporting and opposing points with other people who share your point of view. You might encounter new evidence that supports your point of view, from someone with a different area of expertise. Occasionally you might even encounter an argument that sways you to change your opinion.
+
+## What's the real point?
+
+How is it that societies reach agreement to take collective action? When the input that an individual has into the democratic process is to vote for a representative every few years, and perhaps to try to influence that individual in between elections, is it surprising that many are disengaged from the public debate? Can a handful of elected representatives be expected to engage with every issue to a level of detail that will satisfy every constituent?
+
+Counterpointy is an experiment in making it explicit where we agree and disagree, at every level of detail.
+
+Counterpointy aims to collaboratively build an online resource that represents the structure of the debate, linking issues with details and evidence.
+
+Why is it that the media is entangled in a debate over whether scientists have reached consensus on global warming? Why are a few dissenting voices able to enjoy so much attention? Perhaps in part it is because there are so many prevailing misconceptions. Do journalists make a detailed examination of the Wikipedia article on [global warming](http://en.wikipedia.org/wiki/Global_warming) before deciding which views to air? Could that information be structured in a way that makes it easier to connect a particular assertion with the prevailing arguments that support or oppose it?
+
+Counterpointy hopes to elevate the level of debate, by making it easier for non-experts to point at good evidence that knocks down common misconceptions.
+
+## Tips
+
+* Keep it brief - one point per point.
+
+* Link to the evidence or articles that persuaded you, if you have them handy.
+
+* Cut-and-paste the text of a point to support or oppose something. Everything Counterpointy knows about the point will go with it.
+
+* If you find yourself making a point and providing a reason in a single point, split that into two points - the second supporting the first.
+
+* Be precise on what you agree or disagree with. If you agree with "Tony Abbot said that climate change is crap" you agree that he said that, not that he's correct.
+
+* Click a point to edit its text. Other people may or may not choose to adopt your edited wording, so don't worry about messing it up for others.
+
+* Be bold! You can always change your position later.
+
+## Get Involved
+
+Counterpointy is being developed by [Ben Williamson](http://benwilliamson.com/) in Canberra, Australia.
+
+It's very early days, and there is much to be done. Things you can do:
+
+* Sign up, add some points, agree or disagree with some points etc.
+
+* Be bold! Be contrarian. Write nonsense. Counterpointy is being designed to cope with the crazies along with sensible folk.
+
+* Notice when when you encounter something you disagree with. Enter it as a point and disagree with it. If you like, add some opposing points that explain why - or leave that till later.
+
+* Say hello in the [discussion group](https://groups.google.com/group/counterpointy).
+
+* Recruit your friends!
+
+* Edit this wiki. (requires Github signup)
+
+* Design a better logo!
+
+* Make it look better! HTML templates are in views/*.ejs, and CSS is in public/style.css
+
+* Make it work better! Front-end JavaScript is in public/counterpointy.js
+
+I'm very ready to help you install your own instance of the Counterpointy code and get it running so that you can start playing with it. The server is written using node.js server-side JavaScript, which is fun and easy. Non-programmers who would like to learn are welcome!
+
+But even a simple "Hello" in the discussion group will let us know you're interested. Thanks!
+
+Still reading? Next: [Background](/about/Background)

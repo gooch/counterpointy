@@ -173,8 +173,16 @@ div.center {
   margin-right: auto;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 0.66em;
+h1 {
+  margin-top: 0;
+}
+
+h2, h3, h4, h5, h6 {
+  margin-top: 0.66em;
+  margin-bottom: 0.66em;
+}
+
+.column h1, .column h2, .column h3, .column h4, .column h5, .column h6 {
   text-align: center;
 }
 

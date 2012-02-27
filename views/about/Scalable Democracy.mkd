@@ -1,0 +1,39 @@
+# Scalable Democracy
+
+Representative democracy doesn't scale.
+
+The premise of representative democracy is that elected members of a parliament are incentivised to act in the best interests of their constituents in order to stay in power, on the assumption that representatives can discern policy that is in the public interest and the public will recognise and reward it as such. The experience of representative democracy is somewhat different. The bigger the constituency the more its premises fail.
+
+We have representative democracies because the prevailing alternatives don't scale either. 
+
+What is needed is a more direct democratic system that does scale. A system in which people can represent themselves in the public debate on any topic at whatever level of detail they choose, no matter how many other people are participating, without becoming swamped by the number of competing voices.
+
+I believe the key to achieving this is to break the debate down into very small pieces - individual points - and to structure the debate as a policy statement in which every point can be supported or opposed by other points.
+
+Consultations that invite public comment on draft policy do not scale, because they require a centralised effort to collate and respond to the comments. There is a single point of truth for the draft policy, and commenters cannot directly influence it without the mediation of the approved committers to the draft. There is no escaping this if the policy statement is a linear document, because wiki editing does not scale when there is contention.
+
+To alleviate the need for centralised mediation, draft policy and the comment on it must be one and the same. There is no essential distinction between policy and comment; they both:
+
+* state a position on a point; and
+* provide supporting and opposing arguments by drawing relevance to other points.
+
+This suggests a form of structured policy statement as a graph of points that is freed from the limitations of a linear document. When the draft and the comment are one and the same, and when this is managed in a distributed fashion where it is practical for anyone to maintain their own fork, and when an automated system can handle the task of merging an unlimited number of forks into a single digestible view, there is no need for unscalable central mediation.
+
+When each fork of a policy statement is represented as a graph of points, merging them is trivial. Each graph that marks a certain point as true or false contributes to the count of votes for or against that point. Each graph that asserts the relevance or irrelevance of one point in support or opposition to another point contributes to the count of votes for or against the relevance between those two points. The result is a merged graph where each point is annotated with a count of votes for and against, supported and opposed by lists of points that can be sorted by relevance.
+
+Key to this is that a point is an immutable object with an identity that is independent of who states it, the points that support or oppose it, or the graph in which it appears. A point is a sentence or two; some examples:
+
+* "Australia should implement a carbon tax."
+* "A carbon tax would harm the economy."
+* "The European experience shows that a carbon tax need not harm the economy."
+* "Worse off under the carbon tax? Hardly... http://www.abc.net.au/unleashed/3773412.html"
+
+By maintaining my own policy statement graph I have a resource that is useful in itself: It states what I believe and why I believe it. That graph can serve as a filter over the merged graph of all other participants or subsets of participants. Over time the merged graph can suggest to me the relevance of new supporting or opposing points that might reinforce or challenge my beliefs. I can choose to amend my graph by marking points as true or false, relevant or irrelevant. And I can create new points and mark them as relevant.
+
+By doing so I provide my democratic input directly into the merged graph, the policy statement that fairly represents a group of people.
+
+[Counterpointy.org](http://counterpointy.org) is my experiment towards building this system. I invite you to join me, and to see how far we can make it scale.
+
+Ben Williamson, Feb 2012.
+
+(Originally posted as a comment at Society 5 on [Distributed Democracy](http://society5.net/2012/02/02/the-distributed-democracy-building-a-model-for-the-future/).)
