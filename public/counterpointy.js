@@ -236,4 +236,16 @@ $(document).ready(function () {
         });
     }
 
+    var socket = io.connect('/');
+
+    $('.point').each(function () {
+        var $this = $(this);
+        var hash = $this.data('hash');
+        socket.on('pvote-' + hash, function (data) {
+            $this.find('.true-count a').text('' + data.truecount);
+            $this.find('.false-count a').text('' + data.falsecount);
+        });
+    });
+
+
 });

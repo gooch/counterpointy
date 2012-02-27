@@ -1,5 +1,5 @@
 <div class="pvote">
-    <span class="count">
+    <span class="true-count">
         <%- partial('linkedcount', {
                     count: +point.truecount,
                     href: '/' + shorthash(point.hash) + '/votes'
@@ -8,7 +8,7 @@
     <span class="pvote-true <%= point.stance > 0 ? 'checked' : '' %> button" title="True"></span>
     <span class="pvote-undecided <%= (null === point.stance) ? 'checked' : '' %> button" title="Undecided"></span>
     <span class="pvote-false <%= point.stance < 0 ? 'checked' : '' %> button" title="False"></span>
-    <span class="count">
+    <span class="false-count">
         <%- partial('linkedcount', {
                     count: +point.falsecount,
                     href: '/' + shorthash(point.hash) + '/votes'

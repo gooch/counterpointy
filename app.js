@@ -4,7 +4,6 @@ var express = require('express');
 var gravatar = require('gravatar');
 var async = require('async');
 var daemon = require('daemon');
-var httpProxy = require('http-proxy');
 var db = require('./db');
 var DbStore = require('./db-store')(express);
 var config = require('./config');
@@ -17,7 +16,7 @@ var safe_redirect = require('./safe_redirect');
 
 var app = module.exports = express.createServer();
 
-var proxy = new httpProxy.RoutingProxy();
+var io = require('socket.io').listen(app);
 
 require('./helpers')(app);
 
@@ -52,6 +51,7 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.static(__dirname + '/public', { maxAge: ms('10m') }));
   app.use(express.errorHandler()); 
+  io.set('log level', 1);
 });
 
 
@@ -368,7 +368,12 @@ app.post('/:hash/add_premise/:supports', needuser, function (req, res, next) {
                     if (err) {
                         return next(err);
                     }
-                    res.redirect('/' + shorthash(conclusion_hash));
+                    emit_pvotes(premise_hash, function (err) {
+                        if (err) {
+                            return next(err);
+                        }
+                        res.redirect('/' + shorthash(conclusion_hash));
+                    });
                 });
             }
         );
@@ -385,7 +390,12 @@ app.post('/new_point', needuser, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/' + shorthash(hash));
+            emit_pvotes(hash, function (err) {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect('/' + shorthash(hash));
+            });
         });
     });
 });
@@ -395,6 +405,17 @@ function needuser(req, res, next) {
         return res.send('Must be logged in.', 400);
     }
     return next();
+}
+
+function emit_pvotes(hash, callback)
+{
+    db.count_pvotes(hash, function (err, pvotes) {
+        if (err) {
+            return callback(err);
+        }
+        io.sockets.emit('pvote-' + hash, pvotes);
+        callback(null, pvotes);
+    });
 }
 
 app.post('/:hash/pstance', needuser, function (req, res, next) {
@@ -422,7 +443,12 @@ app.post('/:hash/pstance', needuser, function (req, res, next) {
         if (err) {
             return next(err);
         }
-        res.send(200);
+        emit_pvotes(hash, function (err) {
+            if (err) {
+                return next(err);
+            }
+            res.send(200);
+        });
     });
 });
 
