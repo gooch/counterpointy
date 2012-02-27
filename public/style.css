@@ -401,7 +401,7 @@ div.footer ul {
   padding: 0.6em;
 }
 
-.pvote true-count, .pvote .false-count {
+.pvote .true-count, .pvote .false-count {
   vertical-align: middle;
   display: inline-block;
   width: 2em;
