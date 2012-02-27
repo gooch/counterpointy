@@ -10,7 +10,7 @@ var db = exports;
 
 db.valid_username = /^[a-z0-9_]{3,15}$/i;
 db.valid_hash = /^[0-9a-f]{64}$/i;
-db.valid_hashprefix = /^[0-9a-f]{8,64}$/i;
+db.valid_hashprefix = /^[0-9a-f]{12,64}$/i;
 
 var client = mysql.createClient(config.db);
 
@@ -42,8 +42,8 @@ db.get_point_and_stance = function (hash, username, callback) {
 // callback(err, points)
 db.get_points_and_stances = function (hashprefix, username, callback) {
     hashprefix = '' + hashprefix;
-    // require at least 32 bits of hash
-    if (hashprefix.length < 8) {
+    // require at least 48 bits of hash
+    if (hashprefix.length < 12) {
         return callback(null, []);
     }
     client.query(

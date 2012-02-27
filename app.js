@@ -218,6 +218,7 @@ function disambiguate(hashprefix, req, res, callback)
             return callback();
         }
         if (points.length > 1) {
+            console.log('*** Hash prefix collision: ' + hashprefix);
             res.render('hashprefix_disambiguation', {
                 opt: { layout_complex: true },
                 points: points,
@@ -571,7 +572,7 @@ function carry_to_edit(my_username, old_hash, new_hash, callback)
     });
 }
 
-var valid_hashpair  = /^([0-9a-f]{8,64})([+-])([0-9a-f]{8,64})$/i;
+var valid_hashpair  = /^([0-9a-f]{12,64})([+-])([0-9a-f]{12,64})$/i;
 
 app.get('/:hashpair', function (req, res, next) {
     var matches = valid_hashpair.exec(req.params.hashpair);
