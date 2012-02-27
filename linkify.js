@@ -10,7 +10,7 @@ module.exports = function (text) {
         var url = matches[0];
         arr.push(
             escape(leading),
-            '<a rel="nofollow" target="_blank" href="', url, '">',
+            '<a rel="nofollow" href="', url, '">',
             escape(url),
             '</a>'
         );
