@@ -646,7 +646,9 @@ app.get('/validate_new_username', function (req, res, next) {
     if (!db.valid_username.test(username)) {
         return res.send('Prohibited characters');
     }
-    if (reserved_username_map[username.toLowerCase()]) {
+    if (db.valid_hashprefix.test(username) ||
+        reserved_username_map[username.toLowerCase()])
+    {
         return res.send('Reserved');
     }
     db.get_user(username, function (err, user) {
