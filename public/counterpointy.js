@@ -178,7 +178,18 @@ $(document).ready(function () {
         return false;
     });
 
-    $('.signup-username input').change(function () {
+    var fast_availability_check = false;
+
+    $('.signup-username input').blur(function () {
+        fast_availability_check = true;
+        checkUsername.apply(this);
+    }).on('input', function () {
+        if (fast_availability_check) {
+            checkUsername.apply(this);
+        }
+    });
+
+    function checkUsername() {
         var input = $(this);
         var label = input.closest('label');
         var form = input.closest('form');
@@ -209,6 +220,7 @@ $(document).ready(function () {
         if (!valid_username.test(username)) {
             return set_availability('Prohibited characters', false);
         }
+        validation.hide();
         $.ajax({
             url: '/validate_new_username',
             data: { username: input.val() },
@@ -217,6 +229,6 @@ $(document).ready(function () {
                         'Available' == jqxhr.responseText);
             }
         });
-    });
+    }
 
 });
