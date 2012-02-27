@@ -198,7 +198,11 @@ $(document).ready(function () {
         var valid_username = /^[a-z0-9_]{3,15}$/i;
 
         function set_availability(text, happy) {
-            validation.show().text(text);
+            if (text) {
+                validation.show().text(text);
+            } else {
+                validation.hide();
+            }
             validation.toggleClass('invalid', !happy);
             if (form.find('.invalid').length) {
                 submit.attr('disabled', 'disabled');
@@ -207,9 +211,11 @@ $(document).ready(function () {
             }
         }
 
+        validation.hide();
+
         var username = input.val();
         if (!username) {
-            return set_availability('Required', false);
+            return set_availability('', false);
         }
         if (username.length < 3) {
             return set_availability('Too short', false);
@@ -220,7 +226,6 @@ $(document).ready(function () {
         if (!valid_username.test(username)) {
             return set_availability('Prohibited characters', false);
         }
-        validation.hide();
         $.ajax({
             url: '/validate_new_username',
             data: { username: input.val() },
