@@ -31,7 +31,7 @@ app.configure(function(){
   if (config.proxy) {
     app.use(require('./proxy')(config.proxy));
   }
-  app.use(express.logger(':req[x-real-ip] :username :method :url :status :res[content-length] :response-time ms ":user-agent" :referrer'));
+  app.use(express.logger(':date :remote-addr :username :method :url :status :res[content-length] :response-time ms ":user-agent" :referrer'));
   app.use(express.bodyParser());
   app.use(express.cookieParser());
   app.use(express.session({
