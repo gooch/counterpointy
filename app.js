@@ -4,6 +4,7 @@ var express = require('express');
 var gravatar = require('gravatar');
 var async = require('async');
 var daemon = require('daemon');
+var httpProxy = require('http-proxy');
 var db = require('./db');
 var DbStore = require('./db-store')(express);
 var config = require('./config');
@@ -16,6 +17,8 @@ var safe_redirect = require('./safe_redirect');
 
 var app = module.exports = express.createServer();
 
+var proxy = new httpProxy.RoutingProxy();
+
 require('./helpers')(app);
 
 express.logger.token('username', function (req, res) {
@@ -25,6 +28,9 @@ express.logger.token('username', function (req, res) {
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
+  if (config.proxy) {
+    app.use(require('./proxy')(config.proxy));
+  }
   app.use(express.logger(':req[x-real-ip] :username :method :url :status :res[content-length] :response-time ms ":user-agent" :referrer'));
   app.use(express.bodyParser());
   app.use(express.cookieParser());

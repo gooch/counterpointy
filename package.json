@@ -20,7 +20,8 @@
     "gravatar": "~1.0.3",
     "async": "~0.1.15",
     "daemon": "~0.4.1",
-    "showdown": "0.0.1"
+    "showdown": "0.0.1",
+    "http-proxy": "~0.8.0"
   },
   "devDependencies": {}
 }
