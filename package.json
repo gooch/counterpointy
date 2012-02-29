@@ -12,13 +12,13 @@
     "node": "~0.6.2"
   },
   "dependencies": {
-    "express": "~2.5.0",
-    "ejs": "~0.4.3",
+    "express": "~2.5.8",
+    "ejs": "~0.6.1",
     "bcrypt": "~0.4.1",
-    "mysql": "~0.9.4",
+    "mysql": "~0.9.5",
     "oauth": "~0.9.5",
     "gravatar": "~1.0.3",
-    "async": "~0.1.15",
+    "async": "~0.1.18",
     "daemon": "~0.4.1",
     "showdown": "0.0.1",
     "http-proxy": "~0.8.0",
