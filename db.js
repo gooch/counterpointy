@@ -151,7 +151,10 @@ db.count_pvotes = function (hash, callback) {
         '  WHERE point_hash = ? ',
         [ hash ],
         function (err, results) {
-            callback(err, results && results[0]);
+            callback(err, {
+                truecount: results[0].truecount || 0,
+                falsecount: results[0].falsecount || 0
+            });
         }
     );
 };
