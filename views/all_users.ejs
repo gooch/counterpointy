@@ -1,0 +1,11 @@
+<div class="left column bubble">
+    <h3>All Users</h3>
+    <% users.forEach(function (user) { %>
+        <div class="item">
+            <%- partial('avatar20', { user: user }) %>
+            <a class="fullname" href="/~<%= user.username %>">
+                <%= user.fullname %>
+            </a>
+        </div>
+    <% }); %>
+</div>

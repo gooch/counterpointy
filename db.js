@@ -633,3 +633,13 @@ db.get_one_rvote = function (conclusion_hash, supports, premise_hash, username, 
         }
     );
 };
+
+// callback(err, users)
+db.get_all_users = function (callback) {
+    client.query(
+        'SELECT username, fullname, email, create_time ' +
+        '  FROM Users ORDER BY create_time DESC',
+        [],
+        callback
+    );
+};

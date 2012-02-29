@@ -491,7 +491,7 @@ app.get('/~:username', function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.render('user', {
+            res.render('profile', {
                 opt: { layout_complex: true },
                 user: user,
                 points: points
@@ -701,6 +701,16 @@ app.get('/about/:page?', function (req, res, next) {
     res.render('about/' + page + '.mkd', {
         title: page,
         layout: 'layout.ejs'
+    });
+});
+
+app.get('/users', function (req, res, next) {
+    db.get_all_users(function (err, users) {
+        res.render('all_users', {
+            title: 'All Users',
+            opt: { layout_complex: true },
+            users: users
+        });
     });
 });
 

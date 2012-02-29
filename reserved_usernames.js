@@ -149,6 +149,7 @@ module.exports = [
 	'update',
 	'url',
 	'user',
+	'users',
 	'weather',
 	'webmaster',
 	'widget',
