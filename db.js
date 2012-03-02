@@ -14,6 +14,10 @@ db.valid_hashprefix = /^[0-9a-f]{12,64}$/i;
 
 var client = mysql.createClient(config.db);
 
+db.end = function () {
+    client.end();
+};
+
 db.get_point = function (hash, callback) {
     client.query(
         'SELECT hash, text FROM Points WHERE hash = ?',
@@ -646,3 +650,24 @@ db.get_all_users = function (callback) {
         callback
     );
 };
+
+// callback(err, points)
+db.get_all_points = function (callback) {
+    client.query(
+        'SELECT hash, text from Points',
+        [],
+        callback
+    );
+};
+
+// callback(err, relscores)
+db.get_all_relscores = function (callback) {
+    client.query(
+        'SELECT conclusion_hash, premise_hash, supports, upvotes, downvotes ' +
+        '  FROM RelevanceScores ' +
+        '  WHERE username = ""',
+        [],
+        callback
+    );
+};
+
