@@ -10,19 +10,11 @@
 // http://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers
 
 module.exports = [
-	// Companies we'd love to have use our service
-	// so we'll reserve them to be safe
-	'github',
-	'twitter',
-	'facebook',
-	'google',
-	'apple',
+	'counterpointy',
 
 	// Generic reserved words
-	'supportdetails',
-	'support-details',
 	'about',
-    'abuse',
+	'abuse',
 	'account',
 	'activate',
 	'add',
@@ -107,6 +99,8 @@ module.exports = [
 	'orders',
 	'organizations',
 	'plans',
+	'policy',
+	'policies',
 	'popular',
 	'post',
 	'postmaster',
@@ -138,6 +132,8 @@ module.exports = [
 	'subscribe',
 	'subscriptions',
 	'support',
+	'supportdetails',
+	'support-details',
 	'sysadmin',
 	'sysadministrator',
 	'terms',
