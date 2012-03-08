@@ -49,7 +49,7 @@ app.configure('development', function(){
 });
 
 app.configure('production', function(){
-  app.use(express.static(__dirname + '/public', { maxAge: ms('10m') }));
+  app.use(express.static(__dirname + '/public', { maxAge: ms('1h') }));
   app.use(express.errorHandler()); 
   io.set('log level', 1);
 });
